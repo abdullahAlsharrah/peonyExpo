@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     marginRight: -30,
     // padding: 10,
     marginTop: -10,
+    marginRight: 10,
     marginBottom: 80,
   },
   recipt: {

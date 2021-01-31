@@ -13,7 +13,7 @@ const ServiceItem = ({ service }) => {
     <TouchableOpacity onPress={handleSubmit}>
       <View>
         <View style={styles.item}>
-          <Text>{service.name}</Text>
+          <Text style={{ fontSize: 20 }}>{service.name}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-    margin: 20,
+    margin: 15,
+    marginBottom: 50,
     shadowColor: "black",
     shadowOffset: {
       width: 0,

@@ -13,16 +13,22 @@ const RecieptList = () => {
       <View style={styles.container}>
         <View style={styles.title}>
           <View style={styles.text}>
-            <Text style={{ textAlign: "center" }}>Service</Text>
+            <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
+              Service
+            </Text>
           </View>
-          <Text style={styles.text1}>Price KD</Text>
+          <Text style={[styles.text1, { color: "#555" }]}>Price KD</Text>
         </View>
         <View>{recieptList}</View>
-        <View style={styles.title}>
+        <View style={styles.total}>
           <View style={styles.text}>
-            <Text style={{ textAlign: "center" }}>Total</Text>
+            <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
+              Total
+            </Text>
           </View>
-          <Text style={styles.text1}>{recieptStore.totalPrice}</Text>
+          <Text style={[styles.text1, { color: "tomato" }]}>
+            {recieptStore.totalPrice}
+          </Text>
         </View>
       </View>
     </View>
@@ -32,16 +38,24 @@ const RecieptList = () => {
 export default observer(RecieptList);
 const styles = StyleSheet.create({
   text1: {
-    // borderWidth: 2,
     textAlign: "center",
     width: "50%",
-    // borderRightColor: "black",
+    fontSize: 25,
   },
   text: {
     borderRightWidth: 2,
     textAlign: "center",
     width: "50%",
+    fontSize: 25,
     // borderRightColor: "black",
+  },
+  total: {
+    borderBottomWidth: 2,
+    flexDirection: "row",
+    position: "absolute",
+    bottom: 5,
+    right: 5,
+    borderTopWidth: 2,
   },
   title: {
     borderBottomWidth: 2,

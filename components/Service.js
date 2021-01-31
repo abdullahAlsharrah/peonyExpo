@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     // justifyContent: "space-between",
-    marginTop: 100,
+    marginTop: 50,
+    marginLeft: 20,
   },
 });
