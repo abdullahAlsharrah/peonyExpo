@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Categories from "./components/Categories";
 import RecieptList from "./components/RecieptList";
 import Service from "./components/Service";
 
@@ -15,7 +16,7 @@ export default function App() {
           <RecieptList />
         </View>
         <View style={styles.box}>
-          <Service />
+          <Categories />
         </View>
         {/* <StatusBar style="auto" /> */}
       </View>
@@ -47,11 +48,13 @@ const styles = StyleSheet.create({
   box: {
     width: "70%",
     backgroundColor: "transparent",
-    height: "100%",
+    height: "80%",
     borderWidth: 2,
     borderColor: "transparent",
     marginRight: -30,
     // padding: 10,
+    marginTop: -10,
+    marginBottom: 80,
   },
   recipt: {
     width: "30%",

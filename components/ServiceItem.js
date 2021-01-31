@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-    margin: 5,
+    margin: 20,
     shadowColor: "black",
     shadowOffset: {
       width: 0,
