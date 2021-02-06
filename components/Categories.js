@@ -1,17 +1,25 @@
-import React, { Component } from "react";
-import { Container, Header, Tab, Tabs, ScrollableTab } from "native-base";
+import React from "react";
+import { Container, Tab, Tabs, Spinner } from "native-base";
 import Service from "./Service";
-import servivces from "./services";
+import serviceStore from "../stores/serviceStore";
+import { observer } from "mobx-react";
 const Categories = () => {
-  const hairList = servivces.filter((service) => service.category === "hair");
-  const offersList = servivces.filter(
-    (service) => service.category === "offers"
+  if (serviceStore.loading) return <Spinner />;
+  const hairList = serviceStore.services.filter(
+    (service) => service.category === "Hair"
   );
-  const nailsList = servivces.filter((service) => service.category === "nails");
-  const packagesList = servivces.filter(
-    (service) => service.category === "packages"
+  const offersList = serviceStore.services.filter(
+    (service) => service.category === "Offers"
   );
-  const bodyList = servivces.filter((service) => service.category === "body");
+  const nailsList = serviceStore.services.filter(
+    (service) => service.category === "Nail"
+  );
+  const packagesList = serviceStore.services.filter(
+    (service) => service.category === "Packages"
+  );
+  const bodyList = serviceStore.services.filter(
+    (service) => service.category === "Body"
+  );
   return (
     <Container>
       <Tabs
@@ -39,4 +47,4 @@ const Categories = () => {
     </Container>
   );
 };
-export default Categories;
+export default observer(Categories);

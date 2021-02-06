@@ -6,7 +6,7 @@ const RecieptItem = ({ service }) => {
   return (
     <View style={styles.box}>
       <View style={styles.item}>
-        <Text style={{ textAlign: "center", fontSize: 25 }}>
+        <Text style={{ textAlign: "center", fontSize: 20 }}>
           {service.name}
         </Text>
       </View>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     width: "50%",
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 20,
   },
   box: {
     flexDirection: "row",

@@ -1,13 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import recieptStore from "./stores/recieptStore";
 import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
+import invoiceStore from "../stores/invoiceStore";
+import serviceStore from "../stores/serviceStore";
+import { Spinner } from "native-base";
 
 const RecieptList = () => {
-  const recieptList = recieptStore.items.map((service) => (
-    <RecieptItem service={service} key={service.id} />
-  ));
+  if (serviceStore.loading) return <Spinner />;
+
+  const recieptList = invoiceStore.items
+    .map((item) => ({
+      ...serviceStore.services.find((service) => service.id === item.serviceId),
+    }))
+    .map((item) => <RecieptItem service={item} key={item.id} />);
+
   return (
     <View style={styles.view}>
       <View style={styles.container}>
@@ -27,7 +34,7 @@ const RecieptList = () => {
             </Text>
           </View>
           <Text style={[styles.text1, { color: "tomato" }]}>
-            {recieptStore.totalPrice}
+            {invoiceStore.totalPrice}
           </Text>
         </View>
       </View>

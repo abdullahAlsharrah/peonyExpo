@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ServiceItem from "./ServiceItem";
@@ -9,7 +10,7 @@ const Service = ({ list }) => {
   return <View style={styles.box}>{serviceList}</View>;
 };
 
-export default Service;
+export default observer(Service);
 const styles = StyleSheet.create({
   box: {
     flex: 1,

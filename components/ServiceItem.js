@@ -1,12 +1,15 @@
-import { Button } from "native-base";
+import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import reciepts from "./reciept";
-import recieptStore from "./stores/recieptStore";
+import invoiceStore from "../stores/invoiceStore";
 
 const ServiceItem = ({ service }) => {
   const handleSubmit = () => {
-    recieptStore.items.push(service);
+    const newItem = {
+      serviceId: service.id,
+      price: service.price,
+    };
+    invoiceStore.addItemToInvoice(newItem);
   };
 
   return (
@@ -20,7 +23,7 @@ const ServiceItem = ({ service }) => {
   );
 };
 
-export default ServiceItem;
+export default observer(ServiceItem);
 const styles = StyleSheet.create({
   item: {
     height: 50,
