@@ -5,7 +5,10 @@ import { View, Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
 
-const Invoices = ({ list }) => {
+const Invoices = ({ month }) => {
+  const list = invoiceStore.invoices.filter(
+    (invoice) => new Date(invoice.createdAt).getMonth() === month
+  );
   const invoicesList = list.map((invoice) => (
     <InvoiceItem invoice={invoice} key={invoice.id} />
   ));

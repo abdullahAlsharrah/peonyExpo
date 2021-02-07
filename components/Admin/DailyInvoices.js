@@ -6,20 +6,19 @@ import InvoiceItem from "./InvoiceItem";
 
 const DailyInvoices = () => {
   const d = new Date();
-  const invoicesList = invoiceStore.invoices
-    .filter((invoice) => new Date(invoice.createdAt).getDate() === d.getDate())
-    .map((invoice) => <InvoiceItem invoice={invoice} key={invoice.id} />);
+  const list = invoiceStore.invoices.filter(
+    (invoice) => new Date(invoice.createdAt).getDate() === d.getDate()
+  );
+  const invoicesList = list.map((invoice) => (
+    <InvoiceItem invoice={invoice} key={invoice.id} />
+  ));
   const totalInvoicesPrice = () => {
     let total = 0;
-    invoiceStore.invoices
-      .filter(
-        (invoice) => new Date(invoice.createdAt).getDate() === d.getDate()
-      )
-      .map((invoice) =>
-        invoice.services.forEach((service) => {
-          total += service.price;
-        })
-      );
+    list.map((invoice) =>
+      invoice.services.forEach((service) => {
+        total += service.price;
+      })
+    );
     return total;
   };
   return (
