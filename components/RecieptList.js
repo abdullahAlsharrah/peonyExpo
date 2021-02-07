@@ -8,7 +8,8 @@ import { Button, Spinner } from "native-base";
 
 const RecieptList = () => {
   const handleCheckout = () => {
-    invoiceStore.checkout();
+    if (invoiceStore.totalPrice === 0) null;
+    else invoiceStore.checkout();
   };
   const handleCancel = () => {
     invoiceStore.canlcelCheckout();
