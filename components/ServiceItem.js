@@ -9,14 +9,29 @@ const ServiceItem = ({ service }) => {
       serviceId: service.id,
       price: service.price,
     };
-    invoiceStore.addItemToInvoice(newItem);
+    const foundItem = invoiceStore.items.find(
+      (item) => item.serviceId === newItem.serviceId
+    );
+    if (foundItem) invoiceStore.removeItemFromInvoice(foundItem.serviceId);
+    else invoiceStore.addItemToInvoice(newItem);
   };
+
+  const foundItem = invoiceStore.items.find(
+    (item) => item.serviceId === service.id
+  );
 
   return (
     <TouchableOpacity onPress={handleSubmit}>
       <View>
-        <View style={styles.item}>
-          <Text style={{ fontSize: 20 }}>{service.name}</Text>
+        <View
+          style={[
+            styles.item,
+            { backgroundColor: foundItem ? "tomato" : "white" },
+          ]}
+        >
+          <Text style={{ fontSize: 20, color: foundItem ? "white" : "black" }}>
+            {service.name}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -28,7 +43,6 @@ const styles = StyleSheet.create({
   item: {
     height: 50,
     width: 100,
-    backgroundColor: "white",
     borderRadius: 8,
     justifyContent: "center",
     alignContent: "center",

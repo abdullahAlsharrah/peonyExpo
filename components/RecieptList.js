@@ -4,9 +4,15 @@ import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
 import invoiceStore from "../stores/invoiceStore";
 import serviceStore from "../stores/serviceStore";
-import { Spinner } from "native-base";
+import { Button, Spinner } from "native-base";
 
 const RecieptList = () => {
+  const handleCheckout = () => {
+    invoiceStore.checkout();
+  };
+  const handleCancel = () => {
+    invoiceStore.canlcelCheckout();
+  };
   if (serviceStore.loading) return <Spinner />;
 
   const recieptList = invoiceStore.items
@@ -37,6 +43,16 @@ const RecieptList = () => {
             {invoiceStore.totalPrice}
           </Text>
         </View>
+        <View
+          style={{ position: "absolute", bottom: 10, flexDirection: "row" }}
+        >
+          <Button style={styles.button} onPress={handleCheckout}>
+            <Text style={styles.checkoutText}>Check Out</Text>
+          </Button>
+          <Button style={styles.button1} onPress={handleCancel}>
+            <Text style={styles.cancelText}>Cancel</Text>
+          </Button>
+        </View>
       </View>
     </View>
   );
@@ -59,10 +75,10 @@ const styles = StyleSheet.create({
   total: {
     borderBottomWidth: 2,
     flexDirection: "row",
-    position: "absolute",
-    bottom: 5,
-    right: 5,
-    borderTopWidth: 2,
+    // position: "absolute",
+    // bottom: 50,
+    // right: 5,
+    // borderTopWidth: 2,
   },
   title: {
     borderBottomWidth: 2,
@@ -89,5 +105,35 @@ const styles = StyleSheet.create({
   },
   view: {
     backgroundColor: "transparent",
+  },
+  button: {
+    width: 150,
+    backgroundColor: "transparent",
+    borderWidth: 2,
+    borderColor: "black",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    left: 10,
+    marginRight: 5,
+  },
+  button1: {
+    width: 150,
+    backgroundColor: "tomato",
+    borderWidth: 2,
+    borderColor: "black",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    left: 15,
+    marginRight: 5,
+  },
+  checkoutText: {
+    fontSize: 20,
+    color: "tomato",
+  },
+  cancelText: {
+    fontSize: 20,
+    color: "white",
   },
 });

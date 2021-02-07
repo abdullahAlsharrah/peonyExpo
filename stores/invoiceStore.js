@@ -31,13 +31,15 @@ class InvoiceStore {
     return total;
   }
   removeItemFromInvoice = async (itemId) => {
-    this.items = this.items.filter((item) => item.productId !== itemId);
+    this.items = this.items.filter((item) => item.serviceId !== itemId);
+  };
+  canlcelCheckout = async () => {
+    this.items = [];
   };
 
   checkout = async () => {
     try {
-      const res = await instance.post("/checkout");
-      console.log(res.data);
+      const res = await instance.post("/checkout", this.items);
       this.items = [];
       alert("You have successfully checked out.");
     } catch (error) {
