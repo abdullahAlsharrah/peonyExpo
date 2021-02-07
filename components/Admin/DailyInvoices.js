@@ -1,25 +1,27 @@
-import { observer } from "mobx-react";
 import { Content, List } from "native-base";
 import React from "react";
 import { View, Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
 
-const Invoices = ({ list }) => {
-  const invoicesList = list.map((invoice) => (
-    <InvoiceItem invoice={invoice} key={invoice.id} />
-  ));
+const DailyInvoices = () => {
+  const d = new Date();
+  const invoicesList = invoiceStore.invoices
+    .filter((invoice) => new Date(invoice.createdAt).getDate() === d.getDate())
+    .map((invoice) => <InvoiceItem invoice={invoice} key={invoice.id} />);
   const totalInvoicesPrice = () => {
     let total = 0;
-    list.map((invoice) =>
-      invoice.services.forEach((service) => {
-        total += service.price;
-      })
-    );
-
+    invoiceStore.invoices
+      .filter(
+        (invoice) => new Date(invoice.createdAt).getDate() === d.getDate()
+      )
+      .map((invoice) =>
+        invoice.services.forEach((service) => {
+          total += service.price;
+        })
+      );
     return total;
   };
-
   return (
     <Content>
       <Text style={{ textAlign: "center", fontSize: 20 }}>Total</Text>
@@ -31,4 +33,4 @@ const Invoices = ({ list }) => {
   );
 };
 
-export default observer(Invoices);
+export default DailyInvoices;
