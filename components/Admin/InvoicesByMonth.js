@@ -1,8 +1,17 @@
 import React from "react";
-import { Container, Header, Tab, Tabs, ScrollableTab } from "native-base";
-import invoiceStore from "../../stores/invoiceStore";
+import {
+  Container,
+  Header,
+  Tab,
+  Tabs,
+  ScrollableTab,
+  Spinner,
+} from "native-base";
 import Invoices from "./Invoices";
+import { observer } from "mobx-react";
+import invoiceStore from "../../stores/invoiceStore";
 const InvoicesByMonth = () => {
+  if (invoiceStore.loading) return <Spinner />;
   return (
     <Container>
       <Header hasTabs />
@@ -48,4 +57,4 @@ const InvoicesByMonth = () => {
   );
 };
 
-export default InvoicesByMonth;
+export default observer(InvoicesByMonth);

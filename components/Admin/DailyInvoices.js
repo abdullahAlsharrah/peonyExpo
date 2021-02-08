@@ -1,10 +1,12 @@
-import { Content, List } from "native-base";
+import { observer } from "mobx-react";
+import { Content, List, Spinner } from "native-base";
 import React from "react";
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
 
 const DailyInvoices = () => {
+  if (invoiceStore.loading) return <Spinner />;
   const d = new Date();
   const list = invoiceStore.invoices.filter(
     (invoice) => new Date(invoice.createdAt).getDate() === d.getDate()
@@ -32,4 +34,4 @@ const DailyInvoices = () => {
   );
 };
 
-export default DailyInvoices;
+export default observer(DailyInvoices);

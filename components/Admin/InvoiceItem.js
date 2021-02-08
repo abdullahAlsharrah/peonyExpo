@@ -1,11 +1,12 @@
 import { observer } from "mobx-react";
 import { Body, Left, ListItem, Right } from "native-base";
 import React from "react";
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
-import Invoices from "./Invoices";
 
 const InvoiceItem = ({ invoice }) => {
+  if (invoiceStore.loading) return <Spinner />;
+
   const totalInvoicePrice = () => {
     let total = 0;
     invoice.services.forEach((service) => {
@@ -14,7 +15,6 @@ const InvoiceItem = ({ invoice }) => {
 
     return total;
   };
-  <Invoices total={totalInvoicePrice} />;
   return (
     <ListItem>
       <Left>

@@ -1,10 +1,10 @@
-import { makeAutoObservable } from "mobx";
-import AsyncStorage from "@react-native-community/async-storage";
+import { makeAutoObservable, runInAction } from "mobx";
 import instance from "./instance";
 
 class InvoiceStore {
-  items = [];
   invoices = [];
+  items = [];
+  loading = true;
 
   constructor() {
     makeAutoObservable(this);
@@ -19,7 +19,10 @@ class InvoiceStore {
       (item) => item.serviceId === newItem.serviceId
     );
     if (foundItem) null;
-    else this.items.push(newItem);
+    else
+      runInAction(() => {
+        this.items.push(newItem);
+      });
   };
   get totalPrice() {
     let total = 0;
@@ -32,14 +35,17 @@ class InvoiceStore {
   removeItemFromInvoice = async (itemId) => {
     this.items = this.items.filter((item) => item.serviceId !== itemId);
   };
-  canlcelCheckout = async () => {
+  cancelCheckout = async () => {
     this.items = [];
   };
 
   fetchInvoices = async () => {
     try {
       const response = await instance.get("/invoices");
-      this.invoices = response.data;
+      runInAction(() => {
+        this.invoices = response.data;
+        this.loading = false;
+      });
     } catch (error) {
       console.log("fetching invoices", error);
     }
@@ -47,8 +53,10 @@ class InvoiceStore {
 
   checkout = async () => {
     try {
-      const res = await instance.post("/checkout", this.items);
-      this.items = [];
+      await instance.post("/invoices", this.items);
+      runInAction(() => {
+        this.items = [];
+      });
       alert("You have successfully checked out.");
     } catch (error) {
       console.log(error);

@@ -1,11 +1,13 @@
 import { observer } from "mobx-react";
 import { Content, List } from "native-base";
 import React from "react";
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
 
 const Invoices = ({ month }) => {
+  if (invoiceStore.loading) return <Spinner />;
+
   const list = invoiceStore.invoices.filter(
     (invoice) => new Date(invoice.createdAt).getMonth() === month
   );

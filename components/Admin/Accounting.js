@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
@@ -42,7 +43,7 @@ const Accounting = () => {
   );
 };
 
-export default Accounting;
+export default observer(Accounting);
 const styles = StyleSheet.create({
   budget: {
     flexDirection: "row",

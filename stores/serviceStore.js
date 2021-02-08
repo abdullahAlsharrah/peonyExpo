@@ -20,11 +20,6 @@ class ServiceStore {
     } catch (error) {
       console.log("fetching problem", error);
     }
-    console.log("hello", this.getServiceById(11));
-    console.log(
-      "hi",
-      this.services.find((service) => service.id === 11)
-    );
   };
 
   getServiceById = (serviceId) => {

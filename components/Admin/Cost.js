@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React from "react";
 import {
   View,
@@ -97,7 +98,7 @@ const Cost = () => {
   );
 };
 
-export default Cost;
+export default observer(Cost);
 const styles = StyleSheet.create({
   budget: {
     flexDirection: "row",

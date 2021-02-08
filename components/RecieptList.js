@@ -12,7 +12,7 @@ const RecieptList = () => {
     else invoiceStore.checkout();
   };
   const handleCancel = () => {
-    invoiceStore.canlcelCheckout();
+    invoiceStore.cancelCheckout();
   };
   if (serviceStore.loading) return <Spinner />;
 
