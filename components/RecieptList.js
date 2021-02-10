@@ -4,13 +4,18 @@ import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
 import invoiceStore from "../stores/invoiceStore";
 import serviceStore from "../stores/serviceStore";
-import { Button, Spinner } from "native-base";
+import { Button, Input, Spinner } from "native-base";
 import productStore from "../stores/productStore";
+import { TextInput } from "react-native-gesture-handler";
 
 const RecieptList = () => {
   const handleCheckout = () => {
     if (invoiceStore.totalPrice === 0) null;
-    else invoiceStore.checkout();
+    else {
+      invoiceStore.addItemToInvoice({ phoneNumber: phoneNumber });
+      invoiceStore.checkout();
+      setPhoneNumber();
+    }
   };
   const handleCancel = () => {
     invoiceStore.cancelCheckout();
@@ -24,15 +29,29 @@ const RecieptList = () => {
       ...productStore.products.find((product) => product.id === item.productId),
     }))
     .map((item) => <RecieptItem item={item} key={item.id} />);
-  //   const recieptProductList = invoiceStore.items
-  //     .map((item) => ({
-  //       ...productStore.products.find((product) => product.id === item.productId),
-  //     }))
-  //     .map((item) => <RecieptItem item={item} key={item.id} />);
+  const [phoneNumber, setPhoneNumber] = React.useState();
 
   return (
     <View style={styles.view}>
       <View style={styles.container}>
+        <View style={styles.title}>
+          <View style={styles.text}>
+            <Text style={{ textAlign: "center", fontSize: 20, color: "#555" }}>
+              Phone Number:
+            </Text>
+          </View>
+          <TextInput
+            keyboardType="number-pad"
+            maxLength={8}
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+              width: "50%",
+            }}
+            value={phoneNumber}
+            onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
+          />
+        </View>
         <View style={styles.title}>
           <View style={styles.text}>
             <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>

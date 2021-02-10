@@ -13,9 +13,13 @@ import invoiceStore from "../../stores/invoiceStore";
 const InvoicesByMonth = () => {
   if (invoiceStore.loading) return <Spinner />;
   return (
-    <Container>
-      <Header hasTabs />
-      <Tabs renderTabBar={() => <ScrollableTab />}>
+    <Container style={{ paddingTop: 10 }}>
+      <Tabs
+        renderTabBar={() => <ScrollableTab />}
+        tabBarInactiveTextColor={"black"}
+        tabBarActiveTextColor={"#c39e81"}
+        tabBarUnderlineStyle={{ backgroundColor: "#c39e81" }}
+      >
         <Tab heading="Jun">
           <Invoices month={0} />
         </Tab>

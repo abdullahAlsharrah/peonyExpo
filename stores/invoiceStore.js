@@ -4,12 +4,17 @@ import instance from "./instance";
 class InvoiceStore {
   invoices = [];
   items = [];
+  phoneNumber = 0;
   loading = true;
 
   constructor() {
     makeAutoObservable(this);
   }
-
+  setPhoneNumber = async (phoneNumber) => {
+    runInAction(() => {
+      this.phoneNumber = phoneNumber;
+    });
+  };
   addItemToInvoice = async (newItem) => {
     runInAction(() => {
       this.items.push(newItem);
@@ -47,11 +52,10 @@ class InvoiceStore {
 
   checkout = async () => {
     try {
-      // const service = this.items.filter(item=>{item.type === "service"})
-      // const product = this.items.filter(item=>{item.type === "product"})
       await instance.post("/invoices", this.items);
       runInAction(() => {
         this.items = [];
+        this.phoneNumber = 0;
         this.fetchInvoices();
       });
       alert("You have successfully checked out.");

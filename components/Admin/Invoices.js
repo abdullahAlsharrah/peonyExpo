@@ -1,5 +1,13 @@
 import { observer } from "mobx-react";
-import { Content, List, Spinner } from "native-base";
+import {
+  Body,
+  Content,
+  Left,
+  List,
+  ListItem,
+  Spinner,
+  View,
+} from "native-base";
 import React from "react";
 import { Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
@@ -32,7 +40,37 @@ const Invoices = ({ month }) => {
       <Text style={{ textAlign: "center", fontSize: 20 }}>
         {totalInvoicesPrice()} KD
       </Text>
-      <List>{invoicesList}</List>
+
+      <List>
+        <ListItem>
+          <Left>
+            <Text style={{ width: 100, textAlign: "center" }}>Invoice No.</Text>
+            <View
+              style={{
+                width: "50%",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ textAlign: "center", marginLeft: 20 }}>
+                Customer Phone No.
+              </Text>
+            </View>
+          </Left>
+          <Body>
+            <Text style={{ textAlign: "center" }}>
+              No. Of Services : Products
+            </Text>
+          </Body>
+          <Left
+            style={{
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ textAlign: "center" }}> Total KD</Text>
+          </Left>
+        </ListItem>
+        {invoicesList}
+      </List>
     </Content>
   );
 };

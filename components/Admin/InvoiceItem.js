@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { Body, Left, ListItem, Right } from "native-base";
+import { Body, Left, ListItem, Right, View } from "native-base";
 import React from "react";
 import { Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
@@ -20,17 +20,37 @@ const InvoiceItem = ({ invoice }) => {
   };
   return (
     <ListItem>
-      <Left>
-        <Text>Invoice No. {invoice.id}</Text>
+      <Left
+        style={{
+          width: "30%",
+          //   justifyContent: "center",
+        }}
+      >
+        <Text style={{ width: 100, textAlign: "center" }}>{invoice.id}</Text>
+        <View
+          style={{
+            width: "50%",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={{ textAlign: "center", marginLeft: 20 }}>
+            {invoice.phoneNumber ? invoice.phoneNumber : "no number"}
+          </Text>
+        </View>
       </Left>
       <Body>
-        <Text style={{ textAlign: "left", marginLeft: -20 }}>
-          Number Of Services {invoice.services.length}
+        <Text style={{ textAlign: "center" }}>
+          {invoice.services.length} :{" "}
+          <Text style={{ textAlign: "center" }}>{invoice.products.length}</Text>
         </Text>
       </Body>
-      <Right>
-        <Text>{totalInvoicePrice()} KD</Text>
-      </Right>
+      <Left
+        style={{
+          justifyContent: "center",
+        }}
+      >
+        <Text style={{ textAlign: "center" }}>{totalInvoicePrice()} KD</Text>
+      </Left>
     </ListItem>
   );
 };
