@@ -9,10 +9,6 @@ class InvoiceStore {
   constructor() {
     makeAutoObservable(this);
   }
-  // fetchInvoice = async () => {
-  //   const items = await AsyncStorage.getItem("myInvoice");
-  //   this.items = items ? JSON.parse(items) : [];
-  // };
 
   addItemToInvoice = async (newItem) => {
     const foundItem = this.items.find(
@@ -43,8 +39,8 @@ class InvoiceStore {
     try {
       const response = await instance.get("/invoices");
       runInAction(() => {
-        this.invoices = response.data;
         this.loading = false;
+        this.invoices = response.data;
       });
     } catch (error) {
       console.log("fetching invoices", error);
@@ -56,6 +52,7 @@ class InvoiceStore {
       await instance.post("/invoices", this.items);
       runInAction(() => {
         this.items = [];
+        this.fetchInvoices();
       });
       alert("You have successfully checked out.");
     } catch (error) {

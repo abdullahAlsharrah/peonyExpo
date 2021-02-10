@@ -4,6 +4,7 @@ import { View, Text } from "react-native";
 import ServicesScreen from "../../screens/ServicesScreen";
 import DailyInvoices from "../Admin/DailyInvoices";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Invoices from "../Admin/Invoices";
 
 const RootNavigator = () => {
   const Service = createBottomTabNavigator();
