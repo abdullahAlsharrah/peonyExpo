@@ -12,6 +12,9 @@ const InvoiceItem = ({ invoice }) => {
     invoice.services.forEach((service) => {
       total += service.price;
     });
+    invoice.products.forEach((product) => {
+      total += product.price;
+    });
 
     return total;
   };

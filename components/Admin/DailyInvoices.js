@@ -16,10 +16,11 @@ const DailyInvoices = () => {
   ));
   const totalInvoicesPrice = () => {
     let total = 0;
-    list.map((invoice) =>
-      invoice.services.forEach((service) => {
-        total += service.price;
-      })
+    list.map(
+      (invoice) =>
+        invoice.services.forEach((service) => {
+          total += service.price;
+        }) & invoice.products.forEach((product) => (total += product.price))
     );
     return total;
   };

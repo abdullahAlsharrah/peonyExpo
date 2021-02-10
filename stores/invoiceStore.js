@@ -11,14 +11,9 @@ class InvoiceStore {
   }
 
   addItemToInvoice = async (newItem) => {
-    const foundItem = this.items.find(
-      (item) => item.serviceId === newItem.serviceId
-    );
-    if (foundItem) null;
-    else
-      runInAction(() => {
-        this.items.push(newItem);
-      });
+    runInAction(() => {
+      this.items.push(newItem);
+    });
   };
   get totalPrice() {
     let total = 0;
@@ -31,6 +26,9 @@ class InvoiceStore {
   removeItemFromInvoice = async (itemId) => {
     this.items = this.items.filter((item) => item.serviceId !== itemId);
   };
+  removeProductFromInvoice = async (itemId) => {
+    this.items = this.items.filter((item) => item.productId !== itemId);
+  };
   cancelCheckout = async () => {
     this.items = [];
   };
@@ -39,8 +37,8 @@ class InvoiceStore {
     try {
       const response = await instance.get("/invoices");
       runInAction(() => {
-        this.loading = false;
         this.invoices = response.data;
+        this.loading = false;
       });
     } catch (error) {
       console.log("fetching invoices", error);
@@ -49,6 +47,8 @@ class InvoiceStore {
 
   checkout = async () => {
     try {
+      // const service = this.items.filter(item=>{item.type === "service"})
+      // const product = this.items.filter(item=>{item.type === "product"})
       await instance.post("/invoices", this.items);
       runInAction(() => {
         this.items = [];

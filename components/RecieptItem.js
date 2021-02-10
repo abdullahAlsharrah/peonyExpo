@@ -2,15 +2,13 @@ import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const RecieptItem = ({ service }) => {
+const RecieptItem = ({ item }) => {
   return (
     <View style={styles.box}>
       <View style={styles.item}>
-        <Text style={{ textAlign: "center", fontSize: 20 }}>
-          {service.name}
-        </Text>
+        <Text style={{ textAlign: "center", fontSize: 20 }}>{item.name}</Text>
       </View>
-      <Text style={styles.item1}>{service.price}</Text>
+      <Text style={styles.item1}>{item.price}</Text>
     </View>
   );
 };

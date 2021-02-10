@@ -3,6 +3,7 @@ import { Container, Tab, Tabs, Spinner } from "native-base";
 import Service from "./Service";
 import serviceStore from "../stores/serviceStore";
 import { observer } from "mobx-react";
+import ProductList from "./ProductList";
 const Categories = () => {
   if (serviceStore.loading) return <Spinner />;
   const hairList = serviceStore.services.filter(
@@ -42,7 +43,9 @@ const Categories = () => {
         <Tab heading="Body">
           <Service list={bodyList} />
         </Tab>
-        <Tab heading="Products"></Tab>
+        <Tab heading="Products">
+          <ProductList />
+        </Tab>
       </Tabs>
     </Container>
   );

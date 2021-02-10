@@ -5,6 +5,7 @@ import { observer } from "mobx-react";
 import invoiceStore from "../stores/invoiceStore";
 import serviceStore from "../stores/serviceStore";
 import { Button, Spinner } from "native-base";
+import productStore from "../stores/productStore";
 
 const RecieptList = () => {
   const handleCheckout = () => {
@@ -16,11 +17,18 @@ const RecieptList = () => {
   };
   if (serviceStore.loading) return <Spinner />;
 
-  const recieptList = invoiceStore.items
+  const recieptServiceList = invoiceStore.items
     .map((item) => ({
       ...serviceStore.services.find((service) => service.id === item.serviceId),
+
+      ...productStore.products.find((product) => product.id === item.productId),
     }))
-    .map((item) => <RecieptItem service={item} key={item.id} />);
+    .map((item) => <RecieptItem item={item} key={item.id} />);
+  //   const recieptProductList = invoiceStore.items
+  //     .map((item) => ({
+  //       ...productStore.products.find((product) => product.id === item.productId),
+  //     }))
+  //     .map((item) => <RecieptItem item={item} key={item.id} />);
 
   return (
     <View style={styles.view}>
@@ -33,7 +41,8 @@ const RecieptList = () => {
           </View>
           <Text style={[styles.text1, { color: "#555" }]}>Price KD</Text>
         </View>
-        <View>{recieptList}</View>
+        <View>{recieptServiceList}</View>
+        {/* <View>{recieptProductList}</View> */}
         <View style={styles.total}>
           <View style={styles.text}>
             <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
