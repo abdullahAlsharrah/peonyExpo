@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import invoiceStore from "../stores/invoiceStore";
+import invoiceStore from "../../stores/invoiceStore";
 
 const ServiceItem = ({ service }) => {
   const handleSubmit = () => {

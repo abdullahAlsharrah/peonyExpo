@@ -1,26 +1,13 @@
 import React from "react";
 import { Container, Tab, Tabs, Spinner } from "native-base";
-import Service from "./Service";
 import serviceStore from "../stores/serviceStore";
 import { observer } from "mobx-react";
-import ProductList from "./ProductList";
+import Service from "./services/Service";
+import ProductList from "./products/ProductList";
+import AddButton from "./buttons/AddButton";
+import AddService from "./services/AddService";
 const Categories = () => {
   if (serviceStore.loading) return <Spinner />;
-  const hairList = serviceStore.services.filter(
-    (service) => service.category === "Hair"
-  );
-  const offersList = serviceStore.services.filter(
-    (service) => service.category === "Offers"
-  );
-  const nailsList = serviceStore.services.filter(
-    (service) => service.category === "Nail"
-  );
-  const packagesList = serviceStore.services.filter(
-    (service) => service.category === "Packages"
-  );
-  const bodyList = serviceStore.services.filter(
-    (service) => service.category === "Body"
-  );
   return (
     <Container>
       <Tabs
@@ -29,19 +16,22 @@ const Categories = () => {
         tabBarUnderlineStyle={{ backgroundColor: "#c39e81" }}
       >
         <Tab heading="Packages">
-          <Service list={packagesList} />
+          <Service category="Packages" />
         </Tab>
         <Tab heading="Offers">
-          <Service list={offersList} />
+          <Service category="Offers" />
         </Tab>
         <Tab heading="Nails">
-          <Service list={nailsList} />
+          <Service category="Nail" />
+          <AddService />
         </Tab>
         <Tab heading="Hair">
-          <Service list={hairList} />
+          <Service category="Hair" />
+          <AddService />
         </Tab>
         <Tab heading="Body">
-          <Service list={bodyList} />
+          <Service category="Body" />
+          <AddService />
         </Tab>
         <Tab heading="Products">
           <ProductList />

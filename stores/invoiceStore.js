@@ -52,7 +52,8 @@ class InvoiceStore {
 
   checkout = async () => {
     try {
-      await instance.post("/invoices", this.items);
+      const invoice = { items: this.items, phoneNumber: this.phoneNumber };
+      await instance.post("/invoices", invoice);
       runInAction(() => {
         this.items = [];
         this.phoneNumber = 0;

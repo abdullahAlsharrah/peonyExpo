@@ -3,7 +3,7 @@ import React from "react";
 import ProductItem from "./ProductItem";
 import { observer } from "mobx-react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import productStore from "../stores/productStore";
+import productStore from "../../stores/productStore";
 
 const ProductList = () => {
   if (productStore.loading) return <Spinner />;

@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Image, StyleSheet, Text, View } from "react-native";
-import invoiceStore from "../stores/invoiceStore";
+import invoiceStore from "../../stores/invoiceStore";
 
 const ProductItem = ({ product }) => {
   const handleSubmit = () => {

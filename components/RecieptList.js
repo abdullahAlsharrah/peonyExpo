@@ -12,7 +12,7 @@ const RecieptList = () => {
   const handleCheckout = () => {
     if (invoiceStore.totalPrice === 0) null;
     else {
-      invoiceStore.addItemToInvoice({ phoneNumber: phoneNumber });
+      invoiceStore.setPhoneNumber(phoneNumber);
       invoiceStore.checkout();
       setPhoneNumber();
     }
@@ -61,7 +61,6 @@ const RecieptList = () => {
           <Text style={[styles.text1, { color: "#555" }]}>Price KD</Text>
         </View>
         <View>{recieptServiceList}</View>
-        {/* <View>{recieptProductList}</View> */}
         <View style={styles.total}>
           <View style={styles.text}>
             <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
