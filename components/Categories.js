@@ -1,20 +1,39 @@
 import React from "react";
-import { Container, Tab, Tabs, Spinner } from "native-base";
+import { Tab, Tabs, Spinner, ScrollableTab } from "native-base";
 import serviceStore from "../stores/serviceStore";
 import { observer } from "mobx-react";
 import Service from "./services/Service";
 import ProductList from "./products/ProductList";
-import AddButton from "./buttons/AddButton";
 import AddService from "./services/AddService";
+import { View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Device from "react-native-device-detection";
 const Categories = () => {
   if (serviceStore.loading) return <Spinner />;
   return (
-    <Container>
-      <Tabs
-        tabBarInactiveTextColor={"black"}
-        tabBarActiveTextColor={"#c39e81"}
-        tabBarUnderlineStyle={{ backgroundColor: "#c39e81" }}
-      >
+    <View
+      style={
+        Device.isTablet
+          ? {
+              flex: 1,
+              marginTop: Device.isTablet ? 0 : 50,
+              shadowColor: "black",
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 10,
+              shadowRadius: 3.25,
+
+              elevation: 5,
+            }
+          : {
+              flex: 1,
+              marginTop: Device.isTablet ? 0 : 50,
+            }
+      }
+    >
+      <Tabs renderTabBar={Device.isTablet ? null : () => <ScrollableTab />}>
         <Tab heading="Packages">
           <Service category="Packages" />
         </Tab>
@@ -37,7 +56,7 @@ const Categories = () => {
           <ProductList />
         </Tab>
       </Tabs>
-    </Container>
+    </View>
   );
 };
 export default observer(Categories);

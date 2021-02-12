@@ -1,21 +1,24 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { View, Text } from "react-native";
 import ServicesScreen from "../../screens/ServicesScreen";
-import DailyInvoices from "../Admin/DailyInvoices";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Invoices from "../Admin/Invoices";
 import InvoicesByMonth from "../Admin/InvoicesByMonth";
 import AddService from "../services/AddService";
+import Categories from "../Categories";
+import Device from "react-native-device-detection";
 
 const RootNavigator = () => {
   const Service = createBottomTabNavigator();
   return (
     <Service.Navigator initialRouteName="Home">
-      <Service.Screen name="Home" component={ServicesScreen} />
-      <Service.Screen name="DailyInvoices" component={DailyInvoices} />
+      {Device.isTablet ? (
+        <Service.Screen name="Home" component={ServicesScreen} />
+      ) : (
+        <Service.Screen name="Home" component={Categories} />
+      )}
+      <Service.Screen name="DailyInvoices" component={Invoices} />
       <Service.Screen name="InvoicesByMonth" component={InvoicesByMonth} />
-      <Service.Screen name="AddService" component={AddService} />
     </Service.Navigator>
   );
 };

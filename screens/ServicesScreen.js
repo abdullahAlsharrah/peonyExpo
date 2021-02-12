@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
   logoText: {
     textAlign: "center",
     fontSize: 100,
-    color: "white",
+    // color: "white",
+    color: "#c39e81",
   },
   logo: {
     height: 100,
@@ -38,7 +39,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#c39e81",
+    // backgroundColor: "#c39e81",
+    // backgroundColor: "white",
   },
   container1: {
     flexDirection: "row",

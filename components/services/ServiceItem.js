@@ -29,7 +29,13 @@ const ServiceItem = ({ service }) => {
             { backgroundColor: foundItem ? "tomato" : "white" },
           ]}
         >
-          <Text style={{ fontSize: 20, color: foundItem ? "white" : "black" }}>
+          <Text
+            style={{
+              fontSize: 20,
+              color: foundItem ? "white" : "black",
+              textAlign: "center",
+            }}
+          >
             {service.name}
           </Text>
         </View>
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-    margin: 15,
+    margin: 10,
     marginBottom: 50,
     shadowColor: "black",
     shadowOffset: {

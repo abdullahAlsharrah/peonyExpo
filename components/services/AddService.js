@@ -24,8 +24,8 @@ const AddService = ({ navigation }) => {
         name="pluscircleo"
         type="AntDesign"
         style={{
-          color: "#c39e81",
           fontSize: 40,
+          color: "green",
           position: "absolute",
           bottom: 10,
           right: 10,
@@ -41,6 +41,16 @@ const AddService = ({ navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <Icon
+              name="close"
+              style={{
+                color: "tomato",
+                position: "absolute",
+                top: 10,
+                right: 10,
+              }}
+              onPress={() => setModalVisible(false)}
+            />
             <Item floatingLabel>
               <Label>Name</Label>
               <Input
@@ -99,10 +109,13 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: "#c39e81",
-    borderRadius: 20,
-    padding: 10,
+    backgroundColor: "green",
+    borderRadius: 10,
+    width: 70,
     elevation: 2,
+    justifyContent: "center",
+    bottom: -20,
+    left: "50%",
   },
   textStyle: {
     color: "white",

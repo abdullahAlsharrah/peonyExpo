@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Image, StyleSheet, Text, View } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
+import Device from "react-native-device-detection";
 
 const ProductItem = ({ product }) => {
   const handleSubmit = () => {
@@ -25,7 +26,11 @@ const ProductItem = ({ product }) => {
       <View
         style={[
           styles.box,
-          { backgroundColor: foundItem ? "tomato" : "white" },
+
+          {
+            backgroundColor: foundItem ? "tomato" : "white",
+            width: Device.isTablet ? 195 : 180,
+          },
         ]}
       >
         <Image
@@ -55,7 +60,6 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     height: 180,
-    width: 190,
     backgroundColor: "white",
     borderRadius: 10,
     shadowColor: "#000",
@@ -100,7 +104,7 @@ const styles = StyleSheet.create({
   },
   itemImage: {
     height: 300,
-    width: 190,
+    width: "100%",
     flex: 1,
   },
 });

@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 5,
     backgroundColor: "white",
-    borderColor: "gray",
-    borderWidth: 2,
+    // borderColor: "gray",
+    // borderWidth: 2,
     height: "90%",
     marginVertical: 10,
     marginHorizontal: 10,
