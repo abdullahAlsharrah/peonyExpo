@@ -3,7 +3,7 @@ import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
 import serviceStore from "../../stores/serviceStore";
 
-const AddService = ({ navigation }) => {
+const AddService = () => {
   const [service, setService] = React.useState({
     name: "",
     price: 0,

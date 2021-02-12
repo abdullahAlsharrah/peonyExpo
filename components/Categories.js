@@ -8,6 +8,7 @@ import AddService from "./services/AddService";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Device from "react-native-device-detection";
+import AddProduct from "./products/AddProduct";
 const Categories = () => {
   if (serviceStore.loading) return <Spinner />;
   return (
@@ -54,6 +55,7 @@ const Categories = () => {
         </Tab>
         <Tab heading="Products">
           <ProductList />
+          <AddProduct />
         </Tab>
       </Tabs>
     </View>

@@ -27,6 +27,18 @@ class ProductStore {
       this.products.find((product) => product.id === productId);
     });
   };
+  addProduct = async (newItem) => {
+    try {
+      const formData = new FormData();
+      for (const key in newItem) formData.append(key, newItem[key]);
+      const res = await instance.post("/products", formData);
+      runInAction(() => {
+        this.products.push(res.data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 const productStore = new ProductStore();
 productStore.fetchProducts();
