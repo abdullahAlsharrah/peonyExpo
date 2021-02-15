@@ -76,15 +76,9 @@ const AddProduct = () => {
     <>
       <Icon
         onPress={handleopen}
-        name="pluscircleo"
+        name="pluscircle"
         type="AntDesign"
-        style={{
-          fontSize: 40,
-          color: "green",
-          position: "absolute",
-          bottom: 10,
-          right: 10,
-        }}
+        style={styles.icon}
       />
       <Modal
         animationType="slide"
@@ -187,7 +181,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     justifyContent: "center",
     bottom: -20,
-    left: "50%",
+    left: "20%",
   },
   textStyle: {
     color: "white",
@@ -197,5 +191,20 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  icon: {
+    fontSize: 40,
+    color: "green",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

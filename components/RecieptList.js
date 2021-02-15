@@ -6,7 +6,8 @@ import invoiceStore from "../stores/invoiceStore";
 import serviceStore from "../stores/serviceStore";
 import { Button, Input, Spinner } from "native-base";
 import productStore from "../stores/productStore";
-import { TextInput } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
+import apackageStore from "../stores/packageStore";
 
 const RecieptList = () => {
   const handleCheckout = () => {
@@ -25,8 +26,10 @@ const RecieptList = () => {
   const recieptServiceList = invoiceStore.items
     .map((item) => ({
       ...serviceStore.services.find((service) => service.id === item.serviceId),
-
       ...productStore.products.find((product) => product.id === item.productId),
+      ...apackageStore.apackages.find(
+        (apackage) => apackage.id === item.apackageId
+      ),
     }))
     .map((item) => <RecieptItem item={item} key={item.id} />);
   const [phoneNumber, setPhoneNumber] = React.useState();
@@ -34,6 +37,16 @@ const RecieptList = () => {
   return (
     <View style={styles.view}>
       <View style={styles.container}>
+        <View style={styles.total}>
+          <View style={styles.text}>
+            <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
+              Total
+            </Text>
+          </View>
+          <Text style={[styles.text1, { color: "tomato" }]}>
+            {invoiceStore.totalPrice}
+          </Text>
+        </View>
         <View style={styles.title}>
           <View style={styles.text}>
             <Text style={{ textAlign: "center", fontSize: 20, color: "#555" }}>
@@ -60,19 +73,17 @@ const RecieptList = () => {
           </View>
           <Text style={[styles.text1, { color: "#555" }]}>Price KD</Text>
         </View>
-        <View>{recieptServiceList}</View>
-        <View style={styles.total}>
-          <View style={styles.text}>
-            <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
-              Total
-            </Text>
-          </View>
-          <Text style={[styles.text1, { color: "tomato" }]}>
-            {invoiceStore.totalPrice}
-          </Text>
-        </View>
+
+        <ScrollView>
+          <View>{recieptServiceList}</View>
+        </ScrollView>
         <View
-          style={{ position: "absolute", bottom: 10, flexDirection: "row" }}
+          style={{
+            position: "absolute",
+            bottom: 5,
+            flexDirection: "row",
+            backgroundColor: "white",
+          }}
         >
           <Button style={styles.button} onPress={handleCheckout}>
             <Text style={styles.checkoutText}>Check Out</Text>

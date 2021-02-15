@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Categories from "../components/Categories";
 import RecieptList from "../components/RecieptList";
 
-const ServicesScreen = () => {
+const ServicesScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
@@ -15,7 +15,7 @@ const ServicesScreen = () => {
           <RecieptList />
         </View>
         <View style={styles.box}>
-          <Categories />
+          <Categories navigation={navigation} />
         </View>
         {/* <StatusBar style="auto" /> */}
       </View>

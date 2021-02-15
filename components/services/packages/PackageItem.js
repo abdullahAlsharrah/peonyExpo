@@ -1,31 +1,33 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import invoiceStore from "../../stores/invoiceStore";
-import AddPackage from "./packages/AddPackage";
+import invoiceStore from "../../../stores/invoiceStore";
 
-const ServiceItem = ({ service, handleopen }) => {
+const PackageItem = ({ apackage }) => {
   const handleSubmit = () => {
-    const newItem = {
-      serviceId: service.id,
-      price: service.price,
-    };
+    const newItem =
+      apackage.time === 5
+        ? {
+            apackageId: apackage.id,
+            price: apackage.price,
+            time: apackage.time - 1,
+          }
+        : { apackageId: apackage.id, price: 0, time: apackage.time - 1 };
+    console.log(newItem.apackageId);
+
     const foundItem = invoiceStore.items.find(
-      (item) => item.serviceId === newItem.serviceId
+      (item) => item.apackageId === newItem.apackageId
     );
-    if (foundItem) invoiceStore.removeItemFromInvoice(foundItem.serviceId);
+    if (foundItem) invoiceStore.removeItemFromInvoice(foundItem.apackageId);
     else invoiceStore.addItemToInvoice(newItem);
   };
 
   const foundItem = invoiceStore.items.find(
-    (item) => item.serviceId === service.id
+    (item) => item.apackageId === apackage.id
   );
 
-  const handlePackage = () => {
-    handleopen(service.id, service.price);
-  };
   return (
-    <TouchableOpacity onPress={handleopen ? handlePackage : handleSubmit}>
+    <TouchableOpacity onPress={handleSubmit}>
       <View>
         <View
           style={[
@@ -40,7 +42,7 @@ const ServiceItem = ({ service, handleopen }) => {
               textAlign: "center",
             }}
           >
-            {service.name}
+            {apackage.name}
           </Text>
         </View>
       </View>
@@ -48,7 +50,7 @@ const ServiceItem = ({ service, handleopen }) => {
   );
 };
 
-export default observer(ServiceItem);
+export default observer(PackageItem);
 const styles = StyleSheet.create({
   item: {
     height: 50,

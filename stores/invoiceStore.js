@@ -29,10 +29,12 @@ class InvoiceStore {
     return total;
   }
   removeItemFromInvoice = async (itemId) => {
-    this.items = this.items.filter((item) => item.serviceId !== itemId);
-  };
-  removeProductFromInvoice = async (itemId) => {
-    this.items = this.items.filter((item) => item.productId !== itemId);
+    this.items = this.items.filter(
+      (item) =>
+        item.serviceId !== itemId &&
+        item.apackageId !== itemId &&
+        item.productId !== itemId
+    );
   };
   cancelCheckout = async () => {
     this.items = [];

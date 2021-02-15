@@ -1,15 +1,15 @@
 import React from "react";
-import { Tab, Tabs, Spinner, ScrollableTab } from "native-base";
+import { Tab, Tabs, Spinner, ScrollableTab, Icon } from "native-base";
 import serviceStore from "../stores/serviceStore";
 import { observer } from "mobx-react";
 import Service from "./services/Service";
 import ProductList from "./products/ProductList";
 import AddService from "./services/AddService";
-import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { StyleSheet, View } from "react-native";
 import Device from "react-native-device-detection";
 import AddProduct from "./products/AddProduct";
-const Categories = () => {
+import PackageList from "./services/packages/PackageList";
+const Categories = ({ navigation }) => {
   if (serviceStore.loading) return <Spinner />;
   return (
     <View
@@ -36,7 +36,13 @@ const Categories = () => {
     >
       <Tabs renderTabBar={Device.isTablet ? null : () => <ScrollableTab />}>
         <Tab heading="Packages">
-          <Service category="Packages" />
+          <PackageList />
+          <Icon
+            onPress={() => navigation.navigate("AddPackage")}
+            name="pluscircle"
+            type="AntDesign"
+            style={styles.icon}
+          />
         </Tab>
         <Tab heading="Offers">
           <Service category="Offers" />
@@ -62,3 +68,20 @@ const Categories = () => {
   );
 };
 export default observer(Categories);
+const styles = StyleSheet.create({
+  icon: {
+    fontSize: 40,
+    color: "green",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+});

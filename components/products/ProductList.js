@@ -8,7 +8,7 @@ import productStore from "../../stores/productStore";
 const ProductList = () => {
   if (productStore.loading) return <Spinner />;
   const productList = productStore.products.map((product) => (
-    <ProductItem product={product} key={product.id} />
+    <ProductItem product={product} key={`p${product.id}`} />
   ));
 
   return (

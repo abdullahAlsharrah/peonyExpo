@@ -5,10 +5,17 @@ import { ScrollView } from "react-native-gesture-handler";
 import serviceStore from "../../stores/serviceStore";
 import ServiceItem from "./ServiceItem";
 // import services from "./services";
-const Service = ({ category }) => {
-  const serviceList = serviceStore.services
-    .filter((service) => service.category === category)
-    .map((service) => <ServiceItem service={service} key={service.id} />);
+const Service = ({ category, handleopen }) => {
+  const list = handleopen
+    ? serviceStore.services
+    : serviceStore.services.filter((service) => service.category === category);
+  const serviceList = list.map((service) => (
+    <ServiceItem
+      service={service}
+      key={`s${service.id}`}
+      handleopen={handleopen}
+    />
+  ));
   return (
     <ScrollView>
       <View style={styles.box}>{serviceList}</View>
@@ -24,7 +31,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 50,
+    marginTop: 10,
     // marginLeft: 15,
   },
 });

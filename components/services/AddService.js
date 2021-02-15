@@ -1,6 +1,7 @@
 import { Button, Icon, Input, Item, Label } from "native-base";
 import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
+import invoiceStore from "../../stores/invoiceStore";
 import serviceStore from "../../stores/serviceStore";
 
 const AddService = () => {
@@ -21,15 +22,9 @@ const AddService = () => {
     <>
       <Icon
         onPress={handleopen}
-        name="pluscircleo"
+        name="pluscircle"
         type="AntDesign"
-        style={{
-          fontSize: 40,
-          color: "green",
-          position: "absolute",
-          bottom: 10,
-          right: 10,
-        }}
+        style={styles.icon}
       />
       <Modal
         animationType="slide"
@@ -125,5 +120,20 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  icon: {
+    fontSize: 40,
+    color: "green",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

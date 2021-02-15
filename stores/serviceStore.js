@@ -3,6 +3,7 @@ import instance from "./instance";
 
 class ServiceStore {
   services = [];
+
   loading = true;
 
   constructor() {
