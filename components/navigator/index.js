@@ -3,9 +3,9 @@ import React from "react";
 import ServicesScreen from "../../screens/ServicesScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import Invoices from "../Admin/Invoices";
-import InvoicesByMonth from "../Admin/InvoicesByMonth";
-import Categories from "../Categories";
+import Invoices from "../invoices/Invoices";
+import InvoicesByMonth from "../invoices/InvoicesByMonth";
+import Categories from "../services/Categories";
 import Device from "react-native-device-detection";
 import AddPackage from "../services/packages/AddPackage";
 

@@ -2,12 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
-import invoiceStore from "../stores/invoiceStore";
-import serviceStore from "../stores/serviceStore";
+import invoiceStore from "../../stores/invoiceStore";
+import serviceStore from "../../stores/serviceStore";
 import { Button, Input, Spinner } from "native-base";
-import productStore from "../stores/productStore";
+import productStore from "../../stores/productStore";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
-import apackageStore from "../stores/packageStore";
+import apackageStore from "../../stores/packageStore";
 
 const RecieptList = () => {
   const handleCheckout = () => {

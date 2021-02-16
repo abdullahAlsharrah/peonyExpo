@@ -11,8 +11,8 @@ class PackageStore {
   fetchPackages = async () => {
     try {
       const response = await instance.get("/packages");
-      this.apackages = response.data;
       runInAction(() => {
+        this.apackages = response.data;
         this.loading = false;
       });
     } catch (error) {

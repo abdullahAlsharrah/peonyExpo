@@ -1,14 +1,14 @@
 import React from "react";
 import { Tab, Tabs, Spinner, ScrollableTab, Icon } from "native-base";
-import serviceStore from "../stores/serviceStore";
+import serviceStore from "../../stores/serviceStore";
 import { observer } from "mobx-react";
-import Service from "./services/Service";
-import ProductList from "./products/ProductList";
-import AddService from "./services/AddService";
+import Service from "./Service";
+import ProductList from "../products/ProductList";
+import AddService from "./AddService";
 import { StyleSheet, View } from "react-native";
 import Device from "react-native-device-detection";
-import AddProduct from "./products/AddProduct";
-import PackageList from "./services/packages/PackageList";
+import AddProduct from "../products/AddProduct";
+import PackageList from "./packages/PackageList";
 const Categories = ({ navigation }) => {
   if (serviceStore.loading) return <Spinner />;
   return (

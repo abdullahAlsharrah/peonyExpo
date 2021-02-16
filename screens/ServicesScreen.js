@@ -1,8 +1,8 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Categories from "../components/Categories";
-import RecieptList from "../components/RecieptList";
+import Categories from "../components/services/Categories";
+import RecieptList from "../components/invoices/RecieptList";
 
 const ServicesScreen = ({ navigation }) => {
   return (
