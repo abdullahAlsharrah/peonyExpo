@@ -13,8 +13,39 @@ const packageStack = createStackNavigator();
 const RootNavigator = () => {
   const PackageScreen = () => (
     <packageStack.Navigator>
-      <packageStack.Screen name="Home" component={ServicesScreen} />
-      <packageStack.Screen name="AddPackage" component={AddPackage} />
+      <packageStack.Screen
+        name="Home"
+        component={ServicesScreen}
+        options={{
+          header: () => false,
+        }}
+      />
+      <packageStack.Screen
+        name="AddPackage"
+        component={AddPackage}
+        options={{
+          header: () => false,
+        }}
+      />
+    </packageStack.Navigator>
+  );
+  const AdminScreen = () => (
+    <packageStack.Navigator>
+      <packageStack.Screen
+        name="Home"
+        component={Categories}
+        options={{
+          header: () => false,
+        }}
+      />
+      <packageStack.Screen
+        name="AddPackage"
+        component={AddPackage}
+        options={{
+          header: () => false,
+        }}
+      />
+      {/* <packageStack.Screen name="AddOffer" component={AddOffer} /> */}
     </packageStack.Navigator>
   );
   const Service = createBottomTabNavigator();
@@ -23,7 +54,7 @@ const RootNavigator = () => {
       {Device.isTablet ? (
         <Service.Screen name="Home" component={PackageScreen} />
       ) : (
-        <Service.Screen name="Home" component={Categories} />
+        <Service.Screen name="Home" component={AdminScreen} />
       )}
       <Service.Screen name="DailyInvoices" component={Invoices} />
       <Service.Screen name="InvoicesByMonth" component={InvoicesByMonth} />

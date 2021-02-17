@@ -13,7 +13,6 @@ const PackageItem = ({ apackage }) => {
             time: apackage.time - 1,
           }
         : { apackageId: apackage.id, price: 0, time: apackage.time - 1 };
-    console.log(newItem.apackageId);
 
     const foundItem = invoiceStore.items.find(
       (item) => item.apackageId === newItem.apackageId

@@ -18,7 +18,9 @@ const Service = ({ category, handleopen }) => {
   ));
   return (
     <ScrollView>
-      <View style={styles.box}>{serviceList}</View>
+      <View style={handleopen ? [styles.box, { marginTop: 30 }] : [styles.box]}>
+        {serviceList}
+      </View>
     </ScrollView>
   );
 };
