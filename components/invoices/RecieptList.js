@@ -8,6 +8,7 @@ import { Button, Input, Spinner } from "native-base";
 import productStore from "../../stores/productStore";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import apackageStore from "../../stores/packageStore";
+import offerStore from "../../stores/offerStore";
 
 const RecieptList = () => {
   const handleCheckout = () => {
@@ -27,6 +28,7 @@ const RecieptList = () => {
     .map((item) => ({
       ...serviceStore.services.find((service) => service.id === item.serviceId),
       ...productStore.products.find((product) => product.id === item.productId),
+      ...offerStore.offers.find((offer) => offer.id === item.offerId),
       ...apackageStore.apackages.find(
         (apackage) => apackage.id === item.apackageId
       ),

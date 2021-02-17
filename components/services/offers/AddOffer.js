@@ -3,29 +3,35 @@ import { Button, Icon, Input, Item, Label } from "native-base";
 import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
 import Device from "react-native-device-detection";
-import DropDownPicker from "react-native-dropdown-picker";
 import { TextInput } from "react-native-gesture-handler";
 import invoiceStore from "../../../stores/invoiceStore";
-import apackageStore from "../../../stores/packageStore";
-import packageStore from "../../../stores/packageStore";
-import Service from "../Service";
+import offerStore from "../../../stores/offerStore";
+
 import DropDownServList from "../ServiceDropList";
-const AddPackage = () => {
-  const [service, setService] = React.useState({});
-  const [newPackage, setPackage] = React.useState({
+const AddOffer = () => {
+  const [services, setServices] = React.useState([]);
+  const [offer, setOffer] = React.useState({
     name: "",
-    price: 0,
-    phoneNumber: 0,
-    time: 5,
   });
   const handleopen = () => {
     setModalVisible(true);
   };
+
   const handleSubmite = async () => {
-    apackageStore.AddPackage(service.id, newPackage);
+    const servicesId = services.map((service) => ({
+      serviceId: service.id,
+    }));
+
+    offerStore.addOffer(servicesId, offer.name, totalPrice());
     setModalVisible(false);
   };
-
+  const totalPrice = () => {
+    let total = 0;
+    services.forEach((item) => {
+      total += 0.85 * item.price;
+    });
+    return total;
+  };
   const [modalVisible, setModalVisible] = React.useState(false);
 
   return (
@@ -41,7 +47,7 @@ const AddPackage = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Package has been Added.");
+          Alert.alert("Offer has been Added.");
         }}
       >
         <View style={styles.centeredView}>
@@ -64,35 +70,34 @@ const AddPackage = () => {
             />
             <View style={[styles.inputView, { height: 40, zIndex: 100 }]}>
               <DropDownServList
-                onChangeText={(service) =>
-                  setService(service.value) &
-                  setPackage({ ...newPackage, price: 4 * service.value.price })
-                }
+                service={services}
+                onChangeText={(service) => setServices(service)}
+                multiple={true}
               />
             </View>
             <View style={styles.inputView}>
               <TextInput
                 style={styles.inputText}
-                placeholder="Package Name..."
+                placeholder="Offer Name..."
                 placeholderTextColor="gray"
-                onChangeText={(name) => setPackage({ ...newPackage, name })}
+                onChangeText={(name) => setOffer({ ...offer, name })}
               />
             </View>
-            <View style={styles.inputView}>
+            <View style={[styles.inputView, { flexDirection: "row" }]}>
               <Text style={{ margin: 20, marginLeft: 0 }}>
-                {newPackage.price} KD
+                {totalPrice()} KD
               </Text>
-            </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                keyboardType={"numeric"}
-                placeholder="Phone Number..."
-                placeholderTextColor="gray"
-                onChangeText={(phoneNumber) =>
-                  setPackage({ ...newPackage, phoneNumber })
+              {/* <Button
+                style={styles.priceButton}
+                onPress={() =>
+                  offerStore.addItemToOffer(services) &
+                  setOffer({ ...offer, price: totalPrice() })
                 }
-              />
+              >
+                <Text style={[styles.textStyle, { color: "black" }]}>
+                  calculate the price
+                </Text>
+              </Button> */}
             </View>
             <Button style={styles.openButton} onPress={handleSubmite}>
               <Text style={styles.textStyle}>Add</Text>
@@ -104,7 +109,7 @@ const AddPackage = () => {
   );
 };
 
-export default observer(AddPackage);
+export default observer(AddOffer);
 const styles = StyleSheet.create({
   input: { marginHorizontal: 5, fontSize: 20, color: "#fff" },
   centeredView: {
@@ -177,5 +182,9 @@ const styles = StyleSheet.create({
     color: "white",
     borderBottomWidth: 1,
     borderBottomColor: "gray",
+  },
+  priceButton: {
+    margin: 5,
+    backgroundColor: "white",
   },
 });

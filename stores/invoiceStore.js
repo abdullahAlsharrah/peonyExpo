@@ -33,7 +33,8 @@ class InvoiceStore {
       (item) =>
         item.serviceId !== itemId &&
         item.apackageId !== itemId &&
-        item.productId !== itemId
+        item.productId !== itemId &&
+        item.offerId !== itemId
     );
   };
   cancelCheckout = async () => {

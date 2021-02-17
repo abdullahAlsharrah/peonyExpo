@@ -9,6 +9,9 @@ import { StyleSheet, View } from "react-native";
 import Device from "react-native-device-detection";
 import AddProduct from "../products/AddProduct";
 import PackageList from "./packages/PackageList";
+import AddPackage from "./packages/AddPackage";
+import OfferList from "./offers/OfferList";
+import AddOffer from "./offers/AddOffer";
 const Categories = ({ navigation }) => {
   if (serviceStore.loading) return <Spinner />;
   return (
@@ -37,15 +40,11 @@ const Categories = ({ navigation }) => {
       <Tabs renderTabBar={Device.isTablet ? null : () => <ScrollableTab />}>
         <Tab heading="Packages">
           <PackageList />
-          <Icon
-            onPress={() => navigation.navigate("AddPackage")}
-            name="pluscircle"
-            type="AntDesign"
-            style={styles.icon}
-          />
+          <AddPackage />
         </Tab>
         <Tab heading="Offers">
-          <Service category="Offers" />
+          <OfferList />
+          <AddOffer />
         </Tab>
         <Tab heading="Nails">
           <Service category="Nail" />

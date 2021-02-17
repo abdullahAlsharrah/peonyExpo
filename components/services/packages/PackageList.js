@@ -16,7 +16,6 @@ const PackageList = () => {
     </ScrollView>
   );
 };
-console.log(invoiceStore.items);
 export default observer(PackageList);
 const styles = StyleSheet.create({
   box: {
