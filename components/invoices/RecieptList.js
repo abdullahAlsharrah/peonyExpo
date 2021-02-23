@@ -22,7 +22,6 @@ const RecieptList = () => {
   const handleCancel = () => {
     invoiceStore.cancelCheckout();
   };
-  if (serviceStore.loading) return <Spinner />;
 
   const recieptServiceList = invoiceStore.items
     .map((item) => ({

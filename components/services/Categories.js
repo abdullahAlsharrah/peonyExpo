@@ -12,7 +12,7 @@ import PackageList from "./packages/PackageList";
 import AddPackage from "./packages/AddPackage";
 import OfferList from "./offers/OfferList";
 import AddOffer from "./offers/AddOffer";
-const Categories = ({ navigation }) => {
+const Categories = () => {
   if (serviceStore.loading) return <Spinner />;
   return (
     <View
