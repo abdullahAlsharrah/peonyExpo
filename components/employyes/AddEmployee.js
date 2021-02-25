@@ -15,6 +15,11 @@ const AddEmployee = () => {
   const handleAdd = () => {
     employeeStore.addEmployee(_employee);
     setModalVisible(!modalVisible);
+    setEmployee({
+      name: "",
+      salary: 0,
+      jobTitle: "",
+    });
   };
 
   return (
@@ -71,7 +76,7 @@ const AddEmployee = () => {
                 <Input
                   style={styles.modalText}
                   onChangeText={(salary) =>
-                    (salary = parseInt(salary)) &
+                    (salary > 0 ? (salary = parseInt(salary)) : (salary = 0)) &
                     setEmployee({ ..._employee, salary })
                   }
                   value={JSON.stringify(_employee.salary)}

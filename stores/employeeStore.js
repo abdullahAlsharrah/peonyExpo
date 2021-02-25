@@ -43,10 +43,25 @@ class EmployeeStore {
   updateEmployee = async (updatedEmployee) => {
     try {
       await instance.put(`/employees/${updatedEmployee.id}`, updatedEmployee);
-      const employee = this.employees.find(
-        (_employee) => _employee.id === updatedEmployee.id
-      );
-      for (const key in updatedEmployee) employee[key] = updatedEmployee[key];
+      runInAction(() => {
+        const employee = this.employees.find(
+          (_employee) => _employee.id === updatedEmployee.id
+        );
+        for (const key in updatedEmployee) employee[key] = updatedEmployee[key];
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  deleteEmployee = async (employeeId) => {
+    try {
+      await instance.delete(`/employees/${employeeId}`);
+      runInAction(() => {
+        this.employees = this.employees.filter(
+          (employee) => employee.id !== employeeId
+        );
+      });
     } catch (error) {
       console.log(error);
     }

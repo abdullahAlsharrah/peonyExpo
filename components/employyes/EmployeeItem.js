@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
-import { Button, Icon, Input, Item, Label, Spinner } from "native-base";
+import { Icon, Input, Item, Spinner } from "native-base";
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import employeeStore from "../../stores/employeeStore";
 
 const EmployeeItem = ({ employee, counter }) => {
@@ -12,10 +12,26 @@ const EmployeeItem = ({ employee, counter }) => {
     employeeStore.updateEmployee(_employee);
     setUpdated(true);
   };
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete Employee",
+      `Are you Sure you want to delete ${_employee.name}?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => employeeStore.deleteEmployee(_employee.id),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   return (
     <View style={{ flexDirection: "row", width: "100%" }}>
       <Item style={{ width: "39%" }}>
-        <Text>{counter}</Text>
         <Input
           style={styles.modalText}
           value={_employee.name}
@@ -40,6 +56,19 @@ const EmployeeItem = ({ employee, counter }) => {
           value={`${JSON.stringify(_employee.salary)} KD`}
         />
       </Item>
+
+      <Icon
+        onPress={handleDelete}
+        name="delete"
+        type="AntDesign"
+        style={{
+          fontSize: 15,
+          color: "red",
+          position: "absolute",
+          left: 2,
+          bottom: "40%",
+        }}
+      />
       {employee === _employee ? null : (
         <Icon
           onPress={handleUpdate}
@@ -57,27 +86,6 @@ const EmployeeItem = ({ employee, counter }) => {
 
 export default observer(EmployeeItem);
 const styles = StyleSheet.create({
-  budget: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    backgroundColor: "#c39e81",
-    borderRadius: 100,
-    width: 150,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
-    shadowColor: "black",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 10,
-    shadowRadius: 3.25,
-
-    elevation: 5,
-    margin: 10,
-  },
   input: { marginHorizontal: 5, fontSize: 20, color: "#fff" },
   container: {
     flex: 1,
@@ -122,8 +130,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalText: {
-    marginBottom: 15,
-    height: 70,
     textAlign: "center",
+    height: 70,
   },
 });
