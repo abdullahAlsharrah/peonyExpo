@@ -1,7 +1,9 @@
 import { Button, Icon, Input, Item, Label } from "native-base";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Modal } from "react-native";
-import employeeStore from "../../stores/employeeStore";
+import Device from "react-native-device-detection";
+import { TextInput } from "react-native-gesture-handler";
+import employeeStore from "../../../stores/employeeStore";
 
 const AddEmployee = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -12,7 +14,7 @@ const AddEmployee = () => {
     jobTitle: "",
   });
 
-  const handleAdd = () => {
+  const handleSubmite = () => {
     employeeStore.addEmployee(_employee);
     setModalVisible(!modalVisible);
     setEmployee({
@@ -41,7 +43,13 @@ const AddEmployee = () => {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View
+            style={
+              Device.isTablet
+                ? [styles.modalView, { width: "30%" }]
+                : styles.modalView
+            }
+          >
             <Icon
               name="close"
               style={{
@@ -52,40 +60,44 @@ const AddEmployee = () => {
               }}
               onPress={() => setModalVisible(false)}
             />
-            <View style={{ width: "100%" }}>
-              <Item floatingLabel last style={{ width: "33%" }}>
-                <Label>Job Title</Label>
-                <Input
-                  style={styles.modalText}
-                  value={_employee.jobTitle}
-                  onChangeText={(jobTitle) =>
-                    setEmployee({ ..._employee, jobTitle })
-                  }
-                />
-              </Item>
-              <Item floatingLabel last style={{ width: "33%" }}>
-                <Label>Name</Label>
-                <Input
-                  style={styles.modalText}
-                  value={_employee.name}
-                  onChangeText={(name) => setEmployee({ ..._employee, name })}
-                />
-              </Item>
-              <Item floatingLabel last style={{ width: "33%" }}>
-                <Label>Salary</Label>
-                <Input
-                  style={styles.modalText}
-                  onChangeText={(salary) =>
-                    (salary > 0 ? (salary = parseInt(salary)) : (salary = 0)) &
-                    setEmployee({ ..._employee, salary })
-                  }
-                  value={JSON.stringify(_employee.salary)}
-                />
-              </Item>
+            <View style={styles.inputView}>
+              <Text style={{ textAlign: "center", margin: 20, fontSize: 20 }}>
+                Add New Employee
+              </Text>
             </View>
-
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Name..."
+                placeholderTextColor="gray"
+                onChangeText={(name) => setEmployee({ ..._employee, name })}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                keyboardType={"number-pad"}
+                placeholder="Salary..."
+                placeholderTextColor="gray"
+                onChangeText={(salary) =>
+                  (salary = parseInt(salary)) &
+                  (salary > 0 ? (salary = parseInt(salary)) : (salary = 0)) &
+                  setEmployee({ ..._employee, salary })
+                }
+              />
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Job Title..."
+                placeholderTextColor="gray"
+                onChangeText={(jobTitle) =>
+                  setEmployee({ ..._employee, jobTitle })
+                }
+              />
+            </View>
             <View>
-              <Button style={styles.openButton} onPress={handleAdd}>
+              <Button style={styles.openButton} onPress={handleSubmite}>
                 <Text style={styles.textStyle}>Add</Text>
               </Button>
             </View>
@@ -106,6 +118,8 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
+    // height: 35,
+    width: "90%",
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -126,9 +140,9 @@ const styles = StyleSheet.create({
     width: 70,
     elevation: 2,
     justifyContent: "center",
-    // bottom: -20,
-    // left: "20%",
     marginTop: 10,
+    // bottom: -10,
+    // left: "50%",
   },
   textStyle: {
     color: "white",
@@ -153,5 +167,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  inputView: {
+    width: "100%",
+    color: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+  },
+  inputText: {
+    height: 50,
+  },
+  inputViewT: {
+    width: "50%",
+    color: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
   },
 });

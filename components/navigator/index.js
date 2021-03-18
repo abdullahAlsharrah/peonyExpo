@@ -8,8 +8,8 @@ import InvoicesByMonth from "../invoices/InvoicesByMonth";
 import Categories from "../services/Categories";
 import Device from "react-native-device-detection";
 import AddPackage from "../services/packages/AddPackage";
-import DropDownServList from "../services/ServiceDropList";
-import EmployeeList from "../employyes/EmployeeList";
+import EmployeeList from "../Admin/employyes/EmployeeList";
+import CostList from "../Admin/cost/CostList";
 
 const packageStack = createStackNavigator();
 const RootNavigator = () => {
@@ -61,6 +61,7 @@ const RootNavigator = () => {
       <Service.Screen name="DailyInvoices" component={Invoices} />
       <Service.Screen name="InvoicesByMonth" component={InvoicesByMonth} />
       <Service.Screen name="EmployeeList" component={EmployeeList} />
+      <Service.Screen name="CostList" component={CostList} />
     </Service.Navigator>
   );
 };

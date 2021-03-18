@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import { Item, Spinner } from "native-base";
 import React from "react";
 import { View, Text } from "react-native";
-import employeeStore from "../../stores/employeeStore";
+import employeeStore from "../../../stores/employeeStore";
 import AddEmployee from "./AddEmployee";
 import EmployeeItem from "./EmployeeItem";
 

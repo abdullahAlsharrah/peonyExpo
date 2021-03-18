@@ -39,6 +39,17 @@ class CostStore {
       console.log(error);
     }
   };
+
+  deleteCost = async (costId) => {
+    try {
+      await instance.delete(`/costs/${costId}`);
+      runInAction(() => {
+        this.costs = this.costs.filter((cost) => cost.id !== costId);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 const costStore = new CostStore();
 costStore.fetchCosts();

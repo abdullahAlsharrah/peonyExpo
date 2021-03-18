@@ -2,9 +2,9 @@ import { observer } from "mobx-react";
 import { Icon, Input, Item, Spinner } from "native-base";
 import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
-import employeeStore from "../../stores/employeeStore";
+import employeeStore from "../../../stores/employeeStore";
 
-const EmployeeItem = ({ employee, counter }) => {
+const EmployeeItem = ({ employee }) => {
   if (employeeStore.loading) return <Spinner />;
   const [_employee, setEmployee] = useState(employee);
   const [updated, setUpdated] = useState(false);
@@ -48,9 +48,11 @@ const EmployeeItem = ({ employee, counter }) => {
       <Item style={{ width: "30%" }}>
         <Input
           style={styles.modalText}
+          keyboardType={"number-pad"}
           onChangeText={(salary) =>
             setUpdated(false) &
             (salary = parseInt(salary)) &
+            (salary > 0 ? (salary = parseInt(salary)) : (salary = 0)) &
             setEmployee({ ..._employee, salary })
           }
           value={`${JSON.stringify(_employee.salary)} KD`}

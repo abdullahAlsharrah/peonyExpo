@@ -1,7 +1,9 @@
 import { Button, Icon, Input, Item, Label } from "native-base";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Modal } from "react-native";
-import costStore from "../../stores/costStore";
+import Device from "react-native-device-detection";
+import { TextInput } from "react-native-gesture-handler";
+import costStore from "../../../stores/costStore";
 
 const AddCost = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,7 +13,7 @@ const AddCost = () => {
     price: 0,
   });
 
-  const handleAdd = () => {
+  const handleSubmite = () => {
     costStore.addCost(cost);
     setModalVisible(!modalVisible);
     setCost({
@@ -39,7 +41,13 @@ const AddCost = () => {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View
+            style={
+              Device.isTablet
+                ? [styles.modalView, { width: "30%" }]
+                : styles.modalView
+            }
+          >
             <Icon
               name="close"
               style={{
@@ -50,30 +58,30 @@ const AddCost = () => {
               }}
               onPress={() => setModalVisible(false)}
             />
-            <View style={{ width: "100%" }}>
-              <Item floatingLabel last style={{ width: "33%" }}>
-                <Label>Name</Label>
-                <Input
-                  style={styles.modalText}
-                  value={cost.name}
-                  onChangeText={(name) => setCost({ ...cost, name })}
-                />
-              </Item>
-              <Item floatingLabel last style={{ width: "33%" }}>
-                <Label>Price</Label>
-                <Input
-                  style={styles.modalText}
-                  onChangeText={(price) =>
-                    (price > 0 ? (price = parseInt(price)) : (price = 0)) &
-                    setCost({ ...cost, price })
-                  }
-                  value={JSON.stringify(cost.price)}
-                />
-              </Item>
+            <View style={styles.inputView}>
+              <Text style={{ textAlign: "center", margin: 20, fontSize: 20 }}>
+                Add New Cost
+              </Text>
             </View>
-
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Cost Of..."
+                placeholderTextColor="gray"
+                onChangeText={(name) => setCost({ ...cost, name })}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                keyboardType={"number-pad"}
+                placeholder="Price..."
+                placeholderTextColor="gray"
+                onChangeText={(price) => setCost({ ...cost, price })}
+              />
+            </View>
             <View>
-              <Button style={styles.openButton} onPress={handleAdd}>
+              <Button style={styles.openButton} onPress={handleSubmite}>
                 <Text style={styles.textStyle}>Add</Text>
               </Button>
             </View>
@@ -94,6 +102,8 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
+    height: 300,
+    width: "90%",
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -114,9 +124,9 @@ const styles = StyleSheet.create({
     width: 70,
     elevation: 2,
     justifyContent: "center",
-    // bottom: -20,
-    // left: "20%",
     marginTop: 10,
+    // bottom: -10,
+    // left: "50%",
   },
   textStyle: {
     color: "white",
@@ -141,5 +151,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  inputView: {
+    width: "100%",
+    color: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+  },
+  inputText: {
+    height: 50,
+  },
+  inputViewT: {
+    width: "50%",
+    color: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
   },
 });

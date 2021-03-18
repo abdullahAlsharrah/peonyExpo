@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
-import Cost from "./cost/Addcost";
+import Cost from "./cost/AddCost";
 import Employee from "./Employee";
 
 const Accounting = () => {

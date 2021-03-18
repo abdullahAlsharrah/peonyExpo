@@ -1,7 +1,8 @@
 import { Button, Icon, Input, Item, Label } from "native-base";
 import React from "react";
-import { View, Text, Modal, StyleSheet } from "react-native";
+import { View, Text, Modal, StyleSheet, Alert } from "react-native";
 import Device from "react-native-device-detection";
+import { TextInput } from "react-native-gesture-handler";
 import invoiceStore from "../../stores/invoiceStore";
 import serviceStore from "../../stores/serviceStore";
 
@@ -12,8 +13,18 @@ const AddService = () => {
     category: "",
   });
   const handleSubmite = () => {
-    serviceStore.AddService(service);
-    setModalVisible(false);
+    if (service === { name: "name", price: 0, category: "" }) {
+      Alert.alert("Please fill the form");
+    } else if (
+      service.price === 0 ||
+      service.name === "" ||
+      service.category === ""
+    ) {
+      Alert.alert("Please fill the form");
+    } else {
+      serviceStore.AddService(service);
+      setModalVisible(false);
+    }
   };
   const [modalVisible, setModalVisible] = React.useState(false);
   const handleopen = () => {
@@ -53,32 +64,44 @@ const AddService = () => {
               }}
               onPress={() => setModalVisible(false)}
             />
-            <Item floatingLabel>
-              <Label>Name</Label>
-              <Input
-                value={service.name}
+            <View style={styles.inputView}>
+              <Text style={{ textAlign: "center", margin: 20, fontSize: 20 }}>
+                Add New Service
+              </Text>
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Name..."
+                placeholderTextColor="gray"
                 onChangeText={(name) => setService({ ...service, name })}
               />
-            </Item>
-            <Item floatingLabel>
-              <Label>Price</Label>
-              <Input
-                value={service.price}
-                onChangeText={(price) => setService({ ...service, price })}
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Price..."
+                placeholderTextColor="gray"
+                onChangeText={(price) =>
+                  (price = parseInt(price)) & setService({ ...service, price })
+                }
               />
-            </Item>
-            <Item floatingLabel>
-              <Label>Category</Label>
-              <Input
-                value={service.category}
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Category..."
+                placeholderTextColor="gray"
                 onChangeText={(category) =>
                   setService({ ...service, category })
                 }
               />
-            </Item>
-            <Button style={styles.openButton} onPress={handleSubmite}>
-              <Text style={styles.textStyle}>Add</Text>
-            </Button>
+            </View>
+            <View>
+              <Button style={styles.openButton} onPress={handleSubmite}>
+                <Text style={styles.textStyle}>Add</Text>
+              </Button>
+            </View>
           </View>
         </View>
       </Modal>
@@ -96,6 +119,8 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
+    // height: 35,
+    width: "90%",
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -116,8 +141,9 @@ const styles = StyleSheet.create({
     width: 70,
     elevation: 2,
     justifyContent: "center",
-    bottom: -20,
-    left: "50%",
+    marginTop: 10,
+    // bottom: -10,
+    // left: "50%",
   },
   textStyle: {
     color: "white",
@@ -142,5 +168,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  inputView: {
+    width: "100%",
+    color: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+  },
+  inputText: {
+    height: 50,
+  },
+  inputViewT: {
+    width: "50%",
+    color: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
   },
 });
