@@ -4,12 +4,11 @@ import React from "react";
 import serviceStore from "../../stores/serviceStore";
 import { observer } from "mobx-react";
 
-const services = serviceStore.services.map((service) => ({
-  label: service.name,
-  value: service,
-}));
-
 const DropDownServList = ({ onChangeText, service, multiple }) => {
+  const services = serviceStore.services.map((service) => ({
+    label: service.name,
+    value: service,
+  }));
   return (
     <View style={styles.dropdownview}>
       <DropDownPicker

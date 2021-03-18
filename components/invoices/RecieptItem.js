@@ -3,12 +3,16 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const RecieptItem = ({ item }) => {
+  // console.log(item.time);
+
   return (
     <View style={styles.box}>
       <View style={styles.item}>
         <Text style={{ textAlign: "center", fontSize: 20 }}>{item.name}</Text>
       </View>
-      <Text style={styles.item1}>{item.price}</Text>
+      <Text style={styles.item1}>
+        {item.time ? (item.time < 4 ? 0 : item.price) : item.price}
+      </Text>
     </View>
   );
 };

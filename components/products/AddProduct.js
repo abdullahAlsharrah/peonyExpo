@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { observer } from "mobx-react";
 import { Button, Input, Item, Label, View, Icon } from "native-base";
 import productStore from "../../stores/productStore";
+import Device from "react-native-device-detection";
 
 const AddProduct = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -89,7 +90,13 @@ const AddProduct = () => {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View
+            style={
+              Device.isTablet
+                ? [styles.modalView, { width: "30%" }]
+                : styles.modalView
+            }
+          >
             <Icon
               name="close"
               style={{

@@ -1,24 +1,22 @@
 import { Button, Icon, Input, Item, Label } from "native-base";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Modal } from "react-native";
-import employeeStore from "../../stores/employeeStore";
+import costStore from "../../stores/costStore";
 
-const AddEmployee = () => {
+const AddCost = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [_employee, setEmployee] = useState({
+  const [cost, setCost] = useState({
     name: "",
-    salary: 0,
-    jobTitle: "",
+    price: 0,
   });
 
   const handleAdd = () => {
-    employeeStore.addEmployee(_employee);
+    costStore.addCost(cost);
     setModalVisible(!modalVisible);
-    setEmployee({
+    setCost({
       name: "",
-      salary: 0,
-      jobTitle: "",
+      price: 0,
     });
   };
 
@@ -54,32 +52,22 @@ const AddEmployee = () => {
             />
             <View style={{ width: "100%" }}>
               <Item floatingLabel last style={{ width: "33%" }}>
-                <Label>Job Title</Label>
-                <Input
-                  style={styles.modalText}
-                  value={_employee.jobTitle}
-                  onChangeText={(jobTitle) =>
-                    setEmployee({ ..._employee, jobTitle })
-                  }
-                />
-              </Item>
-              <Item floatingLabel last style={{ width: "33%" }}>
                 <Label>Name</Label>
                 <Input
                   style={styles.modalText}
-                  value={_employee.name}
-                  onChangeText={(name) => setEmployee({ ..._employee, name })}
+                  value={cost.name}
+                  onChangeText={(name) => setCost({ ...cost, name })}
                 />
               </Item>
               <Item floatingLabel last style={{ width: "33%" }}>
-                <Label>Salary</Label>
+                <Label>Price</Label>
                 <Input
                   style={styles.modalText}
-                  onChangeText={(salary) =>
-                    (salary > 0 ? (salary = parseInt(salary)) : (salary = 0)) &
-                    setEmployee({ ..._employee, salary })
+                  onChangeText={(price) =>
+                    (price > 0 ? (price = parseInt(price)) : (price = 0)) &
+                    setCost({ ...cost, price })
                   }
-                  value={JSON.stringify(_employee.salary)}
+                  value={JSON.stringify(cost.price)}
                 />
               </Item>
             </View>
@@ -96,7 +84,7 @@ const AddEmployee = () => {
   );
 };
 
-export default AddEmployee;
+export default AddCost;
 const styles = StyleSheet.create({
   input: { marginHorizontal: 5, fontSize: 20, color: "#fff" },
   centeredView: {

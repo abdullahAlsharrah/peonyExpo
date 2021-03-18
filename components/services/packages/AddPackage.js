@@ -94,9 +94,11 @@ const AddPackage = () => {
                 }
               />
             </View>
-            <Button style={styles.openButton} onPress={handleSubmite}>
-              <Text style={styles.textStyle}>Add</Text>
-            </Button>
+            <View>
+              <Button style={styles.openButton} onPress={handleSubmite}>
+                <Text style={styles.textStyle}>Add</Text>
+              </Button>
+            </View>
           </View>
         </View>
       </Modal>
@@ -136,8 +138,9 @@ const styles = StyleSheet.create({
     width: 70,
     elevation: 2,
     justifyContent: "center",
-    bottom: -20,
-    left: "50%",
+    marginTop: 10,
+    // bottom: -10,
+    // left: "50%",
   },
   textStyle: {
     color: "white",

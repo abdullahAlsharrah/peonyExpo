@@ -31,14 +31,30 @@ class PackageStore {
         (apackage) => apackage.id === apackageId
       );
       if (apackage.time > 0) {
-        await instance.put(`/apackages/${apackageId}`);
-        apackage.time - 1;
-        this.apackages.push(apackage);
+        await instance.put(`/packages/${apackageId}`);
+        runInAction(() => {
+          const updatedPackage = { ...apackage, time: apackage.time - 1 };
+          for (const key in updatedPackage) apackage[key] = updatedPackage[key];
+        });
       } else {
         Alert.alert("Sorry this Package Has Finished!!");
       }
     } catch (error) {
       console.log("updating apackage problem", error);
+    }
+  };
+  unUpdatePackage = async (apackageId) => {
+    try {
+      await instance.put(`/packages/undo/${apackageId}`);
+      runInAction(() => {
+        const apackage = this.apackages.find(
+          (apackage) => apackage.id === apackageId
+        );
+        const updatedPackage = { ...apackage, time: apackage.time + 1 };
+        for (const key in updatedPackage) apackage[key] = updatedPackage[key];
+      });
+    } catch (error) {
+      console.log("unUpdating apackage problem", error);
     }
   };
   // add phone number to the apackage!!

@@ -99,9 +99,11 @@ const AddOffer = () => {
                 </Text>
               </Button> */}
             </View>
-            <Button style={styles.openButton} onPress={handleSubmite}>
-              <Text style={styles.textStyle}>Add</Text>
-            </Button>
+            <View>
+              <Button style={styles.openButton} onPress={handleSubmite}>
+                <Text style={styles.textStyle}>Add</Text>
+              </Button>
+            </View>
           </View>
         </View>
       </Modal>
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    height: 300,
+    height: 250,
     width: "90%",
     margin: 20,
     backgroundColor: "white",
@@ -141,8 +143,9 @@ const styles = StyleSheet.create({
     width: 70,
     elevation: 2,
     justifyContent: "center",
-    bottom: -20,
-    left: "50%",
+    // bottom: -20,
+    // left: "50%",
+    marginTop: 10,
   },
   textStyle: {
     color: "white",

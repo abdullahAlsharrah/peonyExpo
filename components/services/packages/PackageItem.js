@@ -1,7 +1,8 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import invoiceStore from "../../../stores/invoiceStore";
+import apackageStore from "../../../stores/packageStore";
 
 const PackageItem = ({ apackage }) => {
   const handleSubmit = () => {
@@ -10,17 +11,22 @@ const PackageItem = ({ apackage }) => {
         ? {
             apackageId: apackage.id,
             price: apackage.price,
-            time: apackage.time - 1,
           }
-        : { apackageId: apackage.id, price: 0, time: apackage.time - 1 };
+        : { apackageId: apackage.id, price: 0 };
 
     const foundItem = invoiceStore.items.find(
       (item) => item.apackageId === newItem.apackageId
     );
-    if (foundItem) invoiceStore.removeItemFromInvoice(foundItem.apackageId);
-    else invoiceStore.addItemToInvoice(newItem);
+    if (foundItem) {
+      invoiceStore.removeItemFromInvoice(foundItem.apackageId);
+      apackageStore.unUpdatePackage(foundItem.apackageId);
+    } else if (apackage.time > 0) {
+      invoiceStore.addItemToInvoice(newItem);
+      apackageStore.updatePackage(newItem.apackageId);
+    } else {
+      Alert.alert(" Sorry This itme has finished");
+    }
   };
-
   const foundItem = invoiceStore.items.find(
     (item) => item.apackageId === apackage.id
   );

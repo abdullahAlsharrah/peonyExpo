@@ -1,19 +1,29 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import invoiceStore from "../../../stores/invoiceStore";
 import apackageStore from "../../../stores/packageStore";
+import SearchBarr from "../../SearchBar/SearchBarr";
 import PackageItem from "./PackageItem";
 // import packages from "./packages";
 const PackageList = () => {
+  const [query, setQuery] = useState("");
   const apackageList = apackageStore.apackages
-    // .filter((apackage) => apackage.phoneNumber === )
-    .map((apackage) => <PackageItem apackage={apackage} key={apackage.id} />);
+    .filter(
+      (apackage) =>
+        JSON.stringify(apackage.phoneNumber).includes(query) ||
+        apackage.name.toLowerCase().includes(query.toLowerCase())
+    )
+    .map((apackage) => (
+      <PackageItem apackage={apackage} key={`p${apackage.id}`} />
+    ));
   return (
-    <ScrollView>
-      <View style={styles.box}>{apackageList}</View>
-    </ScrollView>
+    <>
+      <SearchBarr setQuery={setQuery} query={query} />
+      <ScrollView>
+        <View style={styles.box}>{apackageList}</View>
+      </ScrollView>
+    </>
   );
 };
 export default observer(PackageList);

@@ -12,12 +12,9 @@ import offerStore from "../../stores/offerStore";
 
 const RecieptList = () => {
   const handleCheckout = () => {
-    if (invoiceStore.totalPrice === 0) null;
-    else {
-      invoiceStore.setPhoneNumber(phoneNumber);
-      invoiceStore.checkout();
-      setPhoneNumber();
-    }
+    invoiceStore.setPhoneNumber(phoneNumber);
+    invoiceStore.checkout();
+    setPhoneNumber();
   };
   const handleCancel = () => {
     invoiceStore.cancelCheckout();

@@ -29,16 +29,20 @@ class InvoiceStore {
     return total;
   }
   removeItemFromInvoice = async (itemId) => {
-    this.items = this.items.filter(
-      (item) =>
-        item.serviceId !== itemId &&
-        item.apackageId !== itemId &&
-        item.productId !== itemId &&
-        item.offerId !== itemId
-    );
+    runInAction(() => {
+      this.items = this.items.filter(
+        (item) =>
+          item.serviceId !== itemId &&
+          item.apackageId !== itemId &&
+          item.productId !== itemId &&
+          item.offerId !== itemId
+      );
+    });
   };
   cancelCheckout = async () => {
-    this.items = [];
+    runInAction(() => {
+      this.items = [];
+    });
   };
 
   fetchInvoices = async () => {

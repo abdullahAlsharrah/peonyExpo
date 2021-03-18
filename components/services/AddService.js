@@ -1,6 +1,7 @@
 import { Button, Icon, Input, Item, Label } from "native-base";
 import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
+import Device from "react-native-device-detection";
 import invoiceStore from "../../stores/invoiceStore";
 import serviceStore from "../../stores/serviceStore";
 
@@ -35,7 +36,13 @@ const AddService = () => {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View
+            style={
+              Device.isTablet
+                ? [styles.modalView, { width: "30%" }]
+                : styles.modalView
+            }
+          >
             <Icon
               name="close"
               style={{
