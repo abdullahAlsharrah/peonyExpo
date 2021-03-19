@@ -18,6 +18,7 @@ import NailMenu from "../Admin/Menu/NailMenu";
 import HairMenu from "../Admin/Menu/HairMenu";
 import MakeupMenu from "../Admin/Menu/MakeupMenu";
 import Drawer from "../buttons/Drawer";
+import AddItem from "../Admin/AddItem";
 
 const AdminStack = createStackNavigator();
 const RootNavigator = () => {
@@ -192,6 +193,7 @@ const RootNavigator = () => {
       ) : (
         <>
           <Service.Screen name="Home" component={MobileDrawer} />
+          <Service.Screen name="Add Item" component={AddItem} />
         </>
       )}
     </Service.Navigator>

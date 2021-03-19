@@ -4,7 +4,7 @@ import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
 import Device from "react-native-device-detection";
 import DropDownPicker from "react-native-dropdown-picker";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import invoiceStore from "../../../stores/invoiceStore";
 import apackageStore from "../../../stores/packageStore";
 import packageStore from "../../../stores/packageStore";
@@ -30,12 +30,11 @@ const AddPackage = () => {
 
   return (
     <>
-      <Icon
-        onPress={handleopen}
-        name="pluscircle"
-        type="AntDesign"
-        style={styles.icon}
-      />
+      <TouchableOpacity onPress={handleopen}>
+        <View style={styles.item}>
+          <Text>Add Package</Text>
+        </View>
+      </TouchableOpacity>
       <Modal
         animationType="slide"
         transparent={true}
@@ -180,5 +179,24 @@ const styles = StyleSheet.create({
     color: "white",
     borderBottomWidth: 1,
     borderBottomColor: "gray",
+  },
+  item: {
+    height: 100,
+    width: 159,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    margin: 2,
+    // marginBottom: 50,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 1.25,
+
+    elevation: 5,
+    backgroundColor: "#c39e81",
   },
 });

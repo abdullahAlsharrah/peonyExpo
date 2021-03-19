@@ -75,12 +75,11 @@ const AddProduct = () => {
 
   return (
     <>
-      <Icon
-        onPress={handleopen}
-        name="pluscircle"
-        type="AntDesign"
-        style={styles.icon}
-      />
+      <TouchableOpacity onPress={handleopen}>
+        <View style={styles.item}>
+          <Text>Add Product</Text>
+        </View>
+      </TouchableOpacity>
       <Modal
         animationType="slide"
         transparent={true}
@@ -213,5 +212,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  item: {
+    height: 100,
+    width: 159,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    margin: 2,
+    // marginBottom: 50,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 1.25,
+
+    elevation: 5,
+    backgroundColor: "#c39e81",
   },
 });

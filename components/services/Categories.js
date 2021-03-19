@@ -40,35 +40,27 @@ const Categories = () => {
       <Tabs renderTabBar={Device.isTablet ? null : () => <ScrollableTab />}>
         <Tab heading="Packages">
           <PackageList />
-          <AddPackage />
         </Tab>
         <Tab heading="Offers">
           <OfferList />
-          <AddOffer />
         </Tab>
         <Tab heading="Hair">
           <Service category="Hair" />
-          <AddService />
         </Tab>
         <Tab heading="Makeup">
           <Service category="Makeup" />
-          <AddService />
         </Tab>
         <Tab heading="Nails">
           <Service category="Nails" />
-          <AddService />
         </Tab>
         <Tab heading="Body">
           <Service category="body" />
-          <AddService />
         </Tab>
         <Tab heading="Massage">
           <Service category="Massage Spa" />
-          <AddService />
         </Tab>
         <Tab heading="Products">
           <ProductList />
-          <AddProduct />
         </Tab>
       </Tabs>
     </View>
