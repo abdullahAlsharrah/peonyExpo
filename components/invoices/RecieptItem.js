@@ -3,15 +3,27 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const RecieptItem = ({ item }) => {
-  // console.log(item.time);
+  console.log(
+    item.serviceId || item.productId || item.apackageId || item.offerId
+  );
 
   return (
     <View style={styles.box}>
-      <View style={styles.item}>
-        <Text style={{ textAlign: "center", fontSize: 20 }}>{item.name}</Text>
-      </View>
-      <Text style={styles.item1}>
-        {item.time ? (item.time < 4 ? 0 : item.price) : item.price}
+      <Text style={styles.item}>{item.name}</Text>
+      <Text
+        style={[
+          styles.item1,
+          {
+            color: item.time ? (item.time < 4 ? "gray" : "black") : "black",
+            textDecorationLine: item.time
+              ? item.time < 4
+                ? "line-through"
+                : null
+              : null,
+          },
+        ]}
+      >
+        {item.time ? (item.time < 4 ? item.nprice : item.price) : item.price}
       </Text>
     </View>
   );
@@ -20,17 +32,21 @@ const RecieptItem = ({ item }) => {
 export default observer(RecieptItem);
 const styles = StyleSheet.create({
   item: {
-    borderRightWidth: 2,
-    width: "50%",
+    fontSize: 15,
+    textAlign: "left",
+    fontWeight: "600",
+    width: "70%",
   },
   item1: {
     // borderWidth: 2,
-    width: "50%",
-    textAlign: "center",
-    fontSize: 20,
+    fontSize: 15,
+    textAlign: "right",
+    fontWeight: "600",
+    width: "30%",
   },
   box: {
     flexDirection: "row",
-    borderBottomWidth: 2,
+    marginHorizontal: 20,
+    marginBottom: 4,
   },
 });

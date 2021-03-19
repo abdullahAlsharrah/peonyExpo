@@ -11,14 +11,22 @@ const PackageItem = ({ apackage }) => {
         ? {
             apackageId: apackage.id,
             price: apackage.price,
+            name: apackage.name,
+            time: apackage.time,
           }
-        : { apackageId: apackage.id, price: 0 };
+        : {
+            apackageId: apackage.id,
+            name: apackage.name,
+            price: 0,
+            nprice: apackage.price,
+            time: apackage.time,
+          };
 
     const foundItem = invoiceStore.items.find(
       (item) => item.apackageId === newItem.apackageId
     );
     if (foundItem) {
-      invoiceStore.removeItemFromInvoice(foundItem.apackageId);
+      invoiceStore.removeItemFromInvoice(`p${foundItem.apackageId}`);
       apackageStore.unUpdatePackage(foundItem.apackageId);
     } else if (apackage.time > 0) {
       invoiceStore.addItemToInvoice(newItem);

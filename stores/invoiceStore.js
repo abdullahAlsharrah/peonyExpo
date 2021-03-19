@@ -28,14 +28,15 @@ class InvoiceStore {
 
     return total;
   }
+
   removeItemFromInvoice = async (itemId) => {
     runInAction(() => {
       this.items = this.items.filter(
         (item) =>
-          item.serviceId !== itemId &&
-          item.apackageId !== itemId &&
-          item.productId !== itemId &&
-          item.offerId !== itemId
+          `s${item.serviceId}` !== itemId &&
+          `p${item.apackageId}` !== itemId &&
+          `pr${item.productId}` !== itemId &&
+          `o${item.offerId}` !== itemId
       );
     });
   };
@@ -59,7 +60,11 @@ class InvoiceStore {
 
   checkout = async () => {
     try {
-      const invoice = { items: this.items, phoneNumber: this.phoneNumber };
+      const invoice = {
+        items: this.items,
+        price: this.totalPrice,
+        phoneNumber: this.phoneNumber,
+      };
       await instance.post("/invoices", invoice);
       runInAction(() => {
         this.items = [];

@@ -35,12 +35,9 @@ const Invoices = ({ month }) => {
   ));
   const totalInvoicesPrice = () => {
     let total = 0;
-    list.map(
-      (invoice) =>
-        invoice.services.forEach((service) => {
-          total += service.price;
-        }) & invoice.products.forEach((product) => (total += product.price))
-    );
+    list.forEach((invoice) => {
+      total += invoice.price;
+    });
 
     return total;
   };
@@ -63,31 +60,41 @@ const Invoices = ({ month }) => {
 
   return (
     <Content style={{ marginLeft: -10 }}>
-      <View
-        style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}
-      >
-        <Text style={[styles.total, { color: "green" }]}>
-          Incomes: {totalInvoicesPrice()} KD
-        </Text>
-        <Text style={[styles.total, { color: "red" }]}>
-          Costs: {totalCost()} KD
-        </Text>
-        <Text
-          style={{
-            color:
-              totalCost() === totalInvoicesPrice()
-                ? "black"
-                : totalCost() < totalInvoicesPrice()
-                ? "green"
-                : "red",
-            textAlign: "center",
-            fontSize: 20,
-            width: "33%",
-          }}
+      {month ? (
+        <View
+          style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}
         >
-          Total: {totalInvoicesPrice() - totalCost()} KD
+          <Text style={styles.total}>
+            Incomes:{" "}
+            <Text style={{ color: "green" }}>{totalInvoicesPrice()} KD</Text>
+          </Text>
+          <Text style={styles.total}>
+            Costs: <Text style={{ color: "red" }}>{totalCost()} KD</Text>
+          </Text>
+          <Text style={styles.total}>
+            Total:{" "}
+            <Text
+              style={{
+                color:
+                  totalCost() === totalInvoicesPrice()
+                    ? "black"
+                    : totalCost() < totalInvoicesPrice()
+                    ? "green"
+                    : "red",
+                textAlign: "center",
+                fontSize: 20,
+                width: "33%",
+              }}
+            >
+              {totalInvoicesPrice() - totalCost()} KD
+            </Text>
+          </Text>
+        </View>
+      ) : (
+        <Text style={styles.totalInvoices}>
+          Today's Incomes: {totalInvoicesPrice()} KD
         </Text>
-      </View>
+      )}
       <List>
         <ListItem>
           <Text style={styles.text}>No.</Text>
@@ -110,5 +117,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     width: "33%",
+  },
+  totalInvoices: {
+    textAlign: "center",
+    fontSize: 20,
   },
 });

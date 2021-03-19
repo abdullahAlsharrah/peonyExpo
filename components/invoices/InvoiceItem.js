@@ -30,7 +30,7 @@ const InvoiceItem = ({ invoice }) => {
         {invoice.services.length} : {invoice.products.length}
       </Text>
 
-      <Text style={styles.text}>{totalInvoicePrice()} KD</Text>
+      <Text style={styles.text}>{invoice.price} KD</Text>
     </ListItem>
   );
 };

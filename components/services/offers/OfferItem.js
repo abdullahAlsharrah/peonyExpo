@@ -8,12 +8,13 @@ const OfferItem = ({ offer }) => {
     const newItem = {
       offerId: offer.id,
       price: offer.price,
+      name: offer.name,
     };
 
     const foundItem = invoiceStore.items.find(
       (item) => item.offerId === newItem.offerId
     );
-    if (foundItem) invoiceStore.removeItemFromInvoice(foundItem.offerId);
+    if (foundItem) invoiceStore.removeItemFromInvoice(`o${foundItem.offerId}`);
     else invoiceStore.addItemToInvoice(newItem);
   };
 

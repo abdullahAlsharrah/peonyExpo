@@ -10,11 +10,13 @@ const ProductItem = ({ product }) => {
     const newItem = {
       productId: product.id,
       price: product.price,
+      name: product.name,
     };
     const foundItem = invoiceStore.items.find(
       (item) => item.productId === newItem.productId
     );
-    if (foundItem) invoiceStore.removeItemFromInvoice(foundItem.productId);
+    if (foundItem)
+      invoiceStore.removeItemFromInvoice(`pr${foundItem.productId}`);
     else invoiceStore.addItemToInvoice(newItem);
   };
 

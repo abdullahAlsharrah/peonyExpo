@@ -20,7 +20,7 @@ const Categories = () => {
         Device.isTablet
           ? {
               flex: 1,
-              marginTop: Device.isTablet ? 0 : 50,
+              marginTop: Device.isTablet ? -1 : 50,
               shadowColor: "black",
               shadowOffset: {
                 width: 0,
@@ -46,16 +46,24 @@ const Categories = () => {
           <OfferList />
           <AddOffer />
         </Tab>
-        <Tab heading="Nails">
-          <Service category="Nail" />
-          <AddService />
-        </Tab>
         <Tab heading="Hair">
           <Service category="Hair" />
           <AddService />
         </Tab>
+        <Tab heading="Makeup">
+          <Service category="Makeup" />
+          <AddService />
+        </Tab>
+        <Tab heading="Nails">
+          <Service category="Nails" />
+          <AddService />
+        </Tab>
         <Tab heading="Body">
-          <Service category="Body" />
+          <Service category="body" />
+          <AddService />
+        </Tab>
+        <Tab heading="Massage">
+          <Service category="Massage Spa" />
           <AddService />
         </Tab>
         <Tab heading="Products">

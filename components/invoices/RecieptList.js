@@ -1,14 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
 import invoiceStore from "../../stores/invoiceStore";
-import serviceStore from "../../stores/serviceStore";
-import { Button, Input, Spinner } from "native-base";
-import productStore from "../../stores/productStore";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
-import apackageStore from "../../stores/packageStore";
-import offerStore from "../../stores/offerStore";
 
 const RecieptList = () => {
   const handleCheckout = () => {
@@ -19,44 +14,48 @@ const RecieptList = () => {
   const handleCancel = () => {
     invoiceStore.cancelCheckout();
   };
-
+  console.log(invoiceStore.items);
   const recieptServiceList = invoiceStore.items
-    .map((item) => ({
-      ...serviceStore.services.find((service) => service.id === item.serviceId),
-      ...productStore.products.find((product) => product.id === item.productId),
-      ...offerStore.offers.find((offer) => offer.id === item.offerId),
-      ...apackageStore.apackages.find(
-        (apackage) => apackage.id === item.apackageId
-      ),
-    }))
-    .map((item) => <RecieptItem item={item} key={item.id} />);
+    // .map((item) => ({
+    //   ...serviceStore.services.find((service) => service.id === item.serviceId),
+    //   ...productStore.products.find((product) => product.id === item.productId),
+    //   ...offerStore.offers.find((offer) => offer.id === item.offerId),
+    //   ...apackageStore.apackages.find(
+    //     (apackage) => apackage.id === item.apackageId
+    //   ),
+    // }))
+    .map((item) => (
+      <RecieptItem
+        item={item}
+        key={
+          item.serviceId || item.productId || item.apackageId || item.offerId
+        }
+      />
+    ));
   const [phoneNumber, setPhoneNumber] = React.useState();
 
   return (
     <View style={styles.view}>
       <View style={styles.container}>
-        <View style={styles.total}>
-          <View style={styles.text}>
-            <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
-              Total
-            </Text>
-          </View>
-          <Text style={[styles.text1, { color: "tomato" }]}>
-            {invoiceStore.totalPrice}
-          </Text>
-        </View>
         <View style={styles.title}>
-          <View style={styles.text}>
-            <Text style={{ textAlign: "center", fontSize: 20, color: "#555" }}>
-              Phone Number:
-            </Text>
-          </View>
+          <Text
+            style={{
+              textAlign: "left",
+              fontSize: 15,
+              color: "#555",
+              fontWeight: "700",
+              width: "50%",
+            }}
+          >
+            Phone Number:
+          </Text>
           <TextInput
             keyboardType="number-pad"
             maxLength={8}
             style={{
-              textAlign: "center",
-              fontSize: 20,
+              marginLeft: -15,
+              textAlign: "left",
+              fontSize: 15,
               width: "50%",
             }}
             value={phoneNumber}
@@ -64,32 +63,37 @@ const RecieptList = () => {
           />
         </View>
         <View style={styles.title}>
-          <View style={styles.text}>
-            <Text style={{ textAlign: "center", fontSize: 25, color: "#555" }}>
-              Service
-            </Text>
-          </View>
-          <Text style={[styles.text1, { color: "#555" }]}>Price KD</Text>
+          <Text
+            style={{
+              textAlign: "left",
+              fontSize: 16,
+              color: "#555",
+              fontWeight: "700",
+              width: "70%",
+            }}
+          >
+            Service
+          </Text>
+          <Text style={[styles.text1, { color: "#555", width: "30%" }]}>
+            Price KD
+          </Text>
         </View>
 
         <ScrollView>
-          <View>{recieptServiceList}</View>
+          <View style={{ marginBottom: 70 }}>{recieptServiceList}</View>
         </ScrollView>
-        <View
-          style={{
-            position: "absolute",
-            bottom: 5,
-            flexDirection: "row",
-            backgroundColor: "white",
-          }}
-        >
-          <Button style={styles.button} onPress={handleCheckout}>
-            <Text style={styles.checkoutText}>Check Out</Text>
-          </Button>
-          <Button style={styles.button1} onPress={handleCancel}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </Button>
+        <View style={styles.button}>
+          <Text style={{ color: "white" }}>Total</Text>
+          <Button
+            title={`${invoiceStore.totalPrice} KD`}
+            color={"white"}
+            onPress={handleCheckout}
+          />
         </View>
+
+        {/* <Button style={styles.button1} onPress={handleCancel}>
+            <Text style={styles.cancelText}>Cancel</Text>
+          </Button> */}
       </View>
     </View>
   );
@@ -98,9 +102,9 @@ const RecieptList = () => {
 export default observer(RecieptList);
 const styles = StyleSheet.create({
   text1: {
-    textAlign: "center",
-    width: "50%",
-    fontSize: 25,
+    textAlign: "right",
+    fontSize: 15,
+    fontWeight: "700",
   },
   text: {
     borderRightWidth: 2,
@@ -118,16 +122,19 @@ const styles = StyleSheet.create({
     // borderTopWidth: 2,
   },
   title: {
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     flexDirection: "row",
+    marginBottom: 10,
+    marginHorizontal: 20,
   },
 
   container: {
-    padding: 5,
+    padding: 10,
+    paddingTop: 20,
     backgroundColor: "white",
     // borderColor: "gray",
     // borderWidth: 2,
-    height: "90%",
+    height: "100%",
     marginVertical: 10,
     marginHorizontal: 10,
     shadowColor: "black",
@@ -144,15 +151,16 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   button: {
-    width: 150,
-    backgroundColor: "transparent",
-    borderWidth: 2,
-    borderColor: "black",
+    fontSize: 20,
+    backgroundColor: "blue",
+    position: "absolute",
+    bottom: 0,
+    width: "107%",
+    backgroundColor: "#2a9df4",
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
-    left: 10,
-    marginRight: 5,
+    height: 70,
   },
   button1: {
     width: 150,

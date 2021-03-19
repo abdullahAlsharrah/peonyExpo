@@ -9,11 +9,13 @@ const ServiceItem = ({ service, handleopen }) => {
     const newItem = {
       serviceId: service.id,
       price: service.price,
+      name: service.name,
     };
     const foundItem = invoiceStore.items.find(
       (item) => item.serviceId === newItem.serviceId
     );
-    if (foundItem) invoiceStore.removeItemFromInvoice(foundItem.serviceId);
+    if (foundItem)
+      invoiceStore.removeItemFromInvoice(`s${foundItem.serviceId}`);
     else invoiceStore.addItemToInvoice(newItem);
   };
 
@@ -30,13 +32,13 @@ const ServiceItem = ({ service, handleopen }) => {
         <View
           style={[
             styles.item,
-            { backgroundColor: foundItem ? "tomato" : "white" },
+            { backgroundColor: foundItem ? "tomato" : "#c39e81" },
           ]}
         >
           <Text
             style={{
               fontSize: 20,
-              color: foundItem ? "white" : "black",
+              color: foundItem ? "white" : "white",
               textAlign: "center",
             }}
           >
@@ -51,22 +53,22 @@ const ServiceItem = ({ service, handleopen }) => {
 export default observer(ServiceItem);
 const styles = StyleSheet.create({
   item: {
-    height: 50,
-    width: 100,
-    borderRadius: 8,
+    height: 100,
+    width: 159,
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-    margin: 10,
-    marginBottom: 50,
+    margin: 2,
+    // marginBottom: 50,
     shadowColor: "black",
     shadowOffset: {
       width: 0,
       height: 0,
     },
     shadowOpacity: 0.8,
-    shadowRadius: 3.25,
+    shadowRadius: 1.25,
 
     elevation: 5,
+    backgroundColor: "#c39e81",
   },
 });
