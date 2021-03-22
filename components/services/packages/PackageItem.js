@@ -53,7 +53,7 @@ const PackageItem = ({ apackage }) => {
       </Text>
 
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
-        {service.phoneNumber}
+        {apackage.phoneNumber}
       </Text>
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
         {service.time}

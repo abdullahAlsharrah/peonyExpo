@@ -14,8 +14,8 @@ class ServiceStore {
     try {
       // runInAction(() => {
       const response = await instance.get("/services");
-      this.services = response.data;
       runInAction(() => {
+        this.services = response.data;
         this.loading = false;
       }); //   });
     } catch (error) {

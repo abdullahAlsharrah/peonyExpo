@@ -14,8 +14,8 @@ const RecieptList = () => {
   };
   const handleCancel = () => {
     invoiceStore.cancelCheckout();
+    setPhoneNumber();
   };
-  console.log(invoiceStore.items);
   const recieptServiceList = invoiceStore.items
     // .map((item) => ({
     //   ...serviceStore.services.find((service) => service.id === item.serviceId),
@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     position: "absolute",
     bottom: 0,
-    width: "107%",
+    // left: 1,
+    width: "107.5%",
     backgroundColor: "#2a9df4",
     alignContent: "center",
     alignItems: "center",

@@ -3,10 +3,6 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const RecieptItem = ({ item }) => {
-  console.log(
-    item.serviceId || item.productId || item.apackageId || item.offerId
-  );
-
   return (
     <View style={styles.box}>
       <Text style={styles.item}>{item.name}</Text>

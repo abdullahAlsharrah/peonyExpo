@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   },
   box: {
     width: "70%",
+    marginLeft: -5,
     backgroundColor: "transparent",
     borderWidth: 2,
     borderColor: "transparent",

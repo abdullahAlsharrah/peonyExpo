@@ -35,7 +35,8 @@ const AddPackage = () => {
                   {
                     height: 40,
                     position: "absolute",
-                    bottom: 0,
+                    bottom: -1.8,
+                    left: -2,
                     width: "100%",
                     backgroundColor: "#2a9df4",
                   },

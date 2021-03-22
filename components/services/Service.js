@@ -1,4 +1,5 @@
 import { observer } from "mobx-react";
+import { Spinner } from "native-base";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -7,6 +8,7 @@ import MenuItem from "../Admin/Menu/MenuItem";
 import ServiceItem from "./ServiceItem";
 // import services from "./services";
 const Service = ({ category, handleopen, menu }) => {
+  if (serviceStore.loading) return <Spinner />;
   const list = handleopen
     ? serviceStore.services
     : serviceStore.services.filter((service) => service.category === category);

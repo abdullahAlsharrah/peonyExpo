@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import apackageStore from "../../../stores/packageStore";
+import serviceStore from "../../../stores/serviceStore";
 import SearchBarr from "../../SearchBar/SearchBarr";
 import PackageItem from "./PackageItem";
 // import packages from "./packages";
@@ -21,15 +22,17 @@ const PackageList = () => {
   return (
     <>
       <SearchBarr setQuery={setQuery} query={query} />
-      <List style={{ flex: 1 }}>
-        <ListItem>
-          <Text style={styles.text}>Package</Text>
-          <Text style={styles.text}>PhoneNumber</Text>
-          <Text style={styles.text}>Time</Text>
-          <Text style={styles.text}> Price KD</Text>
-        </ListItem>
-        {apackageList}
-      </List>
+      <ScrollView>
+        <List style={{ marginLeft: -20, flex: 1, marginBottom: 45 }}>
+          <ListItem style={{ backgroundColor: "#c39e81" }}>
+            <Text style={styles.text}>Package</Text>
+            <Text style={styles.text}>PhoneNumber</Text>
+            <Text style={styles.text}>Time</Text>
+            <Text style={styles.text}> Price KD</Text>
+          </ListItem>
+          {apackageList}
+        </List>
+      </ScrollView>
     </>
   );
 };

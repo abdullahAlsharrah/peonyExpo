@@ -26,7 +26,7 @@ const Menu = () => {
           Nails {"   "}أظافر
         </Text>
       </View>
-      <View style={[styles.container, { marginTop: -200 }]}>
+      <View style={[styles.container, { marginTop: -190 }]}>
         <Service category="Nails" menu={true} />
       </View>
     </>

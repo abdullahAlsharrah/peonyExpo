@@ -21,10 +21,12 @@ import Drawer from "../buttons/Drawer";
 import AddItem from "../Admin/AddItem";
 import { RefreshControl, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import HairRemovalMenu from "../Admin/Menu/HairRemovalMenu";
 import invoiceStore from "../../stores/invoiceStore";
 import productStore from "../../stores/productStore";
 import apackageStore from "../../stores/packageStore";
-import HairRemovalMenu from "../Admin/Menu/HairRemovalMenu";
+import serviceStore from "../../stores/serviceStore";
+import offerStore from "../../stores/offerStore";
 
 const AdminStack = createStackNavigator();
 const RootNavigator = () => {
@@ -35,39 +37,55 @@ const RootNavigator = () => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    invoiceStore.fetchInvoices;
-    productStore.fetchProducts;
-    apackageStore.fetchPackages;
-  });
+    invoiceStore.fetchInvoices();
+    productStore.fetchProducts();
+    apackageStore.fetchPackages();
+    serviceStore.fetchServices();
+    offerStore.fetchOffers();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   const PackageScreen = () => (
-    <AdminStack.Navigator>
-      <AdminStack.Screen
-        name="Home"
-        component={ServicesScreen}
-        options={{
-          header: () => false,
-        }}
-      />
-      <AdminStack.Screen
-        name="AddPackage"
-        component={AddPackage}
-        options={{
-          header: () => false,
-        }}
-      />
-    </AdminStack.Navigator>
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <AdminStack.Navigator>
+        <AdminStack.Screen
+          name="Home"
+          component={ServicesScreen}
+          options={{
+            header: () => false,
+          }}
+        />
+        <AdminStack.Screen
+          name="AddPackage"
+          component={AddPackage}
+          options={{
+            header: () => false,
+          }}
+        />
+      </AdminStack.Navigator>
+    </ScrollView>
   );
   const ReciptsScreen = () => (
-    <AdminStack.Navigator>
-      <AdminStack.Screen
-        name="Today's Reciepts"
-        component={Invoices}
-        options={{
-          header: () => false,
-        }}
-      />
-      {/* <AdminStack.Screen name="AddOffer" component={AddOffer} /> */}
-    </AdminStack.Navigator>
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <AdminStack.Navigator>
+        <AdminStack.Screen
+          name="Today's Reciepts"
+          component={Invoices}
+          options={{
+            header: () => false,
+          }}
+        />
+      </AdminStack.Navigator>
+    </ScrollView>
   );
   const MonthlyReciptsScreen = () => (
     <AdminStack.Navigator>
@@ -182,7 +200,6 @@ const RootNavigator = () => {
         <Mobile.Screen name="Cost" component={CostScreen} />
         <Mobile.Screen name="Employees" component={EmployeeScreen} />
         <Mobile.Screen name="Menu" component={MenuScreen} />
-        <Mobile.Screen name="Add Item" component={AddItem} />
       </Mobile.Navigator>
     </ScrollView>
   );
@@ -217,14 +234,13 @@ const RootNavigator = () => {
       {Device.isTablet ? (
         <>
           <Service.Screen name="Home" component={PackageScreen} />
-          <Service.Screen name="Reciepts" component={Invoices} />
+          <Service.Screen name="Reciepts" component={ReciptsScreen} />
           <Service.Screen name="Menu" component={MenuTabScreen} />
         </>
       ) : (
         <>
           <Service.Screen name="Home" component={MobileDrawer} />
           <Service.Screen name="Add Item" component={AddItem} />
-          <Service.Screen name="Menu" component={Menu} />
         </>
       )}
     </Service.Navigator>

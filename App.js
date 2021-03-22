@@ -7,8 +7,10 @@ import { Text } from "native-base";
 
 export default function App() {
   return (
+    // <SafeAreaView style={{ flex: 1 }}>
     <NavigationContainer>
       <RootNavigator />
     </NavigationContainer>
+    /* </SafeAreaView> */
   );
 }

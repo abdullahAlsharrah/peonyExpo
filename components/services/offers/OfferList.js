@@ -25,15 +25,17 @@ const OfferList = () => {
   //   };
 
   return (
-    <List>
-      <ListItem>
-        <Text style={styles.text}>Offer</Text>
-        <Text style={styles.text}>Offer Services</Text>
+    <ScrollView>
+      <List style={{ marginLeft: -20 }}>
+        <ListItem style={{ backgroundColor: "#c39e81" }}>
+          <Text style={styles.text}>Offer</Text>
+          <Text style={styles.text}>Offer Services</Text>
 
-        <Text style={styles.text}> Price KD</Text>
-      </ListItem>
-      {offersList}
-    </List>
+          <Text style={styles.text}> Price KD</Text>
+        </ListItem>
+        {offersList}
+      </List>
+    </ScrollView>
   );
 };
 export default observer(OfferList);
