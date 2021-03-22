@@ -1,4 +1,5 @@
 import { observer } from "mobx-react";
+import { ListItem } from "native-base";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import invoiceStore from "../../../stores/invoiceStore";
@@ -40,26 +41,28 @@ const PackageItem = ({ apackage }) => {
   );
 
   return (
-    <TouchableOpacity onPress={handleSubmit}>
-      <View>
-        <View
-          style={[
-            styles.item,
-            { backgroundColor: foundItem ? "tomato" : "white" },
-          ]}
-        >
-          <Text
-            style={{
-              fontSize: 20,
-              color: foundItem ? "white" : "black",
-              textAlign: "center",
-            }}
-          >
-            {apackage.name}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+    <ListItem
+      style={{
+        flexDirection: "row",
+        backgroundColor: foundItem ? "tomato" : "white",
+      }}
+      onPress={handleSubmit}
+    >
+      <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
+        {apackage.name}
+      </Text>
+
+      <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
+        {service.phoneNumber}
+      </Text>
+      <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
+        {service.time}
+      </Text>
+
+      <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
+        {apackage.price} KD
+      </Text>
+    </ListItem>
   );
 };
 
@@ -84,4 +87,5 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
+  text: { textAlign: "center", width: "33%" },
 });

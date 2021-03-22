@@ -19,9 +19,26 @@ import HairMenu from "../Admin/Menu/HairMenu";
 import MakeupMenu from "../Admin/Menu/MakeupMenu";
 import Drawer from "../buttons/Drawer";
 import AddItem from "../Admin/AddItem";
+import { RefreshControl, StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import invoiceStore from "../../stores/invoiceStore";
+import productStore from "../../stores/productStore";
+import apackageStore from "../../stores/packageStore";
+import HairRemovalMenu from "../Admin/Menu/HairRemovalMenu";
 
 const AdminStack = createStackNavigator();
 const RootNavigator = () => {
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    invoiceStore.fetchInvoices;
+    productStore.fetchProducts;
+    apackageStore.fetchPackages;
+  });
   const PackageScreen = () => (
     <AdminStack.Navigator>
       <AdminStack.Screen
@@ -89,14 +106,7 @@ const RootNavigator = () => {
     <AdminStack.Navigator>
       <AdminStack.Screen
         name="Menu"
-        component={MenuTab}
-        options={{
-          header: () => false,
-        }}
-      />
-      <AdminStack.Screen
-        name="AddPackage"
-        component={AddPackage}
+        component={MenuTabScreen}
         options={{
           header: () => false,
         }}
@@ -105,57 +115,76 @@ const RootNavigator = () => {
   );
 
   const Service = createBottomTabNavigator();
-  const Menu = createBottomTabNavigator();
+  const MenuTab = createBottomTabNavigator();
 
-  const MenuTab = () => (
-    <Menu.Navigator
-      tabBarOptions={{
-        pressColor: "gray", //for click (ripple) effect color
-        style: {
-          position: "absolute",
-          top: 0,
-          backgroundColor: "#c39e81",
-          justifyContent: "center",
-          alignItems: "center",
-          alignContent: "center",
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.8,
-          shadowRadius: 5,
-          elevation: 5, //color you want to change
-        },
-        activeTintColor: "black",
-        inactiveTintColor: "white",
-        labelStyle: {
-          fontSize: Device.isTablet ? 20 : 15,
-          marginBottom: -15,
-        },
-      }}
+  const MenuTabScreen = () => (
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     >
-      <Menu.Screen name="Hammam" component={HammamMenu} />
-      <Menu.Screen name="Massage" component={MassageMenu} />
-      <Menu.Screen name="Nails" component={NailMenu} />
-      <Menu.Screen name="Hair" component={HairMenu} />
-      <Menu.Screen name="Makeup" component={MakeupMenu} />
-    </Menu.Navigator>
+      <MenuTab.Navigator
+        tabBarOptions={{
+          pressColor: "gray", //for click (ripple) effect color
+          style: {
+            position: "absolute",
+            top: 0,
+            backgroundColor: "#c39e81",
+            justifyContent: "center",
+            alignItems: "center",
+            alignContent: "center",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.8,
+            shadowRadius: 5,
+            elevation: 5, //color you want to change
+          },
+          activeTintColor: "black",
+          inactiveTintColor: "white",
+          labelStyle: {
+            fontSize: Device.isTablet ? 20 : 15,
+            marginBottom: -15,
+          },
+        }}
+      >
+        <MenuTab.Screen name="Hammam" component={HammamMenu} />
+        <MenuTab.Screen name="Massage" component={MassageMenu} />
+        <MenuTab.Screen name="Nails" component={NailMenu} />
+        <MenuTab.Screen name="Hair" component={HairMenu} />
+        <MenuTab.Screen name="Makeup" component={MakeupMenu} />
+        <MenuTab.Screen name="Hair Removal" component={HairRemovalMenu} />
+      </MenuTab.Navigator>
+    </ScrollView>
   );
   const Mobile = createDrawerNavigator();
   const MobileDrawer = () => (
-    <Mobile.Navigator
-      drawerContentOptions={{
-        activeTintColor: "black",
-        activeBackgroundColor: "#c39e81",
-      }}
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     >
-      <Mobile.Screen name="Today's Reciepts" component={ReciptsScreen} />
-      <Mobile.Screen name="Monthly Reciepts" component={MonthlyReciptsScreen} />
-      <Mobile.Screen name="Cost" component={CostScreen} />
-      <Mobile.Screen name="Employees" component={EmployeeScreen} />
-      <Mobile.Screen name="Menu" component={MenuScreen} />
-    </Mobile.Navigator>
+      <Mobile.Navigator
+        drawerContentOptions={{
+          activeTintColor: "black",
+          activeBackgroundColor: "#c39e81",
+        }}
+      >
+        <Mobile.Screen name="Today's Reciepts" component={ReciptsScreen} />
+        <Mobile.Screen
+          name="Monthly Reciepts"
+          component={MonthlyReciptsScreen}
+        />
+        <Mobile.Screen name="Cost" component={CostScreen} />
+        <Mobile.Screen name="Employees" component={EmployeeScreen} />
+        <Mobile.Screen name="Menu" component={MenuScreen} />
+        <Mobile.Screen name="Add Item" component={AddItem} />
+      </Mobile.Navigator>
+    </ScrollView>
   );
   return (
     <Service.Navigator
@@ -168,6 +197,7 @@ const RootNavigator = () => {
           alignItems: "center",
           alignContent: "center",
           shadowColor: "#000",
+          // height: 20,
           shadowOffset: {
             width: 0,
             height: 2,
@@ -188,12 +218,13 @@ const RootNavigator = () => {
         <>
           <Service.Screen name="Home" component={PackageScreen} />
           <Service.Screen name="Reciepts" component={Invoices} />
-          <Service.Screen name="Menu" component={MenuTab} />
+          <Service.Screen name="Menu" component={MenuTabScreen} />
         </>
       ) : (
         <>
           <Service.Screen name="Home" component={MobileDrawer} />
           <Service.Screen name="Add Item" component={AddItem} />
+          <Service.Screen name="Menu" component={Menu} />
         </>
       )}
     </Service.Navigator>
@@ -201,3 +232,11 @@ const RootNavigator = () => {
 };
 
 export default observer(RootNavigator);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+  },
+});

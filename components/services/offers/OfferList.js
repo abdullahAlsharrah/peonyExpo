@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { Spinner, View } from "native-base";
+import { List, ListItem, Spinner, Text, View } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,9 +25,15 @@ const OfferList = () => {
   //   };
 
   return (
-    <ScrollView>
-      <View style={styles.box}>{offersList}</View>
-    </ScrollView>
+    <List>
+      <ListItem>
+        <Text style={styles.text}>Offer</Text>
+        <Text style={styles.text}>Offer Services</Text>
+
+        <Text style={styles.text}> Price KD</Text>
+      </ListItem>
+      {offersList}
+    </List>
   );
 };
 export default observer(OfferList);
@@ -39,5 +45,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
+  },
+  text: { textAlign: "center", width: "33%" },
+  totalInvoices: {
+    textAlign: "center",
+    fontSize: 20,
   },
 });

@@ -1,4 +1,5 @@
 import { observer } from "mobx-react";
+import { List, ListItem, Text } from "native-base";
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -20,9 +21,15 @@ const PackageList = () => {
   return (
     <>
       <SearchBarr setQuery={setQuery} query={query} />
-      <ScrollView>
-        <View style={styles.box}>{apackageList}</View>
-      </ScrollView>
+      <List style={{ flex: 1 }}>
+        <ListItem>
+          <Text style={styles.text}>Package</Text>
+          <Text style={styles.text}>PhoneNumber</Text>
+          <Text style={styles.text}>Time</Text>
+          <Text style={styles.text}> Price KD</Text>
+        </ListItem>
+        {apackageList}
+      </List>
     </>
   );
 };
@@ -37,4 +44,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     // marginLeft: 15,
   },
+  text: { textAlign: "center", width: "25%" },
 });

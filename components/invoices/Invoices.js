@@ -82,7 +82,7 @@ const Invoices = ({ month }) => {
                     ? "green"
                     : "red",
                 textAlign: "center",
-                fontSize: 20,
+                fontSize: 15,
                 width: "33%",
               }}
             >
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   text: { textAlign: "center", width: "25%" },
   total: {
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 15,
     width: "33%",
   },
   totalInvoices: {

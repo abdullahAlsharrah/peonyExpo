@@ -4,6 +4,7 @@ import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
 import invoiceStore from "../../stores/invoiceStore";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { Icon } from "native-base";
 
 const RecieptList = () => {
   const handleCheckout = () => {
@@ -82,18 +83,34 @@ const RecieptList = () => {
         <ScrollView>
           <View style={{ marginBottom: 70 }}>{recieptServiceList}</View>
         </ScrollView>
-        <View style={styles.button}>
+        <View
+          style={[
+            styles.button,
+            {
+              backgroundColor:
+                invoiceStore.items.length === 0 ? "gray" : "#2a9df4",
+            },
+          ]}
+        >
           <Text style={{ color: "white" }}>Total</Text>
           <Button
+            disabled={invoiceStore.items.length === 0 ? true : false}
             title={`${invoiceStore.totalPrice} KD`}
             color={"white"}
             onPress={handleCheckout}
           />
         </View>
 
-        {/* <Button style={styles.button1} onPress={handleCancel}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </Button> */}
+        <Icon
+          name="close"
+          style={{
+            color: "tomato",
+            position: "absolute",
+            top: 3,
+            right: 2,
+          }}
+          onPress={handleCancel}
+        />
       </View>
     </View>
   );
@@ -152,7 +169,6 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 20,
-    backgroundColor: "blue",
     position: "absolute",
     bottom: 0,
     width: "107%",

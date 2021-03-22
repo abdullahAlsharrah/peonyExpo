@@ -3,12 +3,8 @@ import { Button, Icon, Input, Item, Label } from "native-base";
 import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
 import Device from "react-native-device-detection";
-import DropDownPicker from "react-native-dropdown-picker";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import invoiceStore from "../../../stores/invoiceStore";
 import apackageStore from "../../../stores/packageStore";
-import packageStore from "../../../stores/packageStore";
-import Service from "../Service";
 import DropDownServList from "../ServiceDropList";
 const AddPackage = () => {
   const [service, setService] = React.useState({});
@@ -31,8 +27,25 @@ const AddPackage = () => {
   return (
     <>
       <TouchableOpacity onPress={handleopen}>
-        <View style={styles.item}>
-          <Text>Add Package</Text>
+        <View
+          style={
+            Device.isTablet
+              ? [
+                  styles.item,
+                  {
+                    height: 40,
+                    position: "absolute",
+                    bottom: 0,
+                    width: "100%",
+                    backgroundColor: "#2a9df4",
+                  },
+                ]
+              : styles.item
+          }
+        >
+          <Text style={{ color: Device.isTablet ? "white" : "black" }}>
+            Add Package
+          </Text>
         </View>
       </TouchableOpacity>
       <Modal
