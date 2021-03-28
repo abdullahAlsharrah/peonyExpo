@@ -20,7 +20,8 @@ class InvoiceStore {
       (item) =>
         item.serviceId === newItem.serviceId &&
         item.offerId === newItem.offerId &&
-        item.productId === newItem.productId
+        item.productId === newItem.productId &&
+        item.apackageId === newItem.apackageId
     );
     if (foundItem) {
       (foundItem.quantity = foundItem.quantity + 1),
