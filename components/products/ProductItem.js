@@ -6,25 +6,28 @@ import invoiceStore from "../../stores/invoiceStore";
 import Device from "react-native-device-detection";
 
 const ProductItem = ({ product }) => {
-  const handleSubmit = () => {
-    const newItem = {
-      productId: product.id,
-      price: product.price,
-      name: product.name,
-    };
+  const newItem = {
+    productId: product.id,
+    price: product.price,
+    name: product.name,
+  };
+  const handleAdd = () => {
+    invoiceStore.addItemToInvoice(newItem);
+  };
+  const handleRemove = () => {
     const foundItem = invoiceStore.items.find(
       (item) => item.productId === newItem.productId
     );
-    if (foundItem)
+    if (foundItem) {
       invoiceStore.removeItemFromInvoice(`pr${foundItem.productId}`);
-    else invoiceStore.addItemToInvoice(newItem);
+    } else null;
   };
 
   const foundItem = invoiceStore.items.find(
     (item) => item.productId === product.id
   );
   return (
-    <TouchableOpacity onPress={handleSubmit}>
+    <TouchableOpacity onPress={handleAdd} onLongPress={handleRemove}>
       <View
         style={[
           styles.box,

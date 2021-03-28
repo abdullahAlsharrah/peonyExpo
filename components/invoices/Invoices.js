@@ -15,7 +15,7 @@ import employeeStore from "../../stores/employeeStore";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
 
-const Invoices = ({ month }) => {
+const Invoices = ({ month, navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
   const d = new Date();
 
@@ -31,7 +31,7 @@ const Invoices = ({ month }) => {
           (new Date(invoice.createdAt).getFullYear() === d.getFullYear())
       );
   const invoicesList = list.map((invoice) => (
-    <InvoiceItem invoice={invoice} key={invoice.id} />
+    <InvoiceItem invoice={invoice} key={invoice.id} navigation={navigation} />
   ));
   const totalInvoicesPrice = () => {
     let total = 0;

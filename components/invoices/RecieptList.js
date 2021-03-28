@@ -5,8 +5,10 @@ import { observer } from "mobx-react";
 import invoiceStore from "../../stores/invoiceStore";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { Icon } from "native-base";
+import Device from "react-native-device-detection";
+import apackageStore from "../../stores/packageStore";
 
-const RecieptList = () => {
+const RecieptList = ({ route }) => {
   const handleCheckout = () => {
     invoiceStore.setPhoneNumber(phoneNumber);
     invoiceStore.checkout();
@@ -16,7 +18,15 @@ const RecieptList = () => {
     invoiceStore.cancelCheckout();
     setPhoneNumber();
   };
-  const recieptServiceList = invoiceStore.items
+
+  const list = route
+    ? [
+        ...route.params.invoice.services.map((service) => service),
+        ...route.params.invoice.packages.map((apackage) => apackage),
+        ...route.params.invoice.offers.map((offer) => offer),
+      ]
+    : invoiceStore.items;
+  const recieptServiceList = list
     // .map((item) => ({
     //   ...serviceStore.services.find((service) => service.id === item.serviceId),
     //   ...productStore.products.find((product) => product.id === item.productId),
@@ -31,13 +41,33 @@ const RecieptList = () => {
         key={
           item.serviceId || item.productId || item.apackageId || item.offerId
         }
+        route={route ? route : null}
       />
     ));
   const [phoneNumber, setPhoneNumber] = React.useState();
 
   return (
-    <View style={styles.view}>
-      <View style={styles.container}>
+    <View
+      style={[
+        styles.view,
+        {
+          alignItems: "center",
+        },
+      ]}
+    >
+      <View
+        style={
+          route
+            ? [
+                styles.container,
+                {
+                  width: Device.isTablet ? "50%" : "95%",
+                  height: "95%",
+                },
+              ]
+            : styles.container
+        }
+      >
         <View style={styles.title}>
           <Text
             style={{
@@ -50,18 +80,22 @@ const RecieptList = () => {
           >
             Phone Number:
           </Text>
-          <TextInput
-            keyboardType="number-pad"
-            maxLength={8}
-            style={{
-              marginLeft: -15,
-              textAlign: "left",
-              fontSize: 15,
-              width: "50%",
-            }}
-            value={phoneNumber}
-            onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-          />
+          {route ? (
+            <Text>{route.params.invoice.phoneNumber}</Text>
+          ) : (
+            <TextInput
+              keyboardType="number-pad"
+              maxLength={8}
+              style={{
+                marginLeft: -15,
+                textAlign: "left",
+                fontSize: 15,
+                width: "50%",
+              }}
+              value={phoneNumber}
+              onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
+            />
+          )}
         </View>
         <View style={styles.title}>
           <Text
@@ -83,34 +117,48 @@ const RecieptList = () => {
         <ScrollView>
           <View style={{ marginBottom: 70 }}>{recieptServiceList}</View>
         </ScrollView>
+
         <View
           style={[
             styles.button,
             {
-              backgroundColor:
-                invoiceStore.items.length === 0 ? "gray" : "#2a9df4",
+              backgroundColor: route
+                ? "#2a9df4"
+                : invoiceStore.items.length === 0
+                ? "gray"
+                : "#2a9df4",
+              width: route ? (Device.isTablet ? "104.3%" : "106%") : "107.5%",
             },
           ]}
         >
           <Text style={{ color: "white" }}>Total</Text>
           <Button
-            disabled={invoiceStore.items.length === 0 ? true : false}
-            title={`${invoiceStore.totalPrice} KD`}
+            disabled={
+              route ? true : invoiceStore.items.length === 0 ? true : false
+            }
+            title={
+              route
+                ? `${route.params.invoice.price} KD`
+                : `${invoiceStore.totalPrice} KD`
+            }
             color={"white"}
             onPress={handleCheckout}
           />
         </View>
-
-        <Icon
-          name="close"
-          style={{
-            color: "tomato",
-            position: "absolute",
-            top: 3,
-            right: 2,
-          }}
-          onPress={handleCancel}
-        />
+        {/* {route ? null : (
+          <>
+            <Icon
+              name="close"
+              style={{
+                color: "tomato",
+                position: "absolute",
+                top: 3,
+                right: 2,
+              }}
+              onPress={handleCancel}
+            />
+          </>
+        )} */}
       </View>
     </View>
   );

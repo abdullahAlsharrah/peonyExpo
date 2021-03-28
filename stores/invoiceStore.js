@@ -16,9 +16,21 @@ class InvoiceStore {
     });
   };
   addItemToInvoice = async (newItem) => {
-    runInAction(() => {
-      this.items.push(newItem);
-    });
+    const foundItem = this.items.find(
+      (item) =>
+        item.serviceId === newItem.serviceId &&
+        item.offerId === newItem.offerId &&
+        item.productId === newItem.productId
+    );
+    if (foundItem) {
+      (foundItem.quantity = foundItem.quantity + 1),
+        (foundItem.price =
+          (foundItem.price / (foundItem.quantity - 1)) * foundItem.quantity);
+    } else {
+      runInAction(() => {
+        this.items.push(newItem);
+      });
+    }
   };
   get totalPrice() {
     let total = 0;

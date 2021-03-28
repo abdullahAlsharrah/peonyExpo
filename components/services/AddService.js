@@ -11,6 +11,7 @@ const AddService = () => {
     name: "",
     price: 0,
     category: "",
+    arabic: "",
   });
   const handleSubmite = () => {
     if (service === { name: "name", price: 0, category: "" }) {
@@ -75,6 +76,14 @@ const AddService = () => {
                 placeholder="Name..."
                 placeholderTextColor="gray"
                 onChangeText={(name) => setService({ ...service, name })}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="الاسم"
+                placeholderTextColor="gray"
+                onChangeText={(arabic) => setService({ ...service, arabic })}
               />
             </View>
             <View style={styles.inputView}>

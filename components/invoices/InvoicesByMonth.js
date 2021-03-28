@@ -5,7 +5,7 @@ import { observer } from "mobx-react";
 import invoiceStore from "../../stores/invoiceStore";
 import { View } from "react-native";
 import Device from "react-native-device-detection";
-const InvoicesByMonth = () => {
+const InvoicesByMonth = ({ navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
   return (
     <View
@@ -37,7 +37,7 @@ const InvoicesByMonth = () => {
         </Tab>
         <Tab heading="Mar">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={3} />
+            <Invoices month={3} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Apr">

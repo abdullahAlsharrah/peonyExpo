@@ -5,20 +5,24 @@ import invoiceStore from "../../stores/invoiceStore";
 import AddPackage from "./packages/AddPackage";
 
 const ServiceItem = ({ service, handleopen }) => {
-  const handleSubmit = () => {
-    const newItem = {
-      serviceId: service.id,
-      price: service.price,
-      name: service.name,
-    };
+  const [quantity, setQuantity] = React.useState(1);
+  const newItem = {
+    quantity: quantity,
+    serviceId: service.id,
+    price: quantity * service.price,
+    name: service.name,
+  };
+  const handleAdd = () => {
+    invoiceStore.addItemToInvoice(newItem);
+  };
+  const handleRemove = () => {
     const foundItem = invoiceStore.items.find(
       (item) => item.serviceId === newItem.serviceId
     );
-    if (foundItem)
+    if (foundItem) {
       invoiceStore.removeItemFromInvoice(`s${foundItem.serviceId}`);
-    else invoiceStore.addItemToInvoice(newItem);
+    } else null;
   };
-
   const foundItem = invoiceStore.items.find(
     (item) => item.serviceId === service.id
   );
@@ -26,8 +30,12 @@ const ServiceItem = ({ service, handleopen }) => {
   const handlePackage = () => {
     handleopen(service.id, service.price);
   };
+
   return (
-    <TouchableOpacity onPress={handleopen ? handlePackage : handleSubmit}>
+    <TouchableOpacity
+      onLongPress={handleRemove}
+      onPress={handleopen ? handlePackage : handleAdd}
+    >
       <View>
         <View
           style={[

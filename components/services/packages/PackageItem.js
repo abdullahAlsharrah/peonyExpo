@@ -4,6 +4,7 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import invoiceStore from "../../../stores/invoiceStore";
 import apackageStore from "../../../stores/packageStore";
+import serviceStore from "../../../stores/serviceStore";
 
 const PackageItem = ({ apackage }) => {
   const handleSubmit = () => {
@@ -12,12 +13,12 @@ const PackageItem = ({ apackage }) => {
         ? {
             apackageId: apackage.id,
             price: apackage.price,
-            name: apackage.name,
+            name: service.name,
             time: apackage.time,
           }
         : {
             apackageId: apackage.id,
-            name: apackage.name,
+            name: service.name,
             price: 0,
             nprice: apackage.price,
             time: apackage.time,
@@ -39,6 +40,9 @@ const PackageItem = ({ apackage }) => {
   const foundItem = invoiceStore.items.find(
     (item) => item.apackageId === apackage.id
   );
+  const service = serviceStore.services.find(
+    (service) => service.id === apackage.serviceId
+  );
 
   return (
     <ListItem
@@ -49,6 +53,9 @@ const PackageItem = ({ apackage }) => {
       onPress={handleSubmit}
     >
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
+        {service.name}
+      </Text>
+      <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
         {apackage.name}
       </Text>
 
@@ -56,11 +63,7 @@ const PackageItem = ({ apackage }) => {
         {apackage.phoneNumber}
       </Text>
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
-        {service.time}
-      </Text>
-
-      <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
-        {apackage.price} KD
+        {apackage.time}
       </Text>
     </ListItem>
   );
@@ -87,5 +90,5 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
-  text: { textAlign: "center", width: "33%" },
+  text: { textAlign: "center", width: "25%" },
 });

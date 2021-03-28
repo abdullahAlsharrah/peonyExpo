@@ -4,15 +4,17 @@ import React from "react";
 import { View, Text, Modal, StyleSheet } from "react-native";
 import Device from "react-native-device-detection";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import invoiceStore from "../../../stores/invoiceStore";
 import apackageStore from "../../../stores/packageStore";
 import DropDownServList from "../ServiceDropList";
 const AddPackage = () => {
   const [service, setService] = React.useState({});
   const [newPackage, setPackage] = React.useState({
     name: "",
+    arabic: "",
     price: 0,
     phoneNumber: 0,
-    time: 5,
+    time: 4,
   });
   const handleopen = () => {
     setModalVisible(true);
@@ -20,8 +22,15 @@ const AddPackage = () => {
   const handleSubmite = async () => {
     apackageStore.AddPackage(service.id, newPackage);
     setModalVisible(false);
+    invoiceStore.addItemToInvoice(newItem);
   };
-
+  const newItem = {
+    apackageId: apackageStore.apackages.length + 1,
+    pprice: newPackage.price,
+    price: newPackage.price,
+    name: service.name,
+    time: 4,
+  };
   const [modalVisible, setModalVisible] = React.useState(false);
 
   return (
@@ -34,7 +43,6 @@ const AddPackage = () => {
                   styles.item,
                   {
                     height: 40,
-                    position: "absolute",
                     bottom: -1.8,
                     left: -2,
                     width: "100%",
@@ -92,6 +100,14 @@ const AddPackage = () => {
               />
             </View>
             <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="الاسم بالعربي"
+                placeholderTextColor="gray"
+                onChangeText={(arabic) => setPackage({ ...newPackage, arabic })}
+              />
+            </View>
+            <View style={styles.inputView}>
               <Text style={{ margin: 20, marginLeft: 0 }}>
                 {newPackage.price} KD
               </Text>
@@ -101,6 +117,7 @@ const AddPackage = () => {
                 style={styles.inputText}
                 keyboardType={"numeric"}
                 placeholder="Phone Number..."
+                maxLength={8}
                 placeholderTextColor="gray"
                 onChangeText={(phoneNumber) =>
                   setPackage({ ...newPackage, phoneNumber })
@@ -129,7 +146,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    height: 300,
+    height: 350,
     width: "90%",
     margin: 20,
     backgroundColor: "white",

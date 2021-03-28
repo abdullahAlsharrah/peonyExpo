@@ -4,7 +4,7 @@ import React from "react";
 import { StyleSheet, Text } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
 
-const InvoiceItem = ({ invoice }) => {
+const InvoiceItem = ({ invoice, navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
 
   const totalInvoicePrice = () => {
@@ -19,7 +19,10 @@ const InvoiceItem = ({ invoice }) => {
     return total;
   };
   return (
-    <ListItem style={{ flexDirection: "row" }}>
+    <ListItem
+      style={{ flexDirection: "row" }}
+      onPress={() => navigation.navigate("Reciept", { invoice: invoice })}
+    >
       <Text style={styles.text}>{invoice.id}</Text>
 
       <Text style={styles.text}>

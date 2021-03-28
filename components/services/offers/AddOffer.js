@@ -12,6 +12,7 @@ const AddOffer = () => {
   const [services, setServices] = React.useState([]);
   const [offer, setOffer] = React.useState({
     name: "",
+    arabic: "",
   });
   const handleopen = () => {
     setModalVisible(true);
@@ -82,6 +83,14 @@ const AddOffer = () => {
                 onChangeText={(name) => setOffer({ ...offer, name })}
               />
             </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="الاسم بالعربي"
+                placeholderTextColor="gray"
+                onChangeText={(arabic) => setOffer({ ...offer, arabic })}
+              />
+            </View>
             <View style={[styles.inputView, { flexDirection: "row" }]}>
               <Text style={{ margin: 20, marginLeft: 0 }}>
                 {totalPrice()} KD
@@ -120,7 +129,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    height: 250,
+    height: 300,
     width: "90%",
     margin: 20,
     backgroundColor: "white",

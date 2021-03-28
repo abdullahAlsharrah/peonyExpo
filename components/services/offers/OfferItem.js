@@ -5,18 +5,23 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import invoiceStore from "../../../stores/invoiceStore";
 
 const OfferItem = ({ offer }) => {
-  const handleSubmit = () => {
-    const newItem = {
-      offerId: offer.id,
-      price: offer.price,
-      name: offer.name,
-    };
+  const newItem = {
+    quantity: 1,
+    offerId: offer.id,
+    price: offer.price,
+    name: offer.name,
+  };
 
+  const handleAdd = () => {
+    invoiceStore.addItemToInvoice(newItem);
+  };
+  const handleRemove = () => {
     const foundItem = invoiceStore.items.find(
       (item) => item.offerId === newItem.offerId
     );
-    if (foundItem) invoiceStore.removeItemFromInvoice(`o${foundItem.offerId}`);
-    else invoiceStore.addItemToInvoice(newItem);
+    if (foundItem) {
+      invoiceStore.removeItemFromInvoice(`o${foundItem.offerId}`);
+    } else null;
   };
 
   const foundItem = invoiceStore.items.find(
@@ -29,7 +34,8 @@ const OfferItem = ({ offer }) => {
         flexDirection: "row",
         backgroundColor: foundItem ? "tomato" : "white",
       }}
-      onPress={handleSubmit}
+      onPress={handleAdd}
+      onLongPress={handleRemove}
     >
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
         {offer.name}

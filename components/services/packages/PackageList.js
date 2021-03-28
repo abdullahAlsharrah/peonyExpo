@@ -22,17 +22,15 @@ const PackageList = () => {
   return (
     <>
       <SearchBarr setQuery={setQuery} query={query} />
-      <ScrollView>
-        <List style={{ marginLeft: -20, flex: 1, marginBottom: 45 }}>
-          <ListItem style={{ backgroundColor: "#c39e81" }}>
-            <Text style={styles.text}>Package</Text>
-            <Text style={styles.text}>PhoneNumber</Text>
-            <Text style={styles.text}>Time</Text>
-            <Text style={styles.text}> Price KD</Text>
-          </ListItem>
-          {apackageList}
-        </List>
-      </ScrollView>
+      <List style={{ flex: 1, marginLeft: -20 }}>
+        <ListItem style={{ backgroundColor: "#c39e81" }}>
+          <Text style={styles.text}>Package</Text>
+          <Text style={styles.text}>Name</Text>
+          <Text style={styles.text}>PhoneNumber</Text>
+          <Text style={styles.text}>Time</Text>
+        </ListItem>
+        <ScrollView>{apackageList}</ScrollView>
+      </List>
     </>
   );
 };

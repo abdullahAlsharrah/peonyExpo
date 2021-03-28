@@ -27,6 +27,7 @@ import productStore from "../../stores/productStore";
 import apackageStore from "../../stores/packageStore";
 import serviceStore from "../../stores/serviceStore";
 import offerStore from "../../stores/offerStore";
+import RecieptList from "../invoices/RecieptList";
 
 const AdminStack = createStackNavigator();
 const RootNavigator = () => {
@@ -84,19 +85,28 @@ const RootNavigator = () => {
             header: () => false,
           }}
         />
+        <AdminStack.Screen name="Reciept" component={RecieptList} />
       </AdminStack.Navigator>
     </ScrollView>
   );
   const MonthlyReciptsScreen = () => (
-    <AdminStack.Navigator>
-      <AdminStack.Screen
-        name="Monthly Reciepts"
-        component={InvoicesByMonth}
-        options={{
-          header: () => false,
-        }}
-      />
-    </AdminStack.Navigator>
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <AdminStack.Navigator>
+        <AdminStack.Screen
+          name="Monthly Reciepts"
+          component={InvoicesByMonth}
+          options={{
+            header: () => false,
+          }}
+        />
+        <AdminStack.Screen name="Reciept" component={RecieptList} />
+      </AdminStack.Navigator>
+    </ScrollView>
   );
   const EmployeeScreen = () => (
     <AdminStack.Navigator>
