@@ -3,7 +3,7 @@ import { Item, Spinner } from "native-base";
 import React from "react";
 import { View, Text } from "react-native";
 import costStore from "../../../stores/costStore";
-import AddCost from "./AddCost";
+import AddCost from "./Addcost";
 import CostItem from "./CostItem";
 
 const CostList = () => {

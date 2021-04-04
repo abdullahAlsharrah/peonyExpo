@@ -2,8 +2,6 @@ import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import offerStore from "../../stores/offerStore";
-import apackageStore from "../../stores/packageStore";
-import RecieptList from "./RecieptList";
 
 const RecieptItem = ({ item, route }) => {
   const offer = item.OrderOfferItem
