@@ -28,6 +28,7 @@ import apackageStore from "../../stores/packageStore";
 import serviceStore from "../../stores/serviceStore";
 import offerStore from "../../stores/offerStore";
 import RecieptList from "../invoices/RecieptList";
+import costStore from "../../stores/costStore";
 
 const AdminStack = createStackNavigator();
 const RootNavigator = () => {
@@ -43,6 +44,7 @@ const RootNavigator = () => {
     apackageStore.fetchPackages();
     serviceStore.fetchServices();
     offerStore.fetchOffers();
+    costStore.fetchCosts();
     wait(2000).then(() => setRefreshing(false));
   }, []);
   const PackageScreen = () => (

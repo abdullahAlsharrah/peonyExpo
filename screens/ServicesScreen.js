@@ -45,10 +45,11 @@ const styles = StyleSheet.create({
     height: "87%",
     flexDirection: "row",
     marginVertical: 20,
+    marginHorizontal: 10,
   },
   box: {
     width: "70%",
-    marginLeft: -5,
+    marginLeft: 5,
     backgroundColor: "transparent",
     borderWidth: 2,
     borderColor: "transparent",

@@ -4,15 +4,15 @@ import instance from "./instance";
 class InvoiceStore {
   invoices = [];
   items = [];
-  phoneNumber = 0;
   loading = true;
+  discount = 0;
 
   constructor() {
     makeAutoObservable(this);
   }
-  setPhoneNumber = async (phoneNumber) => {
+  setDiscount = async (discount) => {
     runInAction(() => {
-      this.phoneNumber = phoneNumber;
+      this.discount = discount;
     });
   };
   addItemToInvoice = async (newItem) => {
@@ -39,7 +39,7 @@ class InvoiceStore {
       total += item.price;
     });
 
-    return total;
+    return total - total * this.discount;
   }
 
   removeItemFromInvoice = async (itemId) => {
@@ -71,12 +71,13 @@ class InvoiceStore {
     }
   };
 
-  checkout = async () => {
+  checkout = async (phoneNumber) => {
     try {
       const invoice = {
         items: this.items,
         price: this.totalPrice,
-        phoneNumber: this.phoneNumber,
+        phoneNumber: phoneNumber,
+        discount: this.discount,
       };
       await instance.post("/invoices", invoice);
       runInAction(() => {

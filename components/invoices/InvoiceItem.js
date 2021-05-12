@@ -2,11 +2,23 @@ import { observer } from "mobx-react";
 import { Body, Left, ListItem, Right, View } from "native-base";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
+import costStore from "../../stores/costStore";
 import invoiceStore from "../../stores/invoiceStore";
 
 const InvoiceItem = ({ invoice, navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
+  const _invoice = costStore.costs.find(
+    (cost) => cost.invoiceId === invoice.id
+  );
 
+  let costs = 0;
+  const costPrices = () => {
+    costStore.costs
+      .filter((cost) => cost.invoiceId === invoice.id)
+      .forEach((cost) => (costs += cost.price));
+
+    return costs;
+  };
   const totalInvoicePrice = () => {
     let total = 0;
     invoice.services.forEach((service) => {
@@ -33,7 +45,9 @@ const InvoiceItem = ({ invoice, navigation }) => {
         {invoice.services.length} : {invoice.products.length}
       </Text>
 
-      <Text style={styles.text}>{invoice.price} KD</Text>
+      <Text style={[styles.text, { color: _invoice ? "tomato" : "black" }]}>
+        {_invoice ? invoice.price - costPrices() : invoice.price} KD
+      </Text>
     </ListItem>
   );
 };

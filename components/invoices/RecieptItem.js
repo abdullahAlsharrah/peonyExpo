@@ -1,7 +1,10 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Touchable, Alert } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import costStore from "../../stores/costStore";
 import offerStore from "../../stores/offerStore";
+import AddCost from "../Admin/cost/Addcost";
 
 const RecieptItem = ({ item, route }) => {
   const offer = item.OrderOfferItem
@@ -9,13 +12,27 @@ const RecieptItem = ({ item, route }) => {
         (offer) => offer.id === item.OrderOfferItem.offerId
       )
     : null;
+  const cost = route
+    ? costStore.costs.find(
+        (cost) =>
+          (cost.itemId === item.id) &
+          (cost.invoiceId === route.params.invoice.id)
+      )
+    : null;
+
   return (
     <>
+      {route ? (
+        <AddCost _invoiceId={route.params.invoice.id} item={item} />
+      ) : null}
       <View style={styles.box}>
         <Text>
-          {item.quantity}x{"  "}
+          {route ? item.OrderItem.quantity : item.quantity}x{"  "}
         </Text>
-        <Text style={styles.item}>{item.name}</Text>
+        <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
+          {item.name}
+        </Text>
+
         <Text
           style={[
             styles.item1,
@@ -49,8 +66,14 @@ const RecieptItem = ({ item, route }) => {
             },
           ]}
         >
+          {cost ? (
+            <Text style={{ color: "tomato" }}>
+              {cost.price}
+              {"   "}
+            </Text>
+          ) : null}
           {route
-            ? item.price
+            ? item.OrderItem.quantity * item.price
             : item.pprice
             ? item.pprice
             : item.time
@@ -86,6 +109,7 @@ const styles = StyleSheet.create({
   },
   box: {
     flexDirection: "row",
+    justifyContent: "center",
     marginHorizontal: 20,
     marginBottom: 4,
     marginLeft: -0,

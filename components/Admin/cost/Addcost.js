@@ -5,20 +5,25 @@ import Device from "react-native-device-detection";
 import { TextInput } from "react-native-gesture-handler";
 import costStore from "../../../stores/costStore";
 
-const AddCost = () => {
+const AddCost = ({ _invoiceId, item }) => {
   const [modalVisible, setModalVisible] = useState(false);
-
+  const itemName = item ? item.name : "";
   const [cost, setCost] = useState({
-    name: "",
+    name: itemName,
     price: 0,
+    invoiceId: _invoiceId ? _invoiceId : null,
+    itemId: item ? item.id : null,
   });
-
+  console.log(itemName);
+  console.log(cost.name);
   const handleSubmite = () => {
     costStore.addCost(cost);
     setModalVisible(!modalVisible);
     setCost({
       name: "",
       price: 0,
+      invoiceId: null,
+      itemId: null,
     });
   };
 
@@ -30,7 +35,7 @@ const AddCost = () => {
         }}
         name="pluscircle"
         type="AntDesign"
-        style={styles.icon}
+        style={item ? null : styles.icon}
       />
       <Modal
         animationType="slide"
@@ -66,6 +71,7 @@ const AddCost = () => {
             <View style={styles.inputView}>
               <TextInput
                 style={styles.inputText}
+                value={cost.name}
                 placeholder="Cost Of..."
                 placeholderTextColor="gray"
                 onChangeText={(name) => setCost({ ...cost, name })}

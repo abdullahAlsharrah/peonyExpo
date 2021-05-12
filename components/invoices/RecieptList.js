@@ -7,18 +7,28 @@ import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { Icon } from "native-base";
 import Device from "react-native-device-detection";
 import apackageStore from "../../stores/packageStore";
+import Dicount from "./Dicount";
+import costStore from "../../stores/costStore";
 
 const RecieptList = ({ route }) => {
   const handleCheckout = () => {
-    invoiceStore.setPhoneNumber(phoneNumber);
-    invoiceStore.checkout();
+    invoiceStore.checkout(phoneNumber);
     setPhoneNumber();
+    invoiceStore.setDiscount(0);
   };
   const handleCancel = () => {
     invoiceStore.cancelCheckout();
     setPhoneNumber();
   };
-
+  let costs = 0;
+  const costPrices = () => {
+    route
+      ? costStore.costs
+          .filter((cost) => cost.invoiceId === route.params.invoice.id)
+          .forEach((cost) => (costs += cost.price))
+      : null;
+    return costs;
+  };
   const list = route
     ? [
         ...route.params.invoice.services.map((service) => service),
@@ -45,7 +55,6 @@ const RecieptList = ({ route }) => {
       />
     ));
   const [phoneNumber, setPhoneNumber] = React.useState();
-
   return (
     <View
       style={[
@@ -113,10 +122,26 @@ const RecieptList = ({ route }) => {
             Price KD
           </Text>
         </View>
-
+        {route ? (
+          route.params.invoice.discount === 0 ? null : (
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <Text>Discount:</Text>
+              <Text>
+                {route.params.invoice.discount === 0.2 ? "20%" : "10%"}
+              </Text>
+            </View>
+          )
+        ) : invoiceStore.discount === 0 ? null : (
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Text>Discount:</Text>
+            <Text>{invoiceStore.discount === 0.2 ? "20%" : "10%"}</Text>
+          </View>
+        )}
         <ScrollView>
           <View style={{ marginBottom: 70 }}>{recieptServiceList}</View>
         </ScrollView>
+
+        {route ? null : <Dicount />}
 
         <View
           style={[
@@ -138,13 +163,14 @@ const RecieptList = ({ route }) => {
             }
             title={
               route
-                ? `${route.params.invoice.price} KD`
+                ? `${route.params.invoice.price - costPrices()} KD`
                 : `${invoiceStore.totalPrice} KD`
             }
             color={"white"}
             onPress={handleCheckout}
           />
         </View>
+
         {/* {route ? null : (
           <>
             <Icon
@@ -201,7 +227,7 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     height: "100%",
     marginVertical: 10,
-    marginHorizontal: 10,
+    // marginHorizontal: 8,
     shadowColor: "black",
     shadowOffset: {
       width: 0,

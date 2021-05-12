@@ -18,6 +18,11 @@ import InvoiceItem from "./InvoiceItem";
 const Invoices = ({ month, navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
   const d = new Date();
+  let dtFormat = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 
   const list = month
     ? invoiceStore.invoices.filter(
@@ -27,23 +32,27 @@ const Invoices = ({ month, navigation }) => {
       )
     : invoiceStore.invoices.filter(
         (invoice) =>
-          (new Date(invoice.createdAt).getDate() === d.getDate()) &
-          (new Date(invoice.createdAt).getFullYear() === d.getFullYear())
+          dtFormat.format(new Date(invoice.createdAt)) === dtFormat.format(d)
       );
   const invoicesList = list.map((invoice) => (
     <InvoiceItem invoice={invoice} key={invoice.id} navigation={navigation} />
   ));
+
   const totalInvoicesPrice = () => {
     let total = 0;
     list.forEach((invoice) => {
       total += invoice.price;
     });
+    costStore.costs
+      .filter((cost) => cost.invoiceId !== null)
+      .forEach((cost) => (total -= cost.price));
 
     return total;
   };
   const totalCost = () => {
     let total = 0;
     costStore.costs
+      .filter((cost) => cost.invoiceId === null)
       .filter(
         (cost) =>
           (new Date(cost.createdAt).getMonth() === month - 1) &

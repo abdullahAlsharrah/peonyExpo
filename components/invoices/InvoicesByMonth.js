@@ -27,62 +27,66 @@ const InvoicesByMonth = ({ navigation }) => {
       >
         <Tab heading="Jan">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={1} />
+            <Invoices month={1} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Feb">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={2} />
+            <Invoices month={2} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Mar">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={3} navigation={navigation} />
+            <Invoices
+              month={3}
+              navigation={navigation}
+              navigation={navigation}
+            />
           </View>
         </Tab>
         <Tab heading="Apr">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={4} />
+            <Invoices month={4} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="May">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={5} />
+            <Invoices month={5} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Jun">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={6} />
+            <Invoices month={6} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Jul">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={7} />
+            <Invoices month={7} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Aug">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={8} />
+            <Invoices month={8} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Sep">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={9} />
+            <Invoices month={9} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Oct">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={10} />
+            <Invoices month={10} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Nov">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={11} />
+            <Invoices month={11} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Dec">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={12} />
+            <Invoices month={12} navigation={navigation} />
           </View>
         </Tab>
       </Tabs>
