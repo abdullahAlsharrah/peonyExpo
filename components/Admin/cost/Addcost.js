@@ -14,8 +14,7 @@ const AddCost = ({ _invoiceId, item }) => {
     invoiceId: _invoiceId ? _invoiceId : null,
     itemId: item ? item.id : null,
   });
-  console.log(itemName);
-  console.log(cost.name);
+
   const handleSubmite = () => {
     costStore.addCost(cost);
     setModalVisible(!modalVisible);

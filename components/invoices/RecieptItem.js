@@ -30,7 +30,7 @@ const RecieptItem = ({ item, route }) => {
           {route ? item.OrderItem.quantity : item.quantity}x{"  "}
         </Text>
         <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
-          {item.name}
+          {route ? item.arabic : item.name}
         </Text>
 
         <Text

@@ -10,7 +10,7 @@ const ServiceItem = ({ service, handleopen }) => {
     quantity: quantity,
     serviceId: service.id,
     price: quantity * service.price,
-    name: service.name,
+    name: service.arabic,
   };
   const handleAdd = () => {
     invoiceStore.addItemToInvoice(newItem);
@@ -36,23 +36,34 @@ const ServiceItem = ({ service, handleopen }) => {
       onLongPress={handleRemove}
       onPress={handleopen ? handlePackage : handleAdd}
     >
-      <View>
-        <View
-          style={[
-            styles.item,
-            { backgroundColor: foundItem ? "tomato" : "#c39e81" },
-          ]}
-        >
+      <View
+        style={[
+          styles.item,
+          { backgroundColor: foundItem ? "tomato" : "#c39e81" },
+        ]}
+      >
+        <View>
           <Text
             style={{
+              color: foundItem ? "white" : "black",
               fontSize: 20,
-              color: foundItem ? "white" : "white",
               textAlign: "center",
             }}
           >
-            {service.name}
+            {service.arabic}
           </Text>
         </View>
+
+        <Text
+          style={{
+            color: foundItem ? "white" : "black",
+            // marginTop: 40,
+            fontSize: 15,
+            textAlign: "center",
+          }}
+        >
+          {service.price} Kd
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -61,12 +72,12 @@ const ServiceItem = ({ service, handleopen }) => {
 export default observer(ServiceItem);
 const styles = StyleSheet.create({
   item: {
-    height: 100,
+    height: 150,
     width: 159,
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-    margin: 2,
+    margin: 5,
     // marginBottom: 50,
     shadowColor: "black",
     shadowOffset: {
@@ -78,5 +89,9 @@ const styles = StyleSheet.create({
 
     elevation: 5,
     backgroundColor: "#c39e81",
+  },
+  text: {
+    fontSize: 20,
+    textAlign: "center",
   },
 });

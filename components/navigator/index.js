@@ -239,7 +239,7 @@ const RootNavigator = () => {
         inactiveTintColor: "white",
         labelStyle: {
           fontSize: Device.isTablet ? 20 : 15,
-          // marginBottom: -15,
+          marginBottom: Device.isAndroid ? 15 : 0,
         },
       }}
     >

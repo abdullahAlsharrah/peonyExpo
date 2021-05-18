@@ -1,19 +1,13 @@
 import { observer } from "mobx-react";
-import {
-  Body,
-  Content,
-  Left,
-  List,
-  ListItem,
-  Spinner,
-  View,
-} from "native-base";
+import { Content, List, ListItem, Spinner, View } from "native-base";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import costStore from "../../stores/costStore";
 import employeeStore from "../../stores/employeeStore";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
+import "intl";
+import "intl/locale-data/jsonp/en"; // or any other locale you need
 
 const Invoices = ({ month, navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
@@ -44,7 +38,11 @@ const Invoices = ({ month, navigation }) => {
       total += invoice.price;
     });
     costStore.costs
-      .filter((cost) => cost.invoiceId !== null)
+      .filter(
+        (cost) =>
+          (cost.invoiceId !== null) &
+          (dtFormat.format(new Date(cost.createdAt)) === dtFormat.format(d))
+      )
       .forEach((cost) => (total -= cost.price));
 
     return total;

@@ -23,9 +23,13 @@ class EmployeeStore {
   };
 
   getEmployeeById = (employeeId) => {
-    runInAction(() => {
-      this.employees.find((employee) => employee.id === employeeId);
-    });
+    try {
+      runInAction(() => {
+        this.employees.find((employee) => employee.id === employeeId);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   addEmployee = async (newItem) => {
     try {

@@ -1,19 +1,20 @@
 import React from "react";
-import { Tab, Tabs, Spinner, ScrollableTab, Icon } from "native-base";
+import { Tab, Tabs, Spinner, ScrollableTab, DefaultTabBar } from "native-base";
 import serviceStore from "../../stores/serviceStore";
 import { observer } from "mobx-react";
 import Service from "./Service";
 import ProductList from "../products/ProductList";
-import AddService from "./AddService";
 import { StyleSheet, View } from "react-native";
 import Device from "react-native-device-detection";
-import AddProduct from "../products/AddProduct";
 import PackageList from "./packages/PackageList";
 import AddPackage from "./packages/AddPackage";
 import OfferList from "./offers/OfferList";
-import AddOffer from "./offers/AddOffer";
 const Categories = () => {
   if (serviceStore.loading) return <Spinner />;
+  const renderTabBar = (props) => {
+    props.tabStyle = Object.create(props.tabStyle);
+    return <DefaultTabBar {...props} />;
+  };
   return (
     <View
       style={
@@ -37,14 +38,14 @@ const Categories = () => {
             }
       }
     >
-      <Tabs renderTabBar={Device.isTablet ? null : () => <ScrollableTab />}>
+      <Tabs renderTabBar={renderTabBar}>
         <Tab heading="Packages">
           <PackageList />
           <AddPackage />
         </Tab>
-        <Tab heading="Offers">
+        {/* <Tab heading="Offers">
           <OfferList />
-        </Tab>
+        </Tab> */}
         <Tab heading="Hair">
           <Service category="Hair" />
         </Tab>

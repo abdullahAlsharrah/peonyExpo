@@ -23,9 +23,13 @@ class CostStore {
   };
 
   getCostById = (costId) => {
-    runInAction(() => {
-      this.costs.find((cost) => cost.id === costId);
-    });
+    try {
+      runInAction(() => {
+        this.costs.find((cost) => cost.id === costId);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   addCost = async (newItem) => {
     try {
