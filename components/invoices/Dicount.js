@@ -38,22 +38,6 @@ const Dicount = () => {
       >
         <Button title={"10%"} color={"white"} onPress={discount10} />
       </View>
-      <View
-        style={{
-          // position: "absolute",
-          bottom: 63,
-          height: 70,
-          width: "50%",
-          marginLeft: 5,
-
-          backgroundColor: invoiceStore.discount === 0.2 ? "tomato" : "gray",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Button title={"20%"} color={"white"} onPress={discount20} />
-      </View>
     </View>
   );
 };

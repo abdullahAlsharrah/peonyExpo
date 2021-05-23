@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
 import invoiceStore from "../../stores/invoiceStore";
@@ -11,10 +11,22 @@ import Dicount from "./Dicount";
 import costStore from "../../stores/costStore";
 
 const RecieptList = ({ route }) => {
-  const handleCheckout = () => {
-    invoiceStore.checkout(phoneNumber);
+  const handleCheckout = (payment) => {
+    invoiceStore.checkout(phoneNumber, payment);
     setPhoneNumber();
     invoiceStore.setDiscount(0);
+  };
+  const cash = "cash";
+  const knet = "k-net";
+  const hadnlePaymentMethhod = () => {
+    Alert.alert("طريقه الدفع", "Payment Method", [
+      {
+        text: "Cash",
+        onPress: () => handleCheckout(cash),
+        style: "cancel",
+      },
+      { text: "K-net", onPress: () => handleCheckout(knet) },
+    ]);
   };
   const handleCancel = () => {
     invoiceStore.cancelCheckout();
@@ -64,6 +76,9 @@ const RecieptList = ({ route }) => {
         },
       ]}
     >
+      {route ? (
+        <Text style={styles.text1}>{route.params.invoice.payment}</Text>
+      ) : null}
       <View
         style={
           route
@@ -96,7 +111,7 @@ const RecieptList = ({ route }) => {
               keyboardType="number-pad"
               maxLength={8}
               style={{
-                marginLeft: -15,
+                // marginLeft: -15,
                 textAlign: "left",
                 fontSize: 15,
                 width: "50%",
@@ -167,7 +182,7 @@ const RecieptList = ({ route }) => {
                 : `${invoiceStore.totalPrice} KD`
             }
             color={"white"}
-            onPress={handleCheckout}
+            onPress={hadnlePaymentMethhod}
           />
         </View>
 

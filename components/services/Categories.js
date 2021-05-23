@@ -46,20 +46,23 @@ const Categories = () => {
         {/* <Tab heading="Offers">
           <OfferList />
         </Tab> */}
-        <Tab heading="Hair">
+        <Tab heading="شعر">
           <Service category="Hair" />
         </Tab>
-        <Tab heading="Makeup">
+        <Tab heading="ميك اب">
           <Service category="Makeup" />
         </Tab>
-        <Tab heading="Nails">
+        <Tab heading="اضافر">
           <Service category="Nails" />
         </Tab>
-        <Tab heading="Body">
+        <Tab heading="الجسم">
           <Service category="body" />
         </Tab>
-        <Tab heading="Massage">
+        <Tab heading="بخار">
           <Service category="Massage Spa" />
+        </Tab>
+        <Tab heading="حف">
+          <Service category="Hair Removal" />
         </Tab>
         <Tab heading="Products">
           <ProductList />

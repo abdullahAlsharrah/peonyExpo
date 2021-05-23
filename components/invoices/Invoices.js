@@ -37,20 +37,25 @@ const Invoices = ({ month, navigation }) => {
     list.forEach((invoice) => {
       total += invoice.price;
     });
+
+    return total;
+  };
+  const costByDate = () => {
+    let total = 0;
+
     costStore.costs
       .filter(
         (cost) =>
           (cost.invoiceId !== null) &
           (dtFormat.format(new Date(cost.createdAt)) === dtFormat.format(d))
       )
-      .forEach((cost) => (total -= cost.price));
-
+      .forEach((cost) => (total += cost.price));
     return total;
   };
   const totalCost = () => {
     let total = 0;
     costStore.costs
-      .filter((cost) => cost.invoiceId === null)
+      // .filter((cost) => cost.invoiceId === null)
       .filter(
         (cost) =>
           (new Date(cost.createdAt).getMonth() === month - 1) &
@@ -98,9 +103,23 @@ const Invoices = ({ month, navigation }) => {
           </Text>
         </View>
       ) : (
-        <Text style={styles.totalInvoices}>
-          Today's Incomes: {totalInvoicesPrice()} KD
-        </Text>
+        <View
+          style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}
+        >
+          <Text style={styles.total}>
+            Incomes:{" "}
+            <Text style={{ color: "green" }}>{totalInvoicesPrice()} KD</Text>
+          </Text>
+          <Text style={styles.total}>
+            Cash back: <Text style={{ color: "red" }}>{costByDate()} KD</Text>
+          </Text>
+          <Text style={styles.total}>
+            Total:{" "}
+            <Text style={styles.total}>
+              {totalInvoicesPrice() - costByDate()} KD
+            </Text>
+          </Text>
+        </View>
       )}
       <List>
         <ListItem>
