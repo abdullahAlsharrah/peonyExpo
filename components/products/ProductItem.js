@@ -10,6 +10,7 @@ const ProductItem = ({ product }) => {
     productId: product.id,
     price: product.price,
     name: product.name,
+    quantity: 1,
   };
   const handleAdd = () => {
     invoiceStore.addItemToInvoice(newItem);
