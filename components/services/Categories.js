@@ -64,7 +64,10 @@ const Categories = () => {
         <Tab heading="حف">
           <Service category="Hair Removal" />
         </Tab>
-        <Tab heading="Products">
+        <Tab heading="فيشل">
+          <Service category="Facial" />
+        </Tab>
+        <Tab heading="منتجات">
           <ProductList />
         </Tab>
       </Tabs>

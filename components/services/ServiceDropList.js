@@ -6,7 +6,7 @@ import { observer } from "mobx-react";
 
 const DropDownServList = ({ onChangeText, service, multiple }) => {
   const services = serviceStore.services.map((service) => ({
-    label: service.name,
+    label: service.arabic,
     value: service,
   }));
   return (

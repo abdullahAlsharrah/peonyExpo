@@ -46,6 +46,7 @@ const RecieptList = ({ route }) => {
         ...route.params.invoice.services.map((service) => service),
         ...route.params.invoice.packages.map((apackage) => apackage),
         ...route.params.invoice.offers.map((offer) => offer),
+        ...route.params.invoice.products.map((product) => product),
       ]
     : invoiceStore.items;
   const recieptServiceList = list

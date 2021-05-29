@@ -94,19 +94,12 @@ const AddPackage = () => {
             <View style={styles.inputView}>
               <TextInput
                 style={styles.inputText}
-                placeholder="Package Name..."
+                placeholder="اسم الزبونه..."
                 placeholderTextColor="gray"
                 onChangeText={(name) => setPackage({ ...newPackage, name })}
               />
             </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="الاسم بالعربي"
-                placeholderTextColor="gray"
-                onChangeText={(arabic) => setPackage({ ...newPackage, arabic })}
-              />
-            </View>
+
             <View style={styles.inputView}>
               <Text style={{ margin: 20, marginLeft: 0 }}>
                 {newPackage.price} KD

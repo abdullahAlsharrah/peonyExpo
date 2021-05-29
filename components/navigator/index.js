@@ -29,6 +29,7 @@ import serviceStore from "../../stores/serviceStore";
 import offerStore from "../../stores/offerStore";
 import RecieptList from "../invoices/RecieptList";
 import costStore from "../../stores/costStore";
+import FacialMenu from "../Admin/Menu/FacialMenu";
 
 const AdminStack = createStackNavigator();
 const RootNavigator = () => {
@@ -187,6 +188,7 @@ const RootNavigator = () => {
         <MenuTab.Screen name="Hair" component={HairMenu} />
         <MenuTab.Screen name="Makeup" component={MakeupMenu} />
         <MenuTab.Screen name="Hair Removal" component={HairRemovalMenu} />
+        <MenuTab.Screen name="Facial" component={FacialMenu} />
       </MenuTab.Navigator>
     </ScrollView>
   );

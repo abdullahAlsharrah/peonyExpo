@@ -13,12 +13,12 @@ const PackageItem = ({ apackage }) => {
         ? {
             apackageId: apackage.id,
             price: apackage.price,
-            name: service.name,
+            name: service.arabic,
             time: apackage.time,
           }
         : {
             apackageId: apackage.id,
-            name: service.name,
+            name: service.arabic,
             price: 0,
             nprice: apackage.price,
             time: apackage.time,
@@ -53,7 +53,7 @@ const PackageItem = ({ apackage }) => {
       onPress={handleSubmit}
     >
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
-        {service.name}
+        {service.arabic}
       </Text>
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
         {apackage.name}

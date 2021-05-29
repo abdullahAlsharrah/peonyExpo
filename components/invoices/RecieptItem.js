@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Touchable, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import costStore from "../../stores/costStore";
 import offerStore from "../../stores/offerStore";
+import serviceStore from "../../stores/serviceStore";
 import AddCost from "../Admin/cost/Addcost";
 
 const RecieptItem = ({ item, route }) => {
@@ -20,6 +21,18 @@ const RecieptItem = ({ item, route }) => {
       )
     : null;
 
+  const orderItem = route
+    ? item.OrderItem
+      ? item.OrderItem.quantity
+      : item.OrderPackageItem
+      ? item.OrderPackageItem.quantity
+      : item.OrderProductItem.quantity
+    : null;
+
+  const service = item.serviceId
+    ? serviceStore.services.find((service) => service.id === item.serviceId)
+    : null;
+
   return (
     <>
       {route ? (
@@ -27,10 +40,16 @@ const RecieptItem = ({ item, route }) => {
       ) : null}
       <View style={styles.box}>
         <Text>
-          {route ? item.OrderItem.quantity : item.quantity}x{"  "}
+          {route ? orderItem : item.quantity}x{"  "}
         </Text>
         <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
-          {route ? item.arabic : item.name}
+          {route
+            ? item.arabic
+              ? item.arabic
+              : service
+              ? `اشتراك ${service.arabic}`
+              : item.name
+            : item.name}
         </Text>
 
         <Text
@@ -73,7 +92,7 @@ const RecieptItem = ({ item, route }) => {
             </Text>
           ) : null}
           {route
-            ? item.OrderItem.quantity * item.price
+            ? orderItem * item.price
             : item.pprice
             ? item.pprice
             : item.time
