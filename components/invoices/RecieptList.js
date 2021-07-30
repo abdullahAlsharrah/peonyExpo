@@ -68,6 +68,14 @@ const RecieptList = ({ route }) => {
       />
     ));
   const [phoneNumber, setPhoneNumber] = React.useState();
+  let dtFormat = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "numeric",
+
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric",
+  });
   return (
     <View
       style={[
@@ -79,6 +87,13 @@ const RecieptList = ({ route }) => {
     >
       {route ? (
         <Text style={styles.text1}>{route.params.invoice.payment}</Text>
+      ) : null}
+      {route ? (
+        route.params.month ? (
+          <Text style={styles.text1}>
+            {dtFormat.format(new Date(route.params.invoice.createdAt))}
+          </Text>
+        ) : null
       ) : null}
       <View
         style={

@@ -2,10 +2,11 @@ import { observer } from "mobx-react";
 import { Body, Left, ListItem, Right, View } from "native-base";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
+import Device from "react-native-device-detection";
 import costStore from "../../stores/costStore";
 import invoiceStore from "../../stores/invoiceStore";
 
-const InvoiceItem = ({ invoice, navigation }) => {
+const InvoiceItem = ({ invoice, navigation, month }) => {
   if (invoiceStore.loading) return <Spinner />;
   const _invoice = costStore.costs.find(
     (cost) => cost.invoiceId === invoice.id
@@ -33,8 +34,16 @@ const InvoiceItem = ({ invoice, navigation }) => {
   return (
     <ListItem
       style={{ flexDirection: "row" }}
-      onPress={() => navigation.navigate("Reciept", { invoice: invoice })}
+      onPress={() =>
+        navigation.navigate("Reciept", { invoice: invoice, month: month })
+      }
     >
+      {month ? (
+        <Text>
+          {new Date(invoice.createdAt).getDate()}/
+          {new Date(invoice.createdAt).getMonth() + 1}
+        </Text>
+      ) : null}
       <Text style={styles.text}>{invoice.id}</Text>
 
       <Text style={styles.text}>

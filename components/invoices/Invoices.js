@@ -27,9 +27,16 @@ const Invoices = ({ month, navigation }) => {
     : invoiceStore.invoices.filter(
         (invoice) =>
           dtFormat.format(new Date(invoice.createdAt)) === dtFormat.format(d)
+        // new Date(invoice.createdAt).getDate() === 23 &&
+        // new Date(invoice.createdAt).getMonth() === d.getMonth()
       );
   const invoicesList = list.map((invoice) => (
-    <InvoiceItem invoice={invoice} key={invoice.id} navigation={navigation} />
+    <InvoiceItem
+      invoice={invoice}
+      key={invoice.id}
+      navigation={navigation}
+      month={month}
+    />
   ));
 
   const totalInvoicesPrice = () => {
@@ -38,9 +45,19 @@ const Invoices = ({ month, navigation }) => {
       total += invoice.price;
     });
 
-    return total;
+    return total.toFixed(2);
   };
-  const costByDate = () => {
+  const totalPaymentInvoices = (payment) => {
+    let total = 0;
+    list
+      .filter((invoice) => invoice.payment === payment)
+      .forEach((invoice) => {
+        total += invoice.price;
+      });
+    return total.toFixed(2);
+  };
+
+  const cashBackByDate = () => {
     let total = 0;
 
     costStore.costs
@@ -50,12 +67,24 @@ const Invoices = ({ month, navigation }) => {
           (dtFormat.format(new Date(cost.createdAt)) === dtFormat.format(d))
       )
       .forEach((cost) => (total += cost.price));
+    return total.toFixed(2);
+  };
+  const cashBackByMonth = () => {
+    let total = 0;
+
+    costStore.costs
+      .filter(
+        (cost) =>
+          (cost.invoiceId !== null) &
+          (new Date(cost.createdAt).getMonth() === month - 1)
+      )
+      .forEach((cost) => (total += cost.price));
     return total;
   };
   const totalCost = () => {
     let total = 0;
     costStore.costs
-      // .filter((cost) => cost.invoiceId === null)
+      .filter((cost) => cost.invoiceId === null)
       .filter(
         (cost) =>
           (new Date(cost.createdAt).getMonth() === month - 1) &
@@ -76,47 +105,94 @@ const Invoices = ({ month, navigation }) => {
         <View
           style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}
         >
-          <Text style={styles.total}>
-            Incomes:{" "}
-            <Text style={{ color: "green" }}>{totalInvoicesPrice()} KD</Text>
-          </Text>
-          <Text style={styles.total}>
-            Costs: <Text style={{ color: "red" }}>{totalCost()} KD</Text>
-          </Text>
-          <Text style={styles.total}>
-            Total:{" "}
-            <Text
-              style={{
-                color:
-                  totalCost() === totalInvoicesPrice()
-                    ? "black"
-                    : totalCost() < totalInvoicesPrice()
-                    ? "green"
-                    : "red",
-                textAlign: "center",
-                fontSize: 15,
-                width: "33%",
-              }}
-            >
-              {totalInvoicesPrice() - totalCost()} KD
+          <View style={styles.total}>
+            <Text style={{ fontSize: 12 }}>
+              Cash:{" "}
+              <Text style={{ color: "green" }}>
+                {totalPaymentInvoices("cash")} KD
+              </Text>
             </Text>
-          </Text>
+            <Text style={{ fontSize: 12 }}>
+              K-net:{" "}
+              <Text style={{ color: "green" }}>
+                {totalPaymentInvoices("k-net")} KD
+              </Text>
+            </Text>
+          </View>
+          <View style={styles.total}>
+            <Text style={{ fontSize: 12 }}>
+              Cash Back:{" "}
+              <Text style={{ color: "red" }}>{cashBackByMonth()} KD</Text>
+            </Text>
+            <Text style={{ fontSize: 12 }}>
+              Income:{" "}
+              <Text
+                style={{
+                  color:
+                    cashBackByMonth() === totalInvoicesPrice()
+                      ? "black"
+                      : cashBackByMonth() < totalInvoicesPrice()
+                      ? "green"
+                      : "red",
+                }}
+              >
+                {totalInvoicesPrice() - cashBackByMonth()} KD
+              </Text>
+            </Text>
+          </View>
+
+          <View style={(styles.total, { marginLeft: 5 })}>
+            <Text style={{ fontSize: 12 }}>
+              Cost:{" "}
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {totalCost()} KD
+              </Text>
+            </Text>
+            <Text style={{ fontSize: 12 }}>
+              Revenue:{" "}
+              <Text
+                style={{
+                  color:
+                    totalCost() + cashBackByMonth() === totalInvoicesPrice()
+                      ? "black"
+                      : totalCost() + cashBackByMonth() < totalInvoicesPrice()
+                      ? "green"
+                      : "red",
+                  textAlign: "center",
+                  fontSize: 12,
+                  width: "33%",
+                }}
+              >
+                {(
+                  totalInvoicesPrice() -
+                  totalCost() -
+                  cashBackByMonth()
+                ).toFixed(2)}{" "}
+                KD
+              </Text>
+            </Text>
+          </View>
         </View>
       ) : (
         <View
           style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}
         >
           <Text style={styles.total}>
-            Incomes:{" "}
-            <Text style={{ color: "green" }}>{totalInvoicesPrice()} KD</Text>
+            Incomes: <Text style={styles.total}>{totalInvoicesPrice()} KD</Text>
           </Text>
           <Text style={styles.total}>
-            Cash back: <Text style={{ color: "red" }}>{costByDate()} KD</Text>
+            Cash back:{" "}
+            <Text style={{ color: "red" }}>{cashBackByDate()} KD</Text>
           </Text>
           <Text style={styles.total}>
             Total:{" "}
-            <Text style={styles.total}>
-              {totalInvoicesPrice() - costByDate()} KD
+            <Text style={{ color: "green" }}>
+              {totalInvoicesPrice() - cashBackByDate()} KD
             </Text>
           </Text>
         </View>
