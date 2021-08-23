@@ -5,10 +5,12 @@ import serviceStore from "../../stores/serviceStore";
 import { observer } from "mobx-react";
 
 const DropDownServList = ({ onChangeText, service, multiple }) => {
-  const services = serviceStore.services.map((service) => ({
-    label: service.arabic,
-    value: service,
-  }));
+  const services = serviceStore.services
+    .filter((service) => service.tenKDOffer === true)
+    .map((service) => ({
+      label: service.arabic,
+      value: service,
+    }));
   return (
     <View style={styles.dropdownview}>
       <DropDownPicker
@@ -18,7 +20,7 @@ const DropDownServList = ({ onChangeText, service, multiple }) => {
         // multiple={true}
         multipleText="%d items have been selected."
         min={0}
-        max={10}
+        max={4}
         containerStyle={styles.services}
         style={{ backgroundColor: "white" }}
         dropDownMaxHeight={300}

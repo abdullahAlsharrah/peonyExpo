@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, Touchable, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import costStore from "../../stores/costStore";
+import invoiceStore from "../../stores/invoiceStore";
 import offerStore from "../../stores/offerStore";
 import serviceStore from "../../stores/serviceStore";
 import AddCost from "../Admin/cost/Addcost";
@@ -26,85 +27,93 @@ const RecieptItem = ({ item, route }) => {
       ? item.OrderItem.quantity
       : item.OrderPackageItem
       ? item.OrderPackageItem.quantity
+      : item.OrderOfferItem
+      ? item.OrderOfferItem.quantity
       : item.OrderProductItem.quantity
     : null;
 
   const service = item.serviceId
     ? serviceStore.services.find((service) => service.id === item.serviceId)
     : null;
-
+  const handleRemove = () => {
+    invoiceStore.removeItemFromInvoice(`o${item.offerId}`);
+  };
   return (
     <>
       {route ? (
         <AddCost _invoiceId={route.params.invoice.id} item={item} />
       ) : null}
-      <View style={styles.box}>
-        <Text>
-          {route ? orderItem : item.quantity}x{"  "}
-        </Text>
-        <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
-          {route
-            ? item.arabic
+      <TouchableOpacity
+        onLongPress={route ? null : item.offerId ? handleRemove : null}
+      >
+        <View style={styles.box}>
+          <Text>
+            {route ? orderItem : item.quantity}x{"  "}
+          </Text>
+          <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
+            {route
               ? item.arabic
-              : service
-              ? `اشتراك ${service.arabic}`
-              : item.name
-            : item.name}
-        </Text>
+                ? item.arabic
+                : service
+                ? `اشتراك ${service.arabic}`
+                : item.name
+              : item.name}
+          </Text>
 
-        <Text
-          style={[
-            styles.item1,
-            {
-              color: item.pprice
-                ? "black"
-                : route
-                ? item.time
-                  ? item.time < 4
+          <Text
+            style={[
+              styles.item1,
+              {
+                color: item.pprice
+                  ? "black"
+                  : route
+                  ? item.time
+                    ? item.time < 4
+                      ? "gray"
+                      : "black"
+                    : "black"
+                  : item.time
+                  ? item.time < 5
                     ? "gray"
                     : "black"
-                  : "black"
-                : item.time
-                ? item.time < 5
-                  ? "gray"
-                  : "black"
-                : "black",
-              textDecorationLine: item.pprice
-                ? null
-                : route
-                ? item.time
-                  ? item.time < 4
+                  : "black",
+                textDecorationLine: item.pprice
+                  ? null
+                  : route
+                  ? item.time
+                    ? item.time < 4
+                      ? "line-through"
+                      : null
+                    : null
+                  : item.time
+                  ? item.time < 5
                     ? "line-through"
                     : null
-                  : null
-                : item.time
-                ? item.time < 5
-                  ? "line-through"
-                  : null
-                : null,
-            },
-          ]}
-        >
-          {cost ? (
-            <Text style={{ color: "tomato" }}>
-              {cost.price}
-              {"   "}
-            </Text>
-          ) : null}
-          {route
-            ? orderItem * item.price
-            : item.pprice
-            ? item.pprice
-            : item.time
-            ? item.time < 5
-              ? item.nprice
-              : item.price
-            : item.price}
-        </Text>
-      </View>
+                  : null,
+              },
+            ]}
+          >
+            {cost ? (
+              <Text style={{ color: "tomato" }}>
+                {cost.price}
+                {"   "}
+              </Text>
+            ) : null}
+            {route
+              ? orderItem * item.price
+              : item.pprice
+              ? item.pprice
+              : item.time
+              ? item.time < 5
+                ? item.nprice
+                : item.price
+              : item.price}
+          </Text>
+        </View>
+      </TouchableOpacity>
       {item.OrderOfferItem
         ? offer.services.map((service) => (
-            <Text style={{ marginLeft: 50 }}>- {service.name}</Text>
+            <Text style={{ marginLeft: 50 }}>- {service.arabic}</Text>
           ))
         : null}
     </>

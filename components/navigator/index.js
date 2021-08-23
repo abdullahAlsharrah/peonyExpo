@@ -30,6 +30,7 @@ import offerStore from "../../stores/offerStore";
 import RecieptList from "../invoices/RecieptList";
 import costStore from "../../stores/costStore";
 import FacialMenu from "../Admin/Menu/FacialMenu";
+import { Text, View } from "native-base";
 
 const AdminStack = createStackNavigator();
 const RootNavigator = () => {
@@ -135,19 +136,61 @@ const RootNavigator = () => {
   );
   const MenuScreen = () => (
     <AdminStack.Navigator>
-      <AdminStack.Screen
-        name="Menu"
-        component={MenuTabScreen}
-        options={{
-          header: () => false,
-        }}
-      />
+      <AdminStack.Screen name="Menu" component={MenuTabScreen} />
     </AdminStack.Navigator>
   );
 
   const Service = createBottomTabNavigator();
   const MenuTab = createBottomTabNavigator();
+  const MenuDrawerIphone = createDrawerNavigator();
 
+  const MenuDrawerScreen = () => (
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <MenuDrawerIphone.Navigator
+        tabBarOptions={{
+          pressColor: "gray",
+          style: {
+            position: "absolute",
+            top: 0,
+            justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
+            backgroundColor: "#c39e81",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.8,
+            shadowRadius: 5,
+            elevation: 5,
+          },
+          activeTintColor: "black",
+          inactiveTintColor: "white",
+          labelStyle: {
+            fontSize: Device.isTablet ? 20 : 15,
+            marginBottom: -15,
+          },
+        }}
+      >
+        <MenuDrawerIphone.Screen name="Hammam" component={HammamMenu} />
+        <MenuDrawerIphone.Screen name="Massage" component={MassageMenu} />
+        <MenuDrawerIphone.Screen name="Nails" component={NailMenu} />
+        <MenuDrawerIphone.Screen name="Hair" component={HairMenu} />
+        <MenuDrawerIphone.Screen name="Makeup" component={MakeupMenu} />
+        <MenuDrawerIphone.Screen
+          name="Hair Removal"
+          component={HairRemovalMenu}
+        />
+        <MenuDrawerIphone.Screen name="Facial" component={FacialMenu} />
+      </MenuDrawerIphone.Navigator>
+    </ScrollView>
+  );
   const MenuTabScreen = () => (
     <ScrollView
       contentContainerStyle={styles.scrollView}
@@ -157,14 +200,14 @@ const RootNavigator = () => {
     >
       <MenuTab.Navigator
         tabBarOptions={{
-          pressColor: "gray", //for click (ripple) effect color
+          pressColor: "gray",
           style: {
             position: "absolute",
             top: 0,
-            backgroundColor: "#c39e81",
             justifyContent: "center",
-            alignItems: "center",
             alignContent: "center",
+            alignItems: "center",
+            backgroundColor: "#c39e81",
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
@@ -172,7 +215,7 @@ const RootNavigator = () => {
             },
             shadowOpacity: 0.8,
             shadowRadius: 5,
-            elevation: 5, //color you want to change
+            elevation: 5,
           },
           activeTintColor: "black",
           inactiveTintColor: "white",
@@ -213,7 +256,7 @@ const RootNavigator = () => {
         />
         <Mobile.Screen name="Cost" component={CostScreen} />
         <Mobile.Screen name="Employees" component={EmployeeScreen} />
-        <Mobile.Screen name="Menu" component={MenuScreen} />
+        {/* <Mobile.Screen name="Menu" component={MenuScreen} /> */}
       </Mobile.Navigator>
     </ScrollView>
   );
@@ -255,6 +298,7 @@ const RootNavigator = () => {
         <>
           <Service.Screen name="Home" component={MobileDrawer} />
           <Service.Screen name="Add Item" component={AddItem} />
+          <Service.Screen name="Menu" component={MenuDrawerScreen} />
         </>
       )}
     </Service.Navigator>

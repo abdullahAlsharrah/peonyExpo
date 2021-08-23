@@ -19,7 +19,6 @@ const AddItem = () => {
     >
       <AddService />
       <AddPackage />
-      <AddOffer />
       <AddProduct />
     </View>
   );

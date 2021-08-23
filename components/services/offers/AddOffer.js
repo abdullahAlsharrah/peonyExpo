@@ -11,35 +11,35 @@ import DropDownServList from "../ServiceDropList";
 const AddOffer = () => {
   const [services, setServices] = React.useState([]);
   const [offer, setOffer] = React.useState({
-    name: "",
-    arabic: "",
+    arabic: "عرض 10 KD",
   });
   const handleopen = () => {
     setModalVisible(true);
   };
-
+  const newItem = {
+    offerId: offerStore.offers.length + 1,
+    price: 10,
+    name: offer.arabic,
+  };
   const handleSubmite = async () => {
     const servicesId = services.map((service) => ({
       serviceId: service.id,
     }));
+    invoiceStore.addItemToInvoice(newItem);
 
-    offerStore.addOffer(servicesId, offer.name, totalPrice());
+    offerStore.addOffer(servicesId, offer.arabic, totalPrice);
+    setServices([]);
     setModalVisible(false);
   };
-  const totalPrice = () => {
-    let total = 0;
-    services.forEach((item) => {
-      total += 0.85 * item.price;
-    });
-    return total;
-  };
+  const totalPrice = 10;
+
   const [modalVisible, setModalVisible] = React.useState(false);
 
   return (
     <>
       <TouchableOpacity onPress={handleopen}>
         <View style={styles.item}>
-          <Text>Add Offer</Text>
+          <Text>عرض {"\n"}10KD</Text>
         </View>
       </TouchableOpacity>
       <Modal
@@ -75,26 +75,9 @@ const AddOffer = () => {
                 multiple={true}
               />
             </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="Offer Name..."
-                placeholderTextColor="gray"
-                onChangeText={(name) => setOffer({ ...offer, name })}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="الاسم بالعربي"
-                placeholderTextColor="gray"
-                onChangeText={(arabic) => setOffer({ ...offer, arabic })}
-              />
-            </View>
+
             <View style={[styles.inputView, { flexDirection: "row" }]}>
-              <Text style={{ margin: 20, marginLeft: 0 }}>
-                {totalPrice()} KD
-              </Text>
+              <Text style={{ margin: 20, marginLeft: 0 }}>10 KD</Text>
               {/* <Button
                 style={styles.priceButton}
                 onPress={() =>

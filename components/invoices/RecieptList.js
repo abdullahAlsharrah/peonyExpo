@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, Alert } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import RecieptItem from "./RecieptItem";
 import { observer } from "mobx-react";
 import invoiceStore from "../../stores/invoiceStore";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
-import { Icon } from "native-base";
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
+import { Button, Icon } from "native-base";
 import Device from "react-native-device-detection";
 import apackageStore from "../../stores/packageStore";
 import Dicount from "./Dicount";
@@ -20,10 +24,10 @@ const RecieptList = ({ route }) => {
   const knet = "k-net";
   const hadnlePaymentMethhod = () => {
     Alert.alert("طريقه الدفع", "Payment Method", [
+      { text: "cancel", onPress: () => null, style: "cancel" },
       {
         text: "Cash",
         onPress: () => handleCheckout(cash),
-        style: "cancel",
       },
       { text: "K-net", onPress: () => handleCheckout(knet) },
     ]);
@@ -67,6 +71,7 @@ const RecieptList = ({ route }) => {
         route={route ? route : null}
       />
     ));
+
   const [phoneNumber, setPhoneNumber] = React.useState();
   let dtFormat = new Intl.DateTimeFormat("en-US", {
     day: "2-digit",
@@ -86,14 +91,16 @@ const RecieptList = ({ route }) => {
       ]}
     >
       {route ? (
-        <Text style={styles.text1}>{route.params.invoice.payment}</Text>
-      ) : null}
-      {route ? (
-        route.params.month ? (
-          <Text style={styles.text1}>
-            {dtFormat.format(new Date(route.params.invoice.createdAt))}
-          </Text>
-        ) : null
+        <>
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <Text style={[styles.text1, { marginRight: 5 }]}>
+              {route.params.invoice.payment}
+            </Text>
+            <Text style={styles.text1}>
+              {dtFormat.format(new Date(route.params.invoice.createdAt))}
+            </Text>
+          </View>
+        </>
       ) : null}
       <View
         style={
@@ -173,7 +180,6 @@ const RecieptList = ({ route }) => {
         </ScrollView>
 
         {route ? null : <Dicount />}
-
         <View
           style={[
             styles.button,
@@ -183,23 +189,35 @@ const RecieptList = ({ route }) => {
                 : invoiceStore.items.length === 0
                 ? "gray"
                 : "#2a9df4",
-              width: route ? (Device.isTablet ? "104.3%" : "106%") : "107.5%",
+              width: route ? (Device.isTablet ? "104.3%" : "106%") : "106.5%",
             },
           ]}
         >
-          <Text style={{ color: "white" }}>Total</Text>
           <Button
             disabled={
               route ? true : invoiceStore.items.length === 0 ? true : false
             }
-            title={
-              route
-                ? `${route.params.invoice.price - costPrices()} KD`
-                : `${invoiceStore.totalPrice} KD`
-            }
             color={"white"}
             onPress={hadnlePaymentMethhod}
-          />
+            style={[
+              styles.button,
+              {
+                backgroundColor: route
+                  ? "#2a9df4"
+                  : invoiceStore.items.length === 0
+                  ? "gray"
+                  : "#2a9df4",
+                width: "100%",
+              },
+            ]}
+          >
+            <Text style={{ color: "white" }}>
+              Total{"\n"}
+              {route
+                ? `${route.params.invoice.price - costPrices()} KD`
+                : `${invoiceStore.totalPrice} KD`}
+            </Text>
+          </Button>
         </View>
 
         {/* {route ? null : (
@@ -276,7 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     position: "absolute",
     bottom: 0,
-    // left: 1,
+    left: 0,
     width: "107.5%",
     backgroundColor: "#2a9df4",
     alignContent: "center",

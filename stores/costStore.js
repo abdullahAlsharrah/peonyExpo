@@ -13,8 +13,8 @@ class CostStore {
     try {
       // runInAction(() => {
       const response = await instance.get("/costs");
-      this.costs = response.data;
       runInAction(() => {
+        this.costs = response.data;
         this.loading = false;
       }); //   });
     } catch (error) {

@@ -27,7 +27,7 @@ const Invoices = ({ month, navigation }) => {
     : invoiceStore.invoices.filter(
         (invoice) =>
           dtFormat.format(new Date(invoice.createdAt)) === dtFormat.format(d)
-        // new Date(invoice.createdAt).getDate() === 23 &&
+        // new Date(invoice.createdAt).getDate() === 15 &&
         // new Date(invoice.createdAt).getMonth() === d.getMonth()
       );
   const invoicesList = list.map((invoice) => (
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   text: { textAlign: "center", width: "25%" },
   total: {
     textAlign: "center",
-    fontSize: 15,
+    fontSize: 12,
     width: "33%",
   },
   totalInvoices: {

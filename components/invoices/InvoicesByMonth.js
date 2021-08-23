@@ -5,6 +5,7 @@ import { observer } from "mobx-react";
 import invoiceStore from "../../stores/invoiceStore";
 import { View } from "react-native";
 import Device from "react-native-device-detection";
+import InvoicesByMonthList from "./InvoicesByMonthList";
 const InvoicesByMonth = ({ navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
   return (
@@ -27,17 +28,17 @@ const InvoicesByMonth = ({ navigation }) => {
       >
         <Tab heading="Jan">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={1} navigation={navigation} />
+            <InvoicesByMonthList month={1} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Feb">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={2} navigation={navigation} />
+            <InvoicesByMonthList month={2} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Mar">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices
+            <InvoicesByMonthList
               month={3}
               navigation={navigation}
               navigation={navigation}
@@ -46,47 +47,47 @@ const InvoicesByMonth = ({ navigation }) => {
         </Tab>
         <Tab heading="Apr">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={4} navigation={navigation} />
+            <InvoicesByMonthList month={4} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="May">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={5} navigation={navigation} />
+            <InvoicesByMonthList month={5} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Jun">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={6} navigation={navigation} />
+            <InvoicesByMonthList month={6} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Jul">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={7} navigation={navigation} />
+            <InvoicesByMonthList month={7} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Aug">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={8} navigation={navigation} />
+            <InvoicesByMonthList month={8} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Sep">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={9} navigation={navigation} />
+            <InvoicesByMonthList month={9} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Oct">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={10} navigation={navigation} />
+            <InvoicesByMonthList month={10} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Nov">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={11} navigation={navigation} />
+            <InvoicesByMonthList month={11} navigation={navigation} />
           </View>
         </Tab>
         <Tab heading="Dec">
           <View style={{ flex: 1, marginTop: 20 }}>
-            <Invoices month={12} navigation={navigation} />
+            <InvoicesByMonthList month={12} navigation={navigation} />
           </View>
         </Tab>
       </Tabs>

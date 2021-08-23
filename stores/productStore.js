@@ -13,8 +13,8 @@ class ProductStore {
     try {
       // runInAction(() => {
       const response = await instance.get("/products");
-      this.products = response.data;
       runInAction(() => {
+        this.products = response.data;
         this.loading = false;
       }); //   });
     } catch (error) {

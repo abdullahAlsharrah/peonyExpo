@@ -57,7 +57,6 @@ class OfferStore {
         this.name = "";
         this.fetchOffers();
       });
-      alert("You have successfully add an offer.");
     } catch (error) {
       console.log(error);
     }

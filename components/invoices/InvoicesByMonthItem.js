@@ -1,17 +1,12 @@
-import { observer } from "mobx-react";
-import { Body, Left, ListItem, Right, View } from "native-base";
+import { ListItem, Text, View } from "native-base";
 import React from "react";
-import { StyleSheet, Text } from "react-native";
-import Device from "react-native-device-detection";
+import { StyleSheet } from "react-native";
 import costStore from "../../stores/costStore";
-import invoiceStore from "../../stores/invoiceStore";
 
-const InvoiceItem = ({ invoice, navigation, month }) => {
-  if (invoiceStore.loading) return <Spinner />;
+function InvoicesByMonthItem({ invoice, navigation, month }) {
   const _invoice = costStore.costs.find(
     (cost) => cost.invoiceId === invoice.id
   );
-
   let costs = 0;
   const costPrices = () => {
     costStore.costs
@@ -20,17 +15,6 @@ const InvoiceItem = ({ invoice, navigation, month }) => {
 
     return costs;
   };
-  const totalInvoicePrice = () => {
-    let total = 0;
-    invoice.services.forEach((service) => {
-      total += service.price;
-    });
-    invoice.products.forEach((product) => {
-      total += product.price;
-    });
-
-    return total;
-  };
   return (
     <ListItem
       style={{ flexDirection: "row" }}
@@ -38,12 +22,11 @@ const InvoiceItem = ({ invoice, navigation, month }) => {
         navigation.navigate("Reciept", { invoice: invoice, month: month })
       }
     >
-      {month ? (
-        <Text>
-          {new Date(invoice.createdAt).getDate()}/
-          {new Date(invoice.createdAt).getMonth() + 1}
-        </Text>
-      ) : null}
+      <Text>
+        {new Date(invoice.createdAt).getDate()}/
+        {new Date(invoice.createdAt).getMonth() + 1}
+      </Text>
+
       <Text style={styles.text}>{invoice.id}</Text>
 
       <Text style={styles.text}>
@@ -62,9 +45,9 @@ const InvoiceItem = ({ invoice, navigation, month }) => {
       </Text>
     </ListItem>
   );
-};
+}
 
-export default observer(InvoiceItem);
+export default InvoicesByMonthItem;
 const styles = StyleSheet.create({
   text: { textAlign: "center", width: "25%" },
 });

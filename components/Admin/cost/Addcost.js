@@ -7,13 +7,19 @@ import costStore from "../../../stores/costStore";
 
 const AddCost = ({ _invoiceId, item }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const itemName = item ? item.name : "";
-  const [cost, setCost] = useState({
-    name: itemName,
-    price: 0,
-    invoiceId: _invoiceId ? _invoiceId : null,
-    itemId: item ? item.id : null,
-  });
+  const [cost, setCost] = useState(
+    _invoiceId
+      ? {
+          name: item.name,
+          price: 0,
+          invoiceId: _invoiceId,
+          itemId: item.id,
+        }
+      : {
+          name: "",
+          price: 0,
+        }
+  );
 
   const handleSubmite = () => {
     costStore.addCost(cost);

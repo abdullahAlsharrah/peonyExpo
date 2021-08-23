@@ -3,15 +3,10 @@ import { Tab, Tabs, Spinner, ScrollableTab, DefaultTabBar } from "native-base";
 import serviceStore from "../../stores/serviceStore";
 import { observer } from "mobx-react";
 import Service from "./Service";
-import ProductList from "../products/ProductList";
 import { StyleSheet, View } from "react-native";
 import Device from "react-native-device-detection";
-import PackageList from "./packages/PackageList";
-import AddPackage from "./packages/AddPackage";
-import OfferList from "./offers/OfferList";
 import AddOffer from "./offers/AddOffer";
-import OfferCategories from "./OfferCategories";
-const Categories = () => {
+const OfferCategories = () => {
   if (serviceStore.loading) return <Spinner />;
   const renderTabBar = (props) => {
     props.tabStyle = Object.create(props.tabStyle);
@@ -41,43 +36,20 @@ const Categories = () => {
       }
     >
       <Tabs renderTabBar={renderTabBar}>
-        <Tab heading="بكجات">
-          <PackageList />
-          <AddPackage />
+        <Tab heading="5KD عروض">
+          <Service category="Offers" />
         </Tab>
-        <Tab heading="عروض">
-          {/* <Service category="Offers" /> */}
-          <OfferCategories />
+        <Tab heading="8KD عروض">
+          <Service category="Offers8" />
         </Tab>
-        <Tab heading="شعر">
-          <Service category="Hair" />
-        </Tab>
-        <Tab heading="ميك اب">
-          <Service category="Makeup" />
-        </Tab>
-        <Tab heading="اظافر">
-          <Service category="Nails" />
-        </Tab>
-        <Tab heading="بخار">
-          <Service category="body" />
-        </Tab>
-        <Tab heading="مساج">
-          <Service category="Massage Spa" />
-        </Tab>
-        <Tab heading="حف">
-          <Service category="Hair Removal" />
-        </Tab>
-        <Tab heading="فيشل">
-          <Service category="Facial" />
-        </Tab>
-        <Tab heading="منتجات">
-          <ProductList />
+        <Tab heading="10 KD">
+          <AddOffer />
         </Tab>
       </Tabs>
     </View>
   );
 };
-export default observer(Categories);
+export default observer(OfferCategories);
 const styles = StyleSheet.create({
   icon: {
     fontSize: 40,
