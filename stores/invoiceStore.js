@@ -61,16 +61,31 @@ class InvoiceStore {
 
   fetchInvoices = async () => {
     try {
-      const response = await instance.get("/invoices");
+      const response = await instance.get(`/invoices/`);
       runInAction(() => {
         this.invoices = response.data;
         this.loading = false;
+        // console.log("updated", Device.isTablet ? "ipad" : "phone");
       });
     } catch (error) {
       console.log("fetching invoices", error);
     }
   };
+  updateInvoice = async (invoiceId, notes) => {
+    try {
+      const body = { notes: notes };
+      await instance.put(`/invoices/${invoiceId}`, body);
 
+      const invoice = this.invoices.find((invoice) => invoice.id === invoiceId);
+      runInAction(() => {
+        invoice.notDone = !invoice.notDone;
+        invoice.notes = notes;
+        // this.invoices.push(invoice);
+      });
+    } catch (error) {
+      alert("Sorry you cant updat this invoice");
+    }
+  };
   checkout = async (phoneNumber, payment) => {
     try {
       const invoice = {

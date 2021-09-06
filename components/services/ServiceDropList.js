@@ -4,13 +4,20 @@ import React from "react";
 import serviceStore from "../../stores/serviceStore";
 import { observer } from "mobx-react";
 
-const DropDownServList = ({ onChangeText, service, multiple }) => {
-  const services = serviceStore.services
-    .filter((service) => service.tenKDOffer === true)
-    .map((service) => ({
-      label: service.arabic,
-      value: service,
-    }));
+const DropDownServList = ({ onChangeText, service, multiple, category }) => {
+  const list =
+    category !== null
+      ? category === "tenKDPffer"
+        ? serviceStore.services.filter((service) => service.tenKDOffer === true)
+        : serviceStore.services.filter(
+            (service) => service.category === category
+          )
+      : serviceStore.services;
+
+  const services = list.map((service) => ({
+    label: service.name,
+    value: service,
+  }));
   return (
     <View style={styles.dropdownview}>
       <DropDownPicker

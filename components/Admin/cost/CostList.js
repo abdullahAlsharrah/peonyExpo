@@ -12,7 +12,12 @@ const CostList = () => {
   const costList = costStore.costs
     .slice()
     .sort((a, b) => b.createdAt - a.createdAt)
-    .filter((cost) => cost.invoiceId === null)
+    .filter(
+      (cost) =>
+        (cost.invoiceId === null) &
+        (new Date(cost.createdAt).getMonth() === new Date().getMonth()) &
+        (new Date(cost.createdAt).getFullYear() === new Date().getFullYear())
+    )
     .map((cost) => (
       <CostItem cost={cost} key={`c${cost.id}`} counter={counter++} />
     ));

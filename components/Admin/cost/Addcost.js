@@ -24,12 +24,19 @@ const AddCost = ({ _invoiceId, item }) => {
   const handleSubmite = () => {
     costStore.addCost(cost);
     setModalVisible(!modalVisible);
-    setCost({
-      name: "",
-      price: 0,
-      invoiceId: null,
-      itemId: null,
-    });
+    setCost(
+      _invoiceId
+        ? {
+            name: item.name,
+            price: 0,
+            invoiceId: _invoiceId,
+            itemId: item.id,
+          }
+        : {
+            name: "",
+            price: 0,
+          }
+    );
   };
 
   return (

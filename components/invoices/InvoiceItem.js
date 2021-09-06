@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
-import { Body, Left, ListItem, Right, View } from "native-base";
+import { ListItem } from "native-base";
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Device from "react-native-device-detection";
 import costStore from "../../stores/costStore";
 import invoiceStore from "../../stores/invoiceStore";
@@ -31,20 +31,47 @@ const InvoiceItem = ({ invoice, navigation, month }) => {
 
     return total;
   };
+
   return (
     <ListItem
-      style={{ flexDirection: "row" }}
+      style={{
+        flexDirection: "row",
+      }}
       onPress={() =>
-        navigation.navigate("Reciept", { invoice: invoice, month: month })
+        navigation.navigate("Reciept", {
+          invoice: invoice,
+          month: month,
+        })
       }
     >
+      {invoice.payment === "online" ? (
+        <>
+          <View
+            style={{
+              backgroundColor: "#ca844ea6",
+              height: 15,
+              width: 15,
+              borderRadius: 100,
+              position: "absolute",
+              left: Device.isTablet ? 15 : null,
+            }}
+          />
+        </>
+      ) : null}
       {month ? (
-        <Text>
+        <Text style={{ marginLeft: 18, marginRight: -18 }}>
           {new Date(invoice.createdAt).getDate()}/
           {new Date(invoice.createdAt).getMonth() + 1}
         </Text>
       ) : null}
-      <Text style={styles.text}>{invoice.id}</Text>
+      <Text
+        style={[
+          styles.text,
+          { color: invoice.notes !== null ? "red" : "black" },
+        ]}
+      >
+        {invoice.id}
+      </Text>
 
       <Text style={styles.text}>
         {invoice.phoneNumber ? invoice.phoneNumber : "no number"}
@@ -63,7 +90,6 @@ const InvoiceItem = ({ invoice, navigation, month }) => {
     </ListItem>
   );
 };
-
 export default observer(InvoiceItem);
 const styles = StyleSheet.create({
   text: { textAlign: "center", width: "25%" },

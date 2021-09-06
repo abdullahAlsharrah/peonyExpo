@@ -1,24 +1,49 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import Categories from "../components/services/Categories";
 import RecieptList from "../components/invoices/RecieptList";
+import { ScrollView } from "react-native-gesture-handler";
+import productStore from "../stores/productStore";
+import apackageStore from "../stores/packageStore";
+import serviceStore from "../stores/serviceStore";
+import offerStore from "../stores/offerStore";
 
 const ServicesScreen = () => {
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    productStore.fetchProducts();
+    apackageStore.fetchPackages();
+    serviceStore.fetchServices();
+    offerStore.fetchOffers();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
         <Text style={styles.logoText}>PEONY</Text>
       </View>
-      <View style={styles.container1}>
-        <View style={styles.recipt}>
-          <RecieptList />
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.container1}>
+          <View style={styles.recipt}>
+            <RecieptList />
+          </View>
+          <View style={styles.box}>
+            <Categories />
+          </View>
+          {/* <StatusBar style="auto" /> */}
         </View>
-        <View style={styles.box}>
-          <Categories />
-        </View>
-        {/* <StatusBar style="auto" /> */}
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -42,7 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#c39e81",
   },
   container1: {
-    height: "87%",
+    height: "95%",
     flexDirection: "row",
     marginVertical: 20,
     marginHorizontal: 10,
@@ -61,5 +86,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "transparent",
     marginBottom: 33,
+  },
+  scrollView: {
+    flex: 1,
   },
 });

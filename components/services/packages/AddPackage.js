@@ -32,7 +32,7 @@ const AddPackage = () => {
     time: 4,
   };
   const [modalVisible, setModalVisible] = React.useState(false);
-
+  const [selected, setSelected] = React.useState(null);
   return (
     <>
       <TouchableOpacity onPress={handleopen}>
@@ -83,12 +83,75 @@ const AddPackage = () => {
               }}
               onPress={() => setModalVisible(false)}
             />
+            <View
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                flexDirection: "row",
+                paddingBottom: 10,
+                // width: "100%",
+              }}
+            >
+              <Button
+                style={{
+                  width: 70,
+                  height: 40,
+                  marginHorizontal: 5,
+                  color: "red",
+                  justifyContent: "center",
+                  backgroundColor: selected === "Offers" ? "#c39e81" : "gray",
+                }}
+                onPress={() =>
+                  setSelected("Offers") &
+                  setPackage({
+                    name: "",
+                    arabic: "",
+                    price: 0,
+                    phoneNumber: 0,
+                    time: 0,
+                  }) &
+                  setService({})
+                }
+              >
+                <Text>عرض 5</Text>
+              </Button>
+              <Button
+                style={{
+                  width: 70,
+                  height: 40,
+                  marginHorizontal: 5,
+                  color: "red",
+                  backgroundColor: selected === null ? "#c39e81" : "gray",
+                  justifyContent: "center",
+                }}
+                onPress={() =>
+                  setSelected(null) &
+                  setPackage({
+                    name: "",
+                    arabic: "",
+                    price: 0,
+                    phoneNumber: 0,
+                    time: 4,
+                  }) &
+                  setService({})
+                }
+              >
+                <Text> اشتراك</Text>
+              </Button>
+            </View>
             <View style={[styles.inputView, { height: 40, zIndex: 100 }]}>
               <DropDownServList
                 onChangeText={(service) =>
                   setService(service.value) &
-                  setPackage({ ...newPackage, price: 4 * service.value.price })
+                  setPackage({
+                    ...newPackage,
+                    price:
+                      selected === null
+                        ? 4 * service.value.price
+                        : (newPackage.time + 1) * service.value.price,
+                  })
                 }
+                category={selected}
               />
             </View>
             <View style={styles.inputView}>
@@ -114,6 +177,27 @@ const AddPackage = () => {
                 placeholderTextColor="gray"
                 onChangeText={(phoneNumber) =>
                   setPackage({ ...newPackage, phoneNumber })
+                }
+              />
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                value={`${newPackage.time}`}
+                keyboardType={"numeric"}
+                placeholder="Time..."
+                maxLength={8}
+                placeholderTextColor="gray"
+                onChangeText={
+                  selected === null
+                    ? null
+                    : (time) =>
+                        parseInt(time) &
+                        setPackage({
+                          ...newPackage,
+                          time,
+                          price: (time + 1) * service.price,
+                        })
                 }
               />
             </View>

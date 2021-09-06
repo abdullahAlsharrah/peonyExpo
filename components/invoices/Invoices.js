@@ -1,16 +1,21 @@
 import { observer } from "mobx-react";
-import { Content, List, ListItem, Spinner, View } from "native-base";
-import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { Button, Content, List, ListItem, Spinner, View } from "native-base";
+import React, { useEffect } from "react";
+import { Alert, StyleSheet, Text } from "react-native";
 import costStore from "../../stores/costStore";
 import employeeStore from "../../stores/employeeStore";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
 import "intl";
 import "intl/locale-data/jsonp/en"; // or any other locale you need
-
-const Invoices = ({ month, navigation }) => {
-  if (invoiceStore.loading) return <Spinner />;
+import SearchBarr from "../SearchBar/SearchBarr";
+import Device from "react-native-device-detection";
+import ThisMonthInvoices from "./ThisMonthInvoices";
+import instance from "../../stores/instance";
+import { useIsFocused } from "@react-navigation/native";
+const Invoices = ({ month, navigation, day }) => {
+  const [query, setQuery] = React.useState("");
+  const isFocused = useIsFocused();
   const d = new Date();
   let dtFormat = new Intl.DateTimeFormat("en-US", {
     day: "2-digit",
@@ -18,26 +23,54 @@ const Invoices = ({ month, navigation }) => {
     year: "numeric",
   });
 
-  const list = month
-    ? invoiceStore.invoices.filter(
-        (invoice) =>
-          (new Date(invoice.createdAt).getMonth() === month - 1) &
-          (new Date(invoice.createdAt).getFullYear() === d.getFullYear())
-      )
-    : invoiceStore.invoices.filter(
-        (invoice) =>
-          dtFormat.format(new Date(invoice.createdAt)) === dtFormat.format(d)
-        // new Date(invoice.createdAt).getDate() === 15 &&
-        // new Date(invoice.createdAt).getMonth() === d.getMonth()
-      );
-  const invoicesList = list.map((invoice) => (
-    <InvoiceItem
-      invoice={invoice}
-      key={invoice.id}
-      navigation={navigation}
-      month={month}
-    />
-  ));
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   const _invoices = await instance.get(
+    //     `/invoices/${new Date().getMonth() + 1}`
+    //   );
+    //   setInvoices(_invoices.data);
+    // };
+    // fetchData();
+    if (isFocused) {
+      const interval = setInterval(() => {
+        //   // const fetchData = async () => {
+        //   //   const _invoices = await instance.get(`/invoices/${month}`);
+        //   //   setInvoices(_invoices.data);
+        //   // };
+        invoiceStore.fetchInvoices();
+        costStore.fetchCosts();
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isFocused]);
+
+  // if (invoices.length === 0)
+  //   return (
+  //     <View style={{ flex: 1 }}>
+  //       <Spinner />
+  //     </View>
+  //   );
+
+  const list = invoiceStore.invoices
+    .filter(
+      (invoice) =>
+        dtFormat.format(new Date(invoice.createdAt)) === dtFormat.format(d)
+      // new Date(invoice.createdAt).getDate() === 15 &&
+      // new Date(invoice.createdAt).getMonth() === d.getMonth()
+    )
+    // .slice()
+    .sort((a, b) => a.id - b.id);
+  const invoicesList = list
+    .filter((invoice) => JSON.stringify(invoice.phoneNumber).includes(query))
+    .map((invoice) => (
+      <InvoiceItem
+        invoice={invoice}
+        key={invoice.id}
+        navigation={navigation}
+        month={month}
+      />
+    ));
+  // wait(5000).then(() => invoiceStore.fetchInvoices() & costStore.fetchCosts());
 
   const totalInvoicesPrice = () => {
     let total = 0;
@@ -99,92 +132,58 @@ const Invoices = ({ month, navigation }) => {
     return total;
   };
 
-  return (
+  if (
+    month - 1 > new Date().getMonth() ||
+    (month - 1 >= new Date().getMonth()) & (day > new Date().getDate())
+  )
+    return null;
+  return invoiceStore.loading ? (
+    <Spinner />
+  ) : (
     <Content style={{ marginLeft: -10 }}>
-      {month ? (
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+          margin: 10,
+        }}
+      >
+        {/* <Text style={styles.total}>
+            Incomes: <Text style={styles.total}>{totalInvoicesPrice()} KD</Text>
+          </Text> */}
+        {/* <View style={[styles.total, { marginLeft: 20, marginRight: -10 }]}> */}
         <View
-          style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}
-        >
-          <View style={styles.total}>
-            <Text style={{ fontSize: 12 }}>
-              Cash:{" "}
-              <Text style={{ color: "green" }}>
-                {totalPaymentInvoices("cash")} KD
-              </Text>
-            </Text>
-            <Text style={{ fontSize: 12 }}>
-              K-net:{" "}
-              <Text style={{ color: "green" }}>
-                {totalPaymentInvoices("k-net")} KD
-              </Text>
-            </Text>
-          </View>
-          <View style={styles.total}>
-            <Text style={{ fontSize: 12 }}>
-              Cash Back:{" "}
-              <Text style={{ color: "red" }}>{cashBackByMonth()} KD</Text>
-            </Text>
-            <Text style={{ fontSize: 12 }}>
-              Income:{" "}
-              <Text
-                style={{
-                  color:
-                    cashBackByMonth() === totalInvoicesPrice()
-                      ? "black"
-                      : cashBackByMonth() < totalInvoicesPrice()
-                      ? "green"
-                      : "red",
-                }}
-              >
-                {totalInvoicesPrice() - cashBackByMonth()} KD
-              </Text>
-            </Text>
-          </View>
-
-          <View style={(styles.total, { marginLeft: 5 })}>
-            <Text style={{ fontSize: 12 }}>
-              Cost:{" "}
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                {totalCost()} KD
-              </Text>
-            </Text>
-            <Text style={{ fontSize: 12 }}>
-              Revenue:{" "}
-              <Text
-                style={{
-                  color:
-                    totalCost() + cashBackByMonth() === totalInvoicesPrice()
-                      ? "black"
-                      : totalCost() + cashBackByMonth() < totalInvoicesPrice()
-                      ? "green"
-                      : "red",
-                  textAlign: "center",
-                  fontSize: 12,
-                  width: "33%",
-                }}
-              >
-                {(
-                  totalInvoicesPrice() -
-                  totalCost() -
-                  cashBackByMonth()
-                ).toFixed(2)}{" "}
-                KD
-              </Text>
-            </Text>
-          </View>
-        </View>
-      ) : (
-        <View
-          style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}
+          style={{
+            width: Device.isTablet ? "50%" : null,
+            margin: 10,
+            flexWrap: "wrap",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
         >
           <Text style={styles.total}>
-            Incomes: <Text style={styles.total}>{totalInvoicesPrice()} KD</Text>
+            Cash:{" "}
+            <Text style={{ color: "green" }}>
+              {totalPaymentInvoices("cash")} KD
+            </Text>
           </Text>
+          <Text style={styles.total}>
+            K-net:{" "}
+            <Text style={{ color: "green" }}>
+              {totalPaymentInvoices("k-net")} KD
+            </Text>
+          </Text>
+          <Text style={styles.total}>
+            Online:{" "}
+            <Text style={{ color: "green" }}>
+              {totalPaymentInvoices("online")} KD
+            </Text>
+          </Text>
+          {/* </View> */}
+
           <Text style={styles.total}>
             Cash back:{" "}
             <Text style={{ color: "red" }}>{cashBackByDate()} KD</Text>
@@ -196,7 +195,13 @@ const Invoices = ({ month, navigation }) => {
             </Text>
           </Text>
         </View>
-      )}
+      </View>
+
+      <View style={styles.searchContainer}>
+        <View style={Device.isTablet ? styles.search : styles.search1}>
+          <SearchBarr query={query} setQuery={setQuery} />
+        </View>
+      </View>
       <List>
         <ListItem>
           <Text style={styles.text}>No.</Text>
@@ -218,10 +223,24 @@ const styles = StyleSheet.create({
   total: {
     textAlign: "center",
     fontSize: 12,
-    width: "33%",
+    // width: "33%",
+    paddingBottom: 5,
+    marginLeft: 20,
   },
   totalInvoices: {
     textAlign: "center",
     fontSize: 20,
+  },
+  search: {
+    width: "80%",
+  },
+  search1: {
+    width: "95%",
+    marginLeft: 10,
+  },
+  searchContainer: {
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
   },
 });

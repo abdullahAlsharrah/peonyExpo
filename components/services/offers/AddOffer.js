@@ -73,6 +73,7 @@ const AddOffer = () => {
                 service={services}
                 onChangeText={(service) => setServices(service)}
                 multiple={true}
+                category={"tenKDOffer"}
               />
             </View>
 
