@@ -308,13 +308,12 @@ const RootNavigator = () => {
       }}
     >
       <Mobile.Screen name="Today's Reciepts" component={ReciptsScreen} />
-      <Mobile.Screen name="This Month" component={ThisMonthlyReciptsScreen} />
-      <Mobile.Screen name="Online Reciepts" component={OnlineScreen} />
-
+      {/* <Mobile.Screen name="This Month" component={ThisMonthlyReciptsScreen} /> */}
       <Mobile.Screen
         name="All Monthly Reciepts"
         component={MonthlyReciptsScreen}
       />
+      <Mobile.Screen name="Online Reciepts" component={OnlineScreen} />
       <Mobile.Screen name="Cost" component={CostScreen} />
       <Mobile.Screen name="Employees" component={EmployeeScreen} />
       <Mobile.Screen name="Add Items" component={AddScreen} />
@@ -322,28 +321,7 @@ const RootNavigator = () => {
       {/* <Mobile.Screen name="Menu" component={MenuScreen} /> */}
     </Mobile.Navigator>
   );
-  const RecieptsDrawer = () => (
-    <Reciepts.Navigator
-      screenOptions={{
-        // header: () => false,
-        headerLeft: () => <SideMenuIcon />,
-      }}
-      drawerContentOptions={{
-        headerLeft: () => <SideMenuIcon />,
-        activeTintColor: "black",
-        activeBackgroundColor: "#c39e81",
-      }}
-    >
-      <Reciepts.Screen name="This Month" component={ThisMonthlyReciptsScreen} />
-      <Reciepts.Screen name="Online Reciepts" component={OnlineScreen} />
-      <Reciepts.Screen
-        name="All Monthly Reciepts"
-        component={MonthlyReciptsScreen}
-      />
 
-      {/* <Reciepts.Screen name="Menu" component={MenuScreen} /> */}
-    </Reciepts.Navigator>
-  );
   return Device.isTablet ? (
     <Service.Navigator
       initialRouteName="Home"

@@ -10,8 +10,7 @@ import "intl";
 import "intl/locale-data/jsonp/en"; // or any other locale you need
 import SearchBarr from "../SearchBar/SearchBarr";
 import Device from "react-native-device-detection";
-import ThisMonthInvoices from "./ThisMonthInvoices";
-import instance from "../../stores/instance";
+
 import { useIsFocused } from "@react-navigation/native";
 const Invoices = ({ month, navigation, day }) => {
   const [query, setQuery] = React.useState("");
@@ -39,7 +38,7 @@ const Invoices = ({ month, navigation, day }) => {
         //   // };
         invoiceStore.fetchInvoices();
         costStore.fetchCosts();
-      }, 5000);
+      }, 3000);
       return () => clearInterval(interval);
     }
   }, [isFocused]);

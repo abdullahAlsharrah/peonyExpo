@@ -75,12 +75,12 @@ class InvoiceStore {
     try {
       const body = { notes: notes };
       await instance.put(`/invoices/${invoiceId}`, body);
-
-      const invoice = this.invoices.find((invoice) => invoice.id === invoiceId);
       runInAction(() => {
+        const invoice = this.invoices.find(
+          (invoice) => invoice.id === invoiceId
+        );
         invoice.notDone = !invoice.notDone;
         invoice.notes = notes;
-        // this.invoices.push(invoice);
       });
     } catch (error) {
       alert("Sorry you cant updat this invoice");

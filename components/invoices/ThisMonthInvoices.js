@@ -26,25 +26,25 @@ function ThisMonthInvoices({ navigation }) {
     days.push(x);
   }
 
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   const _invoices = await instance.get(`/invoices/${month}`);
-    //   setInvoices(_invoices.data);
-    // };
-    // setTimeout(() => {
-    // }, 3000);
-    if (isFocused) {
-      const interval = setInterval(() => {
-        //   // const fetchData = async () => {
-        //   //   const _invoices = await instance.get(`/invoices/${month}`);
-        //   //   setInvoices(_invoices.data);
-        //   // };
-        invoiceStore.fetchInvoices();
-        costStore.fetchCosts();
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [isFocused]);
+  // useEffect(() => {
+  // const fetchData = async () => {
+  //   const _invoices = await instance.get(`/invoices/${month}`);
+  //   setInvoices(_invoices.data);
+  // };
+  // setTimeout(() => {
+  // }, 3000);
+  //   if (isFocused) {
+  //     const interval = setInterval(() => {
+  //       //   // const fetchData = async () => {
+  //       //   //   const _invoices = await instance.get(`/invoices/${month}`);
+  //       //   //   setInvoices(_invoices.data);
+  //       //   // };
+  //       invoiceStore.fetchInvoices();
+  //       costStore.fetchCosts();
+  //     }, 5000);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [isFocused]);
 
   // if (invoices.length === 0) {
   //   return (

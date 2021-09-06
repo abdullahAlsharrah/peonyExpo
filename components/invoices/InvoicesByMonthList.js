@@ -17,10 +17,9 @@ function InvoicesByMonthList({ navigation }) {
   };
   const [refreshing, setRefreshing] = React.useState(false);
   const ListViewRef = useRef();
-  const [invoices, setInvoices] = React.useState([]);
   const [query, setQuery] = React.useState("");
   const [_day, setDay] = React.useState(null);
-  const [month, setMonth] = React.useState(1);
+  const [month, setMonth] = React.useState(new Date().getMonth() + 1);
   // const month = new Date().getMonth() + 1;
   let days = [];
   const year = new Date().getFullYear();
