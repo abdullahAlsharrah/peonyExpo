@@ -12,10 +12,13 @@ const DropDownServList = ({ onChangeText, service, multiple, category }) => {
         : serviceStore.services.filter(
             (service) => service.category === category
           )
-      : serviceStore.services;
+      : serviceStore.services.filter(
+          (service) =>
+            service.category === "Offers" || service.category === "Offers8"
+        );
 
   const services = list.map((service) => ({
-    label: service.name,
+    label: service.arabic,
     value: service,
   }));
   return (

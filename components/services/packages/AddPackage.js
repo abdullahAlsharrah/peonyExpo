@@ -196,7 +196,7 @@ const AddPackage = () => {
                         setPackage({
                           ...newPackage,
                           time,
-                          price: (time + 1) * service.price,
+                          price: time * service.price + service.price,
                         })
                 }
               />
