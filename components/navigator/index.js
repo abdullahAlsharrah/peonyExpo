@@ -27,6 +27,10 @@ import { useNavigation } from "@react-navigation/native";
 import InvoicesByMonthList from "../invoices/InvoicesByMonthList";
 import ThisMonthInvoices from "../invoices/ThisMonthInvoices";
 import OnlineInvoices from "../invoices/OnlineInvoices";
+import IncomByDays from "../Admin/income/byDays/IncomByDays";
+import Income from "../Admin/income/Income";
+import CustomersList from "../Admin/customers/CustomersList";
+import ServicesListIncome from "../Admin/services/ServicesListIncome";
 
 const AdminStack = createStackNavigator();
 const RecieptsStack = createStackNavigator();
@@ -167,9 +171,34 @@ const RootNavigator = () => {
       />
     </AdminStack.Navigator>
   );
-  const MenuScreen = () => (
-    <AdminStack.Navigator>
-      <AdminStack.Screen name="Menu" component={MenuTabScreen} />
+  const ServicesIncomeScreen = () => (
+    <AdminStack.Navigator
+      screenOptions={{
+        // header: () => false,
+        headerLeft: () => <SideMenuIcon />,
+      }}
+    >
+      <AdminStack.Screen name="Services" component={ServicesListIncome} />
+    </AdminStack.Navigator>
+  );
+  const CustomersScreen = () => (
+    <AdminStack.Navigator
+      screenOptions={{
+        // header: () => false,
+        headerLeft: () => <SideMenuIcon />,
+      }}
+    >
+      <AdminStack.Screen name="Customers" component={CustomersList} />
+    </AdminStack.Navigator>
+  );
+  const IncomeScreen = () => (
+    <AdminStack.Navigator
+      screenOptions={{
+        // header: () => false,
+        headerLeft: () => <SideMenuIcon />,
+      }}
+    >
+      <AdminStack.Screen name="Income" component={Income} />
     </AdminStack.Navigator>
   );
 
@@ -318,7 +347,9 @@ const RootNavigator = () => {
       <Mobile.Screen name="Employees" component={EmployeeScreen} />
       <Mobile.Screen name="Add Items" component={AddScreen} />
 
-      {/* <Mobile.Screen name="Menu" component={MenuScreen} /> */}
+      <Mobile.Screen name="Services" component={ServicesIncomeScreen} />
+      <Mobile.Screen name="Customers" component={CustomersScreen} />
+      <Mobile.Screen name="Income By Days" component={IncomeScreen} />
     </Mobile.Navigator>
   );
 

@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 const DropDownServList = ({ onChangeText, service, multiple, category }) => {
   const list =
     category !== null
-      ? category === "tenKDPffer"
+      ? category === "tenKDOffer"
         ? serviceStore.services.filter((service) => service.tenKDOffer === true)
         : serviceStore.services.filter(
             (service) => service.category === category

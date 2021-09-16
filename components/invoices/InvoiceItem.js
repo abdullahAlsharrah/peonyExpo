@@ -53,11 +53,24 @@ const InvoiceItem = ({ invoice, navigation, month }) => {
               width: 15,
               borderRadius: 100,
               position: "absolute",
-              left: Device.isTablet ? 15 : null,
+              left: Device.isTablet ? 100 : 5,
             }}
           />
         </>
-      ) : null}
+      ) : (
+        <View
+          style={{
+            height: 15,
+            width: 15,
+            borderRadius: 100,
+            position: "absolute",
+            left: Device.isTablet ? 100 : 5,
+          }}
+        >
+          <Text>{invoice.payment === "k-net" ? null : "$"}</Text>
+        </View>
+      )}
+
       {month ? (
         <Text style={{ marginLeft: 18, marginRight: -18 }}>
           {new Date(invoice.createdAt).getDate()}/

@@ -1,18 +1,17 @@
 import { observer } from "mobx-react";
-import { Button, Content, List, ListItem, Spinner, View } from "native-base";
+import { Content, List, ListItem, Spinner, View } from "native-base";
 import React, { useEffect } from "react";
-import { Alert, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import costStore from "../../stores/costStore";
-import employeeStore from "../../stores/employeeStore";
 import invoiceStore from "../../stores/invoiceStore";
 import InvoiceItem from "./InvoiceItem";
 import "intl";
 import "intl/locale-data/jsonp/en"; // or any other locale you need
 import SearchBarr from "../SearchBar/SearchBarr";
 import Device from "react-native-device-detection";
-
 import { useIsFocused } from "@react-navigation/native";
-const Invoices = ({ month, navigation, day }) => {
+import offerStore from "../../stores/offerStore";
+const Invoices = ({ month, navigation }) => {
   const [query, setQuery] = React.useState("");
   const isFocused = useIsFocused();
   const d = new Date();
@@ -31,12 +30,16 @@ const Invoices = ({ month, navigation, day }) => {
     // };
     // fetchData();
     if (isFocused) {
+      invoiceStore.fetchInvoices();
+      offerStore.fetchOffers();
+      costStore.fetchCosts();
       const interval = setInterval(() => {
         //   // const fetchData = async () => {
         //   //   const _invoices = await instance.get(`/invoices/${month}`);
         //   //   setInvoices(_invoices.data);
         //   // };
         invoiceStore.fetchInvoices();
+        offerStore.fetchOffers();
         costStore.fetchCosts();
       }, 3000);
       return () => clearInterval(interval);
@@ -53,6 +56,7 @@ const Invoices = ({ month, navigation, day }) => {
   const list = invoiceStore.invoices
     .filter(
       (invoice) =>
+        // (invoice.payment === "cash") &
         dtFormat.format(new Date(invoice.createdAt)) === dtFormat.format(d)
       // new Date(invoice.createdAt).getDate() === 15 &&
       // new Date(invoice.createdAt).getMonth() === d.getMonth()
@@ -101,45 +105,29 @@ const Invoices = ({ month, navigation, day }) => {
       .forEach((cost) => (total += cost.price));
     return total.toFixed(2);
   };
-  const cashBackByMonth = () => {
-    let total = 0;
 
-    costStore.costs
-      .filter(
-        (cost) =>
-          (cost.invoiceId !== null) &
-          (new Date(cost.createdAt).getMonth() === month - 1)
-      )
-      .forEach((cost) => (total += cost.price));
-    return total;
-  };
-  const totalCost = () => {
-    let total = 0;
-    costStore.costs
-      .filter((cost) => cost.invoiceId === null)
-      .filter(
-        (cost) =>
-          (new Date(cost.createdAt).getMonth() === month - 1) &
-          (new Date(cost.createdAt).getFullYear() === new Date().getFullYear())
-      )
-      .forEach((cost) => (total += cost.price));
-    employeeStore.employees
-      .filter(
-        (employee) => new Date(employee.createdAt).getMonth() <= month - 1
-      )
-      .forEach((employee) => (total += employee.salary));
-    return total;
-  };
-
-  if (
-    month - 1 > new Date().getMonth() ||
-    (month - 1 >= new Date().getMonth()) & (day > new Date().getDate())
-  )
-    return null;
   return invoiceStore.loading ? (
     <Spinner />
   ) : (
     <Content style={{ marginLeft: -10 }}>
+      <Text
+        style={[
+          styles.total,
+          {
+            marginLeft: 0,
+            width: "100%",
+            borderWidth: 1,
+            padding: 5,
+            borderColor: "green",
+            backgroundColor: "rgb(230, 255, 230)",
+          },
+        ]}
+      >
+        Total:{" "}
+        <Text style={{ color: "green" }}>
+          {totalInvoicesPrice() - cashBackByDate()} KD
+        </Text>
+      </Text>
       <View
         style={{
           display: "flex",
@@ -154,6 +142,7 @@ const Invoices = ({ month, navigation, day }) => {
             Incomes: <Text style={styles.total}>{totalInvoicesPrice()} KD</Text>
           </Text> */}
         {/* <View style={[styles.total, { marginLeft: 20, marginRight: -10 }]}> */}
+
         <View
           style={{
             width: Device.isTablet ? "50%" : null,
@@ -187,12 +176,6 @@ const Invoices = ({ month, navigation, day }) => {
             Cash back:{" "}
             <Text style={{ color: "red" }}>{cashBackByDate()} KD</Text>
           </Text>
-          <Text style={styles.total}>
-            Total:{" "}
-            <Text style={{ color: "green" }}>
-              {totalInvoicesPrice() - cashBackByDate()} KD
-            </Text>
-          </Text>
         </View>
       </View>
 
@@ -201,7 +184,7 @@ const Invoices = ({ month, navigation, day }) => {
           <SearchBarr query={query} setQuery={setQuery} />
         </View>
       </View>
-      <List>
+      <List style={{ paddingBottom: 15 }}>
         <ListItem>
           <Text style={styles.text}>No.</Text>
           <Text style={styles.text}>Phone No.</Text>

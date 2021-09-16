@@ -30,7 +30,7 @@ const Months = ({ month, setMonth, setDay }) => {
     </Button>
   ));
   return (
-    <ScrollView horizontal={true}>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <View style={{ display: "flex", flexDirection: "row" }}>{monthList}</View>
     </ScrollView>
   );

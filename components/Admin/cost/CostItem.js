@@ -44,7 +44,11 @@ const CostItem = ({ cost }) => {
 
 export default observer(CostItem);
 const styles = StyleSheet.create({
-  container: { flexDirection: "row", width: "100%" },
+  container: {
+    flexDirection: "row",
+    width: "100%",
+    marginHorizontal: 20,
+  },
 
   text: { width: "50%", justifyContent: "center", height: 50 },
 

@@ -2,6 +2,7 @@ import { observer } from "mobx-react";
 import { Item, Spinner } from "native-base";
 import React from "react";
 import { View, Text } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import employeeStore from "../../../stores/employeeStore";
 import AddEmployee from "./AddEmployee";
 import EmployeeItem from "./EmployeeItem";
@@ -32,7 +33,7 @@ const EmployeeList = () => {
           <Text>Salary</Text>
         </Item>
       </View>
-      {employeeList}
+      <ScrollView>{employeeList}</ScrollView>
       <AddEmployee />
     </View>
   );

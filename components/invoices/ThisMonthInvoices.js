@@ -282,7 +282,7 @@ function ThisMonthInvoices({ navigation }) {
                       : "red",
                 }}
               >
-                {totalInvoicesPrice() - cashBackByMonth()} KD
+                {totalInvoicesPrice() - cashBackByMonth() - totalExtraCost()} KD
               </Text>
               <Text> |</Text>
             </Text>

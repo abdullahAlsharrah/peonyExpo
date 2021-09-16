@@ -92,14 +92,7 @@ function InvoicesByMonthList({ navigation }) {
   };
   const totalCost = () => {
     let total = 0;
-    costStore.costs
-      .filter((cost) => cost.invoiceId === null)
-      .filter(
-        (cost) =>
-          (new Date(cost.createdAt).getMonth() === month - 1) &
-          (new Date(cost.createdAt).getFullYear() === new Date().getFullYear())
-      )
-      .forEach((cost) => (total += cost.price));
+
     employeeStore.employees
       .filter(
         (employee) => new Date(employee.createdAt).getMonth() <= month - 1
@@ -185,7 +178,7 @@ function InvoicesByMonthList({ navigation }) {
                     },
                   ]}
                 >
-                  Revenue:{" "}
+                  Income:{" "}
                   <Text
                     style={{
                       color:
@@ -202,7 +195,8 @@ function InvoicesByMonthList({ navigation }) {
                     {(
                       totalInvoicesPrice() -
                       totalCost() -
-                      cashBackByMonth()
+                      cashBackByMonth() -
+                      totalExtraCost()
                     ).toFixed(2)}{" "}
                     KD
                   </Text>
@@ -254,20 +248,7 @@ function InvoicesByMonthList({ navigation }) {
                   <Text> |</Text>
                 </Text>
                 <Text style={styles.total}>
-                  Ext. Cost:{" "}
-                  <Text
-                    style={{
-                      color: "red",
-                      textAlign: "center",
-                      fontSize: 12,
-                    }}
-                  >
-                    {totalExtraCost()} KD
-                  </Text>
-                  <Text> |</Text>
-                </Text>
-                <Text style={styles.total}>
-                  Income:{" "}
+                  Revenue:{" "}
                   <Text
                     style={{
                       fontSize: 12,
@@ -280,6 +261,19 @@ function InvoicesByMonthList({ navigation }) {
                     }}
                   >
                     {totalInvoicesPrice() - cashBackByMonth()} KD
+                  </Text>
+                  <Text> |</Text>
+                </Text>
+                <Text style={styles.total}>
+                  Ext. Cost:{" "}
+                  <Text
+                    style={{
+                      color: "red",
+                      textAlign: "center",
+                      fontSize: 12,
+                    }}
+                  >
+                    {totalExtraCost()} KD
                   </Text>
                   <Text> |</Text>
                 </Text>
@@ -346,7 +340,13 @@ function InvoicesByMonthList({ navigation }) {
                 <SearchBarr query={query} setQuery={setQuery} />
               </View>
             </View>
-            {daysList}
+            <View
+              style={{
+                paddingBottom: 15,
+              }}
+            >
+              {daysList}
+            </View>
           </ScrollView>
 
           <Button onPress={scrolling} style={styles.scrollToTopButton}>

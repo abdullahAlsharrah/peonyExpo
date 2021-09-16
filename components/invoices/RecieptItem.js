@@ -1,7 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import React from "react";
-import { View, Text, StyleSheet, Touchable, Alert } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import costStore from "../../stores/costStore";
 import invoiceStore from "../../stores/invoiceStore";
@@ -10,7 +9,6 @@ import serviceStore from "../../stores/serviceStore";
 import AddCost from "../Admin/cost/Addcost";
 
 const RecieptItem = ({ item, route }) => {
-  // const navigation = useNavigation();
   const offer = item.OrderOfferItem
     ? offerStore.offers.find(
         (offer) => offer.id === item.OrderOfferItem.offerId
