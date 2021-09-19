@@ -8,7 +8,7 @@ import invoiceStore from "../../../stores/invoiceStore";
 import offerStore from "../../../stores/offerStore";
 
 import DropDownServList from "../ServiceDropList";
-const AddOffer = () => {
+const AddOffer = ({ language }) => {
   const [services, setServices] = React.useState([]);
   const [offer, setOffer] = React.useState({
     arabic: "عرض 10 KD",
@@ -74,6 +74,7 @@ const AddOffer = () => {
                 onChangeText={(service) => setServices(service)}
                 multiple={true}
                 category={"tenKDOffer"}
+                language={language}
               />
             </View>
 

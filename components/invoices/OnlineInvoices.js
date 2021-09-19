@@ -9,9 +9,11 @@ import "intl";
 import "intl/locale-data/jsonp/en"; // or any other locale you need
 import SearchBarr from "../SearchBar/SearchBarr";
 import Device from "react-native-device-detection";
+import languageStore from "../../stores/language";
 
 const OnlineInvoices = ({ navigation }) => {
   if (invoiceStore.loading) return <Spinner />;
+  const language = languageStore.language;
   const [query, setQuery] = React.useState("");
 
   // useEffect(() => {
@@ -74,8 +76,10 @@ const OnlineInvoices = ({ navigation }) => {
         >
           {invoicesList.length !== 0 && (
             <Text style={[styles.title, { color: "red" }]}>
-              <Text style={{ color: "black", fontSize: 15 }}>(رابط)</Text> لم
-              يتم الحضور
+              <Text style={{ color: "black", fontSize: 15 }}>
+                {language === "ar" ? "(رابط)" : "(online)"}
+              </Text>
+              {language === "ar" ? "لم يتم الحضور" : "Did Not Come Yet"}
             </Text>
           )}
         </View>
@@ -91,7 +95,7 @@ const OnlineInvoices = ({ navigation }) => {
             <View style={styles.separator} />
 
             <Text style={[styles.title, { color: "red" }]}>
-              لم يتم استكمال الاعمال
+              {language === "ar" ? "لم يتم استكمال الاعمال" : "Not Done"}
             </Text>
           </View>
         )}
@@ -106,7 +110,9 @@ const OnlineInvoices = ({ navigation }) => {
           >
             <View style={styles.separator} />
 
-            <Text style={styles.title}>تم الحضور اليوم</Text>
+            <Text style={styles.title}>
+              {language === "ar" ? "تم الحضور اليوم" : "Done Today"}
+            </Text>
           </View>
         )}
         {updatedInvoicesList}

@@ -6,7 +6,7 @@ import Service from "./Service";
 import { StyleSheet, View } from "react-native";
 import Device from "react-native-device-detection";
 import AddOffer from "./offers/AddOffer";
-const OfferCategories = () => {
+const OfferCategories = ({ language }) => {
   if (serviceStore.loading) return <Spinner />;
   const renderTabBar = (props) => {
     props.tabStyle = Object.create(props.tabStyle);
@@ -36,14 +36,14 @@ const OfferCategories = () => {
       }
     >
       <Tabs renderTabBar={renderTabBar}>
-        <Tab heading="5KD عروض">
-          <Service category="Offers" />
+        <Tab heading="5KD">
+          <Service category="Offers" language={language} />
         </Tab>
-        <Tab heading="8KD عروض">
-          <Service category="Offers8" />
+        <Tab heading="8KD">
+          <Service category="Offers8" language={language} />
         </Tab>
         <Tab heading="10 KD">
-          <AddOffer />
+          <AddOffer language={language} />
         </Tab>
       </Tabs>
     </View>

@@ -7,20 +7,26 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import invoiceStore from "../../../stores/invoiceStore";
 import apackageStore from "../../../stores/packageStore";
 import DropDownServList from "../ServiceDropList";
-const AddPackage = () => {
+const AddPackage = ({ language }) => {
   const [service, setService] = React.useState({});
   const [newPackage, setPackage] = React.useState({
     name: "",
     arabic: "",
     price: 0,
     phoneNumber: 0,
-    time: 4,
+    time: 5,
   });
   const handleopen = () => {
     setModalVisible(true);
   };
+  const [today, setToday] = React.useState("no");
   const handleSubmite = async () => {
-    apackageStore.AddPackage(service.id, newPackage);
+    const item =
+      today === "yes"
+        ? { ...newPackage, time: newPackage.time - 1 }
+        : newPackage;
+
+    apackageStore.AddPackage(service.id, item);
     setModalVisible(false);
     invoiceStore.addItemToInvoice(newItem);
   };
@@ -29,7 +35,7 @@ const AddPackage = () => {
     pprice: newPackage.price,
     price: newPackage.price,
     name: service.name,
-    time: 4,
+    time: newPackage.time,
   };
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selected, setSelected] = React.useState(null);
@@ -53,7 +59,7 @@ const AddPackage = () => {
           }
         >
           <Text style={{ color: Device.isTablet ? "white" : "black" }}>
-            Add Package
+            {language === "ar" ? "اضافه اشتراك" : "Add Package"}
           </Text>
         </View>
       </TouchableOpacity>
@@ -83,6 +89,45 @@ const AddPackage = () => {
               }}
               onPress={() => setModalVisible(false)}
             />
+            <Text style={{ fontSize: 20, padding: 5 }}>
+              {language === "ar" ? "اليوم" : "Today"}
+            </Text>
+            <View
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                flexDirection: "row",
+                paddingBottom: 10,
+                // width: "100%",
+              }}
+            >
+              <Button
+                style={{
+                  width: 70,
+                  height: 40,
+                  marginHorizontal: 5,
+                  color: "red",
+                  justifyContent: "center",
+                  backgroundColor: today === "no" ? "#c39e81" : "gray",
+                }}
+                onPress={() => setToday("no")}
+              >
+                <Text> {language === "ar" ? "لا" : "no"}</Text>
+              </Button>
+              <Button
+                style={{
+                  width: 70,
+                  height: 40,
+                  marginHorizontal: 5,
+                  color: "red",
+                  backgroundColor: today === "yes" ? "#c39e81" : "gray",
+                  justifyContent: "center",
+                }}
+                onPress={() => setToday("yes")}
+              >
+                <Text> {language === "ar" ? "نعم" : "Yes"}</Text>
+              </Button>
+            </View>
             <View
               style={{
                 justifyContent: "center",
@@ -131,7 +176,7 @@ const AddPackage = () => {
                     arabic: "",
                     price: 0,
                     phoneNumber: 0,
-                    time: 4,
+                    time: 5,
                   }) &
                   setService({})
                 }
@@ -141,6 +186,7 @@ const AddPackage = () => {
             </View>
             <View style={[styles.inputView, { height: 40, zIndex: 100 }]}>
               <DropDownServList
+                language={language}
                 onChangeText={(service) =>
                   setService(service.value) &
                   setPackage({
@@ -148,7 +194,7 @@ const AddPackage = () => {
                     price:
                       selected === null
                         ? 4 * service.value.price
-                        : (newPackage.time + 1) * service.value.price,
+                        : newPackage.time * service.value.price,
                   })
                 }
                 category={selected}
@@ -157,7 +203,7 @@ const AddPackage = () => {
             <View style={styles.inputView}>
               <TextInput
                 style={styles.inputText}
-                placeholder="اسم الزبونه..."
+                placeholder="Name..."
                 placeholderTextColor="gray"
                 onChangeText={(name) => setPackage({ ...newPackage, name })}
               />
@@ -196,7 +242,7 @@ const AddPackage = () => {
                         setPackage({
                           ...newPackage,
                           time,
-                          price: time * service.price + service.price,
+                          price: time * service.price,
                         })
                 }
               />
@@ -223,7 +269,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    height: 400,
+    height: 500,
     width: "90%",
     margin: 20,
     backgroundColor: "white",

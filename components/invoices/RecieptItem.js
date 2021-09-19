@@ -1,4 +1,5 @@
 import { observer } from "mobx-react";
+import { Separator } from "native-base";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -8,7 +9,7 @@ import offerStore from "../../stores/offerStore";
 import serviceStore from "../../stores/serviceStore";
 import AddCost from "../Admin/cost/Addcost";
 
-const RecieptItem = ({ item, route }) => {
+const RecieptItem = ({ item, route, language }) => {
   const offer = item.OrderOfferItem
     ? offerStore.offers.find(
         (offer) => offer.id === item.OrderOfferItem.offerId
@@ -50,15 +51,29 @@ const RecieptItem = ({ item, route }) => {
           <Text>
             {route ? orderItem : item.quantity}x{"  "}
           </Text>
-          <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
-            {route
-              ? item.arabic
+          {language === "ar" ? (
+            <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
+              {route
                 ? item.arabic
-                : service
-                ? `اشتراك ${service.arabic}`
-                : item.name
-              : item.name}
-          </Text>
+                  ? item.arabic
+                  : service
+                  ? `اشتراك ${service.arabic}`
+                  : item.name
+                : item.arabic
+                ? item.arabic
+                : item.name}
+            </Text>
+          ) : (
+            <Text style={[styles.item, { color: cost ? "tomato" : "black" }]}>
+              {route
+                ? item.name
+                  ? item.name
+                  : service
+                  ? `اشتراك ${service.name}`
+                  : item.name
+                : item.name}
+            </Text>
+          )}
 
           <Text
             style={[
@@ -116,6 +131,9 @@ const RecieptItem = ({ item, route }) => {
             <Text style={{ marginLeft: 50 }}>- {service.arabic}</Text>
           ))
         : null}
+      <Separator
+        style={{ height: 1, backgroundColor: "#e9e9e9", marginBottom: 20 }}
+      />
     </>
   );
 };

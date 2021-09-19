@@ -11,11 +11,11 @@ import AddPackage from "./packages/AddPackage";
 import OfferList from "./offers/OfferList";
 import AddOffer from "./offers/AddOffer";
 import OfferCategories from "./OfferCategories";
-const Categories = () => {
+const Categories = ({ language }) => {
   if (serviceStore.loading) return <Spinner />;
   const renderTabBar = (props) => {
     props.tabStyle = Object.create(props.tabStyle);
-    return <DefaultTabBar {...props} />;
+    return <ScrollableTab {...props} />;
   };
   return (
     <View
@@ -40,38 +40,38 @@ const Categories = () => {
             }
       }
     >
-      <Tabs renderTabBar={renderTabBar}>
-        <Tab heading="بكجات">
-          <PackageList />
-          <AddPackage />
+      <Tabs renderTabBar={renderTabBar} ScrollableTab={true}>
+        <Tab heading={language === "ar" ? "بكجات" : "Packages"}>
+          <PackageList language={language} />
+          <AddPackage language={language} />
         </Tab>
-        <Tab heading="عروض">
+        <Tab heading={language === "ar" ? "عروض" : "Offers"}>
           {/* <Service category="Offers" /> */}
-          <OfferCategories />
+          <OfferCategories language={language} />
         </Tab>
-        <Tab heading="شعر">
-          <Service category="Hair" />
+        <Tab heading={language === "ar" ? "شعر" : "Hair"}>
+          <Service category="Hair" language={language} />
         </Tab>
-        <Tab heading="ميك اب">
-          <Service category="Makeup" />
+        <Tab heading={language === "ar" ? "ميك اب" : "Make Up"}>
+          <Service category="Makeup" language={language} />
         </Tab>
-        <Tab heading="اظافر">
-          <Service category="Nails" />
+        <Tab heading={language === "ar" ? "اظافر" : "Nails"}>
+          <Service category="Nails" language={language} />
         </Tab>
-        <Tab heading="بخار">
-          <Service category="body" />
+        <Tab heading={language === "ar" ? "بخار" : "Hammam"}>
+          <Service category="body" language={language} />
         </Tab>
-        <Tab heading="مساج">
-          <Service category="Massage Spa" />
+        <Tab heading={language === "ar" ? "مساج" : "Massage"}>
+          <Service category="Massage Spa" language={language} />
         </Tab>
-        <Tab heading="حف">
-          <Service category="Hair Removal" />
+        <Tab heading={language === "ar" ? "حف" : "Removal"}>
+          <Service category="Hair Removal" language={language} />
         </Tab>
-        <Tab heading="فيشل">
-          <Service category="Facial" />
+        <Tab heading={language === "ar" ? "فيشل" : "Facial"}>
+          <Service category="Facial" language={language} />
         </Tab>
-        <Tab heading="منتجات">
-          <ProductList />
+        <Tab heading={language === "ar" ? "منتجات" : "Products"}>
+          <ProductList language={language} />
         </Tab>
       </Tabs>
     </View>

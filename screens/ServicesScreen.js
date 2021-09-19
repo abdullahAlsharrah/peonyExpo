@@ -1,20 +1,27 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { RefreshControl, StyleSheet, Text, View } from "react-native";
+import {
+  RefreshControl,
+  StyleSheet,
+  Text,
+  Touchable,
+  View,
+} from "react-native";
 import Categories from "../components/services/Categories";
 import RecieptList from "../components/invoices/RecieptList";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import productStore from "../stores/productStore";
 import apackageStore from "../stores/packageStore";
 import serviceStore from "../stores/serviceStore";
 import offerStore from "../stores/offerStore";
+import languageStore from "../stores/language";
+import { Button } from "native-base";
 
 const ServicesScreen = () => {
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
   const [refreshing, setRefreshing] = React.useState(false);
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     productStore.fetchProducts();
@@ -23,10 +30,35 @@ const ServicesScreen = () => {
     offerStore.fetchOffers();
     wait(2000).then(() => setRefreshing(false));
   }, []);
+  const setLan = (lan) => {
+    languageStore.setLanguage(lan);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
         <Text style={styles.logoText}>PEONY</Text>
+        <View style={styles.languageContainer}>
+          <Button
+            onPress={() => setLan("en")}
+            style={
+              languageStore.language === "en"
+                ? styles.selected
+                : styles.notSelected
+            }
+          >
+            <Text style={styles.language}>En</Text>
+          </Button>
+          <Button
+            onPress={() => setLan("ar")}
+            style={[
+              languageStore.language === "ar"
+                ? styles.selected
+                : styles.notSelected,
+            ]}
+          >
+            <Text style={styles.language}>عربي</Text>
+          </Button>
+        </View>
       </View>
       <ScrollView
         contentContainerStyle={styles.scrollView}
@@ -36,10 +68,10 @@ const ServicesScreen = () => {
       >
         <View style={styles.container1}>
           <View style={styles.recipt}>
-            <RecieptList />
+            <RecieptList language={languageStore.language} />
           </View>
           <View style={styles.box}>
-            <Categories />
+            <Categories language={languageStore.language} />
           </View>
           {/* <StatusBar style="auto" /> */}
         </View>
@@ -48,7 +80,7 @@ const ServicesScreen = () => {
   );
 };
 
-export default ServicesScreen;
+export default observer(ServicesScreen);
 const styles = StyleSheet.create({
   logoText: {
     textAlign: "center",
@@ -89,5 +121,32 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+  },
+  languageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignSelf: "flex-end",
+    alignItems: "center",
+    alignContent: "center",
+    zIndex: 10,
+  },
+  language: {
+    color: "white",
+    marginHorizontal: 5,
+    fontSize: 15,
+  },
+  selected: {
+    backgroundColor: "gray",
+    marginTop: -40,
+    height: 40,
+    width: 50,
+    justifyContent: "center",
+  },
+  notSelected: {
+    backgroundColor: "transparent",
+    marginTop: -40,
+    height: 40,
+    justifyContent: "center",
   },
 });

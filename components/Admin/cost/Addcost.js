@@ -2,8 +2,9 @@ import { Button, Icon, Input, Item, Label } from "native-base";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Modal } from "react-native";
 import Device from "react-native-device-detection";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import costStore from "../../../stores/costStore";
+import languageStore from "../../../stores/language";
 
 const AddCost = ({ _invoiceId, item }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,10 +15,12 @@ const AddCost = ({ _invoiceId, item }) => {
           price: 0,
           invoiceId: _invoiceId,
           itemId: item.id,
+          payment: "cash",
         }
       : {
           name: "",
           price: 0,
+          payment: "cash",
         }
   );
 
@@ -29,12 +32,14 @@ const AddCost = ({ _invoiceId, item }) => {
         ? {
             name: item.name,
             price: 0,
+            payment: "cash",
             invoiceId: _invoiceId,
             itemId: item.id,
           }
         : {
             name: "",
             price: 0,
+            payment: "cash",
           }
     );
   };
@@ -76,9 +81,53 @@ const AddCost = ({ _invoiceId, item }) => {
               onPress={() => setModalVisible(false)}
             />
             <View style={styles.inputView}>
-              <Text style={{ textAlign: "center", margin: 20, fontSize: 20 }}>
+              <Text
+                style={{
+                  textAlign: "center",
+                  margin: 20,
+                  marginTop: 10,
+                  fontSize: 20,
+                }}
+              >
                 Add New Cost
               </Text>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 10,
+                }}
+              >
+                <TouchableOpacity
+                  style={
+                    cost.payment === "cash" ? styles.button1 : styles.button
+                  }
+                  onPress={() => setCost({ ...cost, payment: "cash" })}
+                >
+                  <Text
+                    style={cost.payment === "cash" ? styles.text1 : styles.text}
+                  >
+                    Cash
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={
+                    cost.payment === "k-net" ? styles.button1 : styles.button
+                  }
+                  onPress={() => setCost({ ...cost, payment: "k-net" })}
+                >
+                  <Text
+                    style={
+                      cost.payment === "k-net" ? styles.text1 : styles.text
+                    }
+                  >
+                    {_invoiceId ? "Online" : "K-net"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.inputView}>
               <TextInput
@@ -184,5 +233,30 @@ const styles = StyleSheet.create({
     color: "white",
     borderBottomWidth: 1,
     borderBottomColor: "gray",
+  },
+  button: {
+    // width: 70,
+    padding: 5,
+    justifyContent: "center",
+    borderRadius: 0,
+    backgroundColor: "white",
+    height: 30,
+  },
+  text: {
+    color: "black",
+    textAlign: "center",
+  },
+  button1: {
+    // width: 70,
+    padding: 5,
+
+    justifyContent: "center",
+    borderRadius: 0,
+    backgroundColor: "#c39e81",
+    height: 30,
+  },
+  text1: {
+    color: "white",
+    textAlign: "center",
   },
 });

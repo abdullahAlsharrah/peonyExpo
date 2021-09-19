@@ -8,7 +8,7 @@ import MenuItem from "../Admin/Menu/MenuItem";
 import AddOffer from "./offers/AddOffer";
 import ServiceItem from "./ServiceItem";
 // import services from "./services";
-const Service = ({ category, handleopen, menu }) => {
+const Service = ({ category, handleopen, menu, language }) => {
   if (serviceStore.loading) return <Spinner />;
   const list = handleopen
     ? serviceStore.services
@@ -19,6 +19,7 @@ const Service = ({ category, handleopen, menu }) => {
         service={service}
         key={`s${service.id}`}
         handleopen={handleopen}
+        language={language}
       />
     ) : (
       <MenuItem item={service} key={`s${service.id}`} />

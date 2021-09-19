@@ -31,10 +31,12 @@ import IncomByDays from "../Admin/income/byDays/IncomByDays";
 import Income from "../Admin/income/Income";
 import CustomersList from "../Admin/customers/CustomersList";
 import ServicesListIncome from "../Admin/services/ServicesListIncome";
+import languageStore from "../../stores/language";
 
 const AdminStack = createStackNavigator();
 const RecieptsStack = createStackNavigator();
 const RootNavigator = () => {
+  const language = languageStore.language;
   // const wait = (timeout) => {
   //   return new Promise((resolve) => setTimeout(resolve, timeout));
   // };
@@ -383,22 +385,22 @@ const RootNavigator = () => {
     >
       <>
         <Service.Screen
-          name="Home"
+          name={language === "ar" ? "الرئيسيه" : "Home"}
           component={PackageScreen}
           options={{ header: () => false }}
         />
         <Service.Screen
-          name="Today's"
+          name={language === "ar" ? "اليوم" : "Today's"}
           component={ReciptsScreenTablet}
           options={{ header: () => false }}
         />
         <Service.Screen
-          name="Reciepts"
+          name={language === "ar" ? "الفواتير" : "Reciepts"}
           component={OnlineReciptsScreenTablet}
           options={{ header: () => false }}
         />
         <Service.Screen
-          name="Menu"
+          name={language === "ar" ? "المينيو" : "Menu"}
           component={MenuTabScreen}
           options={{ header: () => false }}
         />

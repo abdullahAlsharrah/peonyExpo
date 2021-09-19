@@ -8,7 +8,7 @@ import serviceStore from "../../../stores/serviceStore";
 import SearchBarr from "../../SearchBar/SearchBarr";
 import PackageItem from "./PackageItem";
 // import packages from "./packages";
-const PackageList = () => {
+const PackageList = ({ language }) => {
   const [query, setQuery] = useState("");
   const apackageList = apackageStore.apackages
     .filter(
@@ -17,7 +17,11 @@ const PackageList = () => {
         apackage.name.toLowerCase().includes(query.toLowerCase())
     )
     .map((apackage) => (
-      <PackageItem apackage={apackage} key={`p${apackage.id}`} />
+      <PackageItem
+        apackage={apackage}
+        key={`p${apackage.id}`}
+        language={language}
+      />
     ));
   return (
     <>

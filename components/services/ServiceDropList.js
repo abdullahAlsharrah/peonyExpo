@@ -4,7 +4,13 @@ import React from "react";
 import serviceStore from "../../stores/serviceStore";
 import { observer } from "mobx-react";
 
-const DropDownServList = ({ onChangeText, service, multiple, category }) => {
+const DropDownServList = ({
+  onChangeText,
+  service,
+  multiple,
+  category,
+  language,
+}) => {
   const list =
     category !== null
       ? category === "tenKDOffer"
@@ -14,11 +20,11 @@ const DropDownServList = ({ onChangeText, service, multiple, category }) => {
           )
       : serviceStore.services.filter(
           (service) =>
-            service.category === "Offers" || service.category === "Offers8"
+            service.category !== "Offers" && service.category !== "Offers8"
         );
 
   const services = list.map((service) => ({
-    label: service.arabic,
+    label: language === "ar" ? service.arabic : service.name,
     value: service,
   }));
   return (

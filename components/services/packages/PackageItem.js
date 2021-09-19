@@ -6,19 +6,21 @@ import invoiceStore from "../../../stores/invoiceStore";
 import apackageStore from "../../../stores/packageStore";
 import serviceStore from "../../../stores/serviceStore";
 
-const PackageItem = ({ apackage }) => {
+const PackageItem = ({ apackage, language }) => {
   const handleSubmit = () => {
     const newItem =
       apackage.time === 5
         ? {
             apackageId: apackage.id,
             price: apackage.price,
-            name: service.arabic,
+            name: service.name,
+            arabic: service.arabic,
             time: apackage.time,
           }
         : {
             apackageId: apackage.id,
-            name: service.arabic,
+            name: service.name,
+            arabic: service.arabic,
             price: 0,
             nprice: apackage.price,
             time: apackage.time,
@@ -53,7 +55,7 @@ const PackageItem = ({ apackage }) => {
       onPress={handleSubmit}
     >
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
-        {service.arabic}
+        {language === "ar" ? service.arabic : service.name}
       </Text>
       <Text style={[styles.text, { color: foundItem ? "white" : "black" }]}>
         {apackage.name}

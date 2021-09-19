@@ -4,13 +4,14 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import invoiceStore from "../../stores/invoiceStore";
 import AddPackage from "./packages/AddPackage";
 
-const ServiceItem = ({ service, handleopen }) => {
+const ServiceItem = ({ service, handleopen, language }) => {
   const [quantity, setQuantity] = React.useState(1);
   const newItem = {
     quantity: quantity,
     serviceId: service.id,
     price: quantity * service.price,
-    name: service.arabic,
+    name: service.name,
+    arabic: service.arabic,
   };
   const handleAdd = () => {
     invoiceStore.addItemToInvoice(newItem);
@@ -46,11 +47,11 @@ const ServiceItem = ({ service, handleopen }) => {
           <Text
             style={{
               color: foundItem ? "white" : "black",
-              fontSize: 20,
+              fontSize: 16,
               textAlign: "center",
             }}
           >
-            {service.arabic}
+            {language === "ar" ? service.arabic : service.name}
           </Text>
         </View>
 

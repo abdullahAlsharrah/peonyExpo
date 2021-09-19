@@ -25,11 +25,20 @@ const CostItem = ({ cost }) => {
   };
   return (
     <View style={styles.container}>
+      {cost.payment === "cash" ? (
+        <Item
+          style={{ marginLeft: 50, marginRight: -58, position: "absolute" }}
+        >
+          <Text style={{ textAlign: "center" }}>
+            {cost.payment === "cash" ? "$" : null}
+          </Text>
+        </Item>
+      ) : null}
       <Item style={styles.text}>
-        <Text>{cost.name}</Text>
+        <Text style={{ textAlign: "center" }}>{cost.name}</Text>
       </Item>
       <Item style={styles.text}>
-        <Text>{cost.price} KD</Text>
+        <Text style={{ textAlign: "center" }}>{cost.price} KD</Text>
       </Item>
 
       <Icon
@@ -48,9 +57,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     marginHorizontal: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  text: { width: "50%", justifyContent: "center", height: 50 },
+  text: {
+    width: "50%",
+    justifyContent: "center",
+    height: 50,
+    textAlign: "center",
+  },
 
   icon: {
     fontSize: 15,

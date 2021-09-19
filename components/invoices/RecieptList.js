@@ -14,7 +14,9 @@ import apackageStore from "../../stores/packageStore";
 import Dicount from "./Dicount";
 import costStore from "../../stores/costStore";
 import { StackActions } from "@react-navigation/native";
+import languageStore from "../../stores/language";
 const RecieptList = ({ route, navigation }) => {
+  const language = languageStore.language;
   const popAction = StackActions.pop(1);
   const handleCheckout = (payment) => {
     invoiceStore.checkout(phoneNumber, payment);
@@ -107,6 +109,7 @@ const RecieptList = ({ route, navigation }) => {
           item.serviceId || item.productId || item.apackageId || item.offerId
         }
         route={route ? route : null}
+        language={language}
       />
     ));
 
@@ -146,7 +149,9 @@ const RecieptList = ({ route, navigation }) => {
               width: "100%",
             }}
           >
-            {Device.isTablet ? <Text>(تعديل)</Text> : null}
+            {Device.isTablet ? (
+              <Text>{language === "ar" ? "(تعديل)" : "(Edit)"}</Text>
+            ) : null}
             <Text
               style={{
                 // padding: 10,
@@ -157,10 +162,16 @@ const RecieptList = ({ route, navigation }) => {
             >
               {" "}
               {!route.params.invoice.notDone
-                ? "تم الحضور"
+                ? language === "ar"
+                  ? "تم الحضور"
+                  : "Done"
                 : route.params.invoice.notes !== null
-                ? "لم يتم استكمال الاعمال"
-                : "لم يتم الحضور"}
+                ? language === "ar"
+                  ? "لم يتم استكمال الاعمال"
+                  : "not Done"
+                : language === "ar"
+                ? "لم يتم الحضور"
+                : "Did Not Come yet"}
             </Text>
           </View>
         </TouchableOpacity>
@@ -190,13 +201,19 @@ const RecieptList = ({ route, navigation }) => {
           route ? (
             <View style={styles.input}>
               <Text style={styles.inputTitle}>
-                الاعمال اللتي لم يتم استكمالها
+                {language === "ar"
+                  ? "الاعمال اللتي لم يتم استكمالها"
+                  : "The Services That's Not Completed"}
               </Text>
               <TextInput
                 value={notes}
                 name="notes"
                 onChangeText={(notes) => setNotes(notes)}
-                placeholder={"الاعمال اللتي لم يتم استكمالها"}
+                placeholder={
+                  language === "ar"
+                    ? "الاعمال اللتي لم يتم استكمالها"
+                    : "The Services That's Not Completed"
+                }
                 style={styles.inputContent}
                 // numberOfLines={5}
                 multiline={true}
@@ -346,8 +363,8 @@ const RecieptList = ({ route, navigation }) => {
                   },
                 ]}
               >
-                <Text style={{ color: "white" }}>
-                  Total{"\n"}
+                <Text style={{ color: "white", fontSize: 25 }}>
+                  {/* Total{"\n"} */}
                   {route
                     ? `${route.params.invoice.price - costPrices()} KD`
                     : `${invoiceStore.totalPrice} KD`}
