@@ -8,23 +8,23 @@ import serviceStore from "../../../stores/serviceStore";
 
 const PackageItem = ({ apackage, language }) => {
   const handleSubmit = () => {
-    const newItem =
-      apackage.time === 5
-        ? {
-            apackageId: apackage.id,
-            price: apackage.price,
-            name: service.name,
-            arabic: service.arabic,
-            time: apackage.time,
-          }
-        : {
-            apackageId: apackage.id,
-            name: service.name,
-            arabic: service.arabic,
-            price: 0,
-            nprice: apackage.price,
-            time: apackage.time,
-          };
+    const newItem = {
+      // apackage.time === 5
+      //   ? {
+      //       apackageId: apackage.id,
+      //       price: apackage.price,
+      //       name: service.name,
+      //       arabic: service.arabic,
+      //       time: apackage.time,
+      //     }
+      //   : {
+      apackageId: apackage.id,
+      name: service.name,
+      arabic: service.arabic,
+      price: 0,
+      nprice: apackage.price,
+      time: apackage.time,
+    };
 
     const foundItem = invoiceStore.items.find(
       (item) => item.apackageId === newItem.apackageId

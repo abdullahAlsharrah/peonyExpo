@@ -1,10 +1,10 @@
-import { Button, Icon, Input, Item, Label } from "native-base";
+import { Button, Icon } from "native-base";
 import React from "react";
 import { View, Text, Modal, StyleSheet, Alert } from "react-native";
 import Device from "react-native-device-detection";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import invoiceStore from "../../stores/invoiceStore";
 import serviceStore from "../../stores/serviceStore";
+import DropDownCatList from "./CategoriesDropList";
 
 const AddService = () => {
   const [service, setService] = React.useState({
@@ -28,6 +28,7 @@ const AddService = () => {
     }
   };
   const [modalVisible, setModalVisible] = React.useState(false);
+
   const handleopen = () => {
     setModalVisible(true);
   };
@@ -96,13 +97,12 @@ const AddService = () => {
                 }
               />
             </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="Category..."
-                placeholderTextColor="gray"
+
+            <View style={[styles.inputView, { height: 40, zIndex: 100 }]}>
+              <DropDownCatList
+                service={service.category}
                 onChangeText={(category) =>
-                  setService({ ...service, category })
+                  setService({ ...service, category: category.value })
                 }
               />
             </View>
@@ -211,5 +211,28 @@ const styles = StyleSheet.create({
 
     elevation: 5,
     backgroundColor: "#c39e81",
+  },
+  dropdownview: {
+    zIndex: 100,
+    backgroundColor: "white",
+    flex: 1,
+    // marginTop: 5,
+  },
+  container: {
+    // flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 300,
+  },
+  // inputText: {
+  //   height: 50,
+  //   color: "white",
+  // },
+  services: {
+    height: 40,
+    width: "100%",
+    backgroundColor: "white",
+    // paddingVertical: 10,
   },
 });
